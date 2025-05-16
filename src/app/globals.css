@@ -120,3 +120,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+::selection {
+  background: rgba(20, 184, 166, 0.5); /* teal-500 with opacity */
+  color: white;
+}

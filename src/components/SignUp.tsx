@@ -7,19 +7,36 @@ import { Eye, EyeOff, GitBranch, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { SignUpFormSchema, SignUpFormSchemaType } from "@/lib/ZodSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RegisterUser } from "@/app/actions/authActions";
+import { toast } from "sonner";
 
 export default function SignUp({ setIsSignup }: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  async function onSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setIsLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpFormSchemaType>({
+    resolver: zodResolver(SignUpFormSchema),
+  });
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+  async function actualSubmit(data: SignUpFormSchemaType) {
+    setIsLoading(true);
+    console.log("Data input", data);
+
+    const result = await RegisterUser(data);
+
+    if (!result?.status) {
+      throw new Error("Something went wrong");
+    }
+
+    toast("User Registered Successfully");
+    setIsLoading(false);
   }
 
   return (
@@ -37,14 +54,14 @@ export default function SignUp({ setIsSignup }: any) {
         <div className="grid grid-cols-2 gap-4">
           <Button
             variant="outline"
-            className="w-full text-gray-400 bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
+            className="w-full cursor-pointer text-gray-400 bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
           >
             <GitBranch className="mr-2 h-4 w-4" />
             GitHub
           </Button>
           <Button
             variant="outline"
-            className="w-full bg-gray-800/50 text-gray-400 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
+            className="w-full cursor-pointer bg-gray-800/50 text-gray-400 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
           >
             <Mail className="mr-2 h-4 w-4" />
             Google
@@ -62,27 +79,32 @@ export default function SignUp({ setIsSignup }: any) {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(actualSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="first-name" className="text-gray-300">
                 First name
               </Label>
               <Input
+                {...register("firstName")}
                 id="first-name"
                 placeholder="John"
-                required
                 className="bg-gray-800/50 text-gray-300 border-gray-700 focus:border-teal-400 focus:ring-teal-400/10 transition-all duration-300"
               />
+              {errors.firstName && (
+                <div className="text-red-700 mt-[-3px] mb-[-6px]">
+                  {errors.firstName.message}
+                </div>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="last-name" className="text-gray-300">
                 Last name
               </Label>
               <Input
+                {...register("lastName")}
                 id="last-name"
                 placeholder="Doe"
-                required
                 className="bg-gray-800/50 text-gray-300 border-gray-700 focus:border-teal-400 focus:ring-teal-400/10 transition-all duration-300"
               />
             </div>
@@ -93,12 +115,16 @@ export default function SignUp({ setIsSignup }: any) {
               Email
             </Label>
             <Input
+              {...register("email")}
               id="email"
-              type="email"
               placeholder="name@example.com"
-              required
               className="bg-gray-800/50 text-gray-300 border-gray-700 focus:border-teal-400 focus:ring-teal-400/10 transition-all duration-300"
             />
+            {errors.email && (
+              <div className="text-red-700 mt-[-3px] mb-[-7px]">
+                Please enter valid Email
+              </div>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -107,16 +133,16 @@ export default function SignUp({ setIsSignup }: any) {
             </Label>
             <div className="relative">
               <Input
+                {...register("password")}
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
-                required
                 className="bg-gray-800/50 text-gray-300 border-gray-700 focus:border-teal-400 focus:ring-teal-400/10 transition-all duration-300"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-400 transition-colors"
+                className="absolute cursor-pointer right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-teal-400 transition-colors"
               >
                 {showPassword ? (
                   <EyeOff className="h-4 w-4" />
@@ -127,6 +153,11 @@ export default function SignUp({ setIsSignup }: any) {
                   {showPassword ? "Hide password" : "Show password"}
                 </span>
               </button>
+              {errors.password && (
+                <div className="text-red-700 mt-1">
+                  Atleast 8 characters required{" "}
+                </div>
+              )}
             </div>
             <p className="text-xs text-gray-500">
               Must be at least 8 characters long
@@ -135,7 +166,7 @@ export default function SignUp({ setIsSignup }: any) {
 
           <Button
             type="submit"
-            className="w-full bg-teal-500 hover:bg-teal-600 text-gray-900 font-medium transition-all duration-300"
+            className="w-full cursor-pointer bg-teal-500 hover:bg-teal-600 text-gray-900 font-medium transition-all duration-300"
             disabled={isLoading}
           >
             {isLoading ? (

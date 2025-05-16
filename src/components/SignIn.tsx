@@ -2,25 +2,78 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, Github, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "./ui/label";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginFormSchema, LoginFormSchemaType } from "@/lib/ZodSchema";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function SignIn({ setIsSignup }: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
 
-  async function onSubmit(event: React.FormEvent) {
-    event.preventDefault();
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<LoginFormSchemaType>({
+    resolver: zodResolver(LoginFormSchema),
+    mode: "onTouched",
+  });
+
+  // Clear error when user starts typing
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if ((name === "email" || name === "password") && loginError) {
+        setLoginError(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [watch, loginError]);
+
+  async function actualSubmit(data: LoginFormSchemaType) {
     setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const result = await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        redirect: false,
+      });
+
+      console.log("Sign In Response", result);
+
+      // Check if the result has an error
+      if (result?.error) {
+        toast.error("Login failed: Invalid credentials");
+        setLoginError("Invalid Credentials");
+        return;
+      }
+
+      // Only redirect if sign in was successful
+      if (result?.ok) {
+        toast.success("Login Successful");
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Sign in error:", error);
+      toast.error("An unexpected error occurred");
+      setLoginError("Please Try Again");
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   }
 
   return (
@@ -38,14 +91,14 @@ export default function SignIn({ setIsSignup }: any) {
         <div className="grid grid-cols-2 gap-4">
           <Button
             variant="outline"
-            className="w-full text-gray-400 bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
+            className="w-full cursor-pointer text-gray-400 bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
           >
             <Github className="mr-2 h-4 w-4" />
             GitHub
           </Button>
           <Button
             variant="outline"
-            className="w-full bg-gray-800/50 text-gray-400 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
+            className="w-full bg-gray-800/50 cursor-pointer text-gray-400 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
           >
             <Mail className="mr-2 h-4 w-4" />
             Google
@@ -63,18 +116,21 @@ export default function SignIn({ setIsSignup }: any) {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(actualSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email" className="text-gray-300">
               Email
             </Label>
             <Input
+              {...register("email")}
               id="email"
               type="email"
               placeholder="name@example.com"
-              required
               className="bg-gray-800/50 text-gray-300 border-gray-700 focus:border-teal-400 focus:ring-teal-400/10 transition-all duration-300"
             />
+            {errors.email && (
+              <div className="text-red-700">Please Enter Valid Email</div>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -91,12 +147,15 @@ export default function SignIn({ setIsSignup }: any) {
             </div>
             <div className="relative">
               <Input
+                {...register("password")}
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
-                required
                 className="bg-gray-800/50 text-gray-300 border-gray-700 focus:border-teal-400 focus:ring-teal-400/10 transition-all duration-300"
               />
+              {errors.password && (
+                <div className="text-red-700">Please Enter Valid Password</div>
+              )}
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -116,7 +175,7 @@ export default function SignIn({ setIsSignup }: any) {
 
           <Button
             type="submit"
-            className="w-full bg-teal-500 hover:bg-teal-600 text-gray-900 font-medium transition-all duration-300"
+            className="w-full cursor-pointer bg-teal-500 hover:bg-teal-600 text-gray-900 font-medium transition-all duration-300"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -128,6 +187,7 @@ export default function SignIn({ setIsSignup }: any) {
               "Sign in"
             )}
           </Button>
+          {loginError && <div className="text-red-700">{loginError}</div>}
         </form>
       </div>
 
