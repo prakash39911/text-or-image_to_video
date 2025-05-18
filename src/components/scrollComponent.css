@@ -1,0 +1,21 @@
+.text-ticker-container {
+  padding: 8px 12px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.text-ticker-content {
+  display: inline-block;
+  animation-name: ticker;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}

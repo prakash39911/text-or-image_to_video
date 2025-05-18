@@ -27,7 +27,6 @@ export default function SignUp({ setIsSignup }: any) {
 
   async function actualSubmit(data: SignUpFormSchemaType) {
     setIsLoading(true);
-    console.log("Data input", data);
 
     const result = await RegisterUser(data);
 

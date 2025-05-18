@@ -3,6 +3,7 @@
 import { SignUpFormSchema, SignUpFormSchemaType } from "@/lib/ZodSchema";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/PrismaClient";
+import { signOut } from "../auth";
 
 export async function RegisterUser(data: SignUpFormSchemaType) {
   try {
@@ -27,5 +28,15 @@ export async function RegisterUser(data: SignUpFormSchemaType) {
     return { status: true, data: createdUser };
   } catch (error) {
     console.error(error, "Error While creating User");
+  }
+}
+
+export async function LogoutUser() {
+  try {
+    await signOut({ redirect: false });
+
+    return { status: true, message: "You are logged out" };
+  } catch (error) {
+    console.log("Something went wrong", error);
   }
 }
