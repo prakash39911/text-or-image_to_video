@@ -33,8 +33,10 @@ export function NavMain({
     }[];
   }[];
 }) {
-  const [currentlyActive, setCurrentlyActive] =
-    useState<currentlyActiveType | null>(null);
+  const [currentlyActive, setCurrentlyActive] = useState<currentlyActiveType>({
+    title: "Text-To-Video",
+    isActive: true,
+  });
 
   const router = useRouter();
 
@@ -65,9 +67,9 @@ export function NavMain({
                   onClick={() => {
                     setCurrentlyActive({ title: item.title, isActive: true });
                     if (item.title === "Text-To-Video") {
-                      router.push("/text-to-video");
+                      router.push("/ai/text-to-video");
                     } else {
-                      router.push("/image-to-video");
+                      router.push("/ai/image-to-video");
                     }
                   }}
                 >

@@ -67,10 +67,39 @@ model VerificationToken {
 }
 
 model UserData {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String                @id @default(cuid())
+  name                String
+  email               String                @unique
+  password            String
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  videoGenerationData videoGenerationData[]
+}
+
+model videoGenerationData {
+  id                    String                @id @default(cuid())
+  userPrompt            String
+  status                videoGenerationStatus @default(InProgress)
+  imageTaskId           String?               @unique
+  videoTaskId           String?               @unique
+  mergeAudioVideoTaskID String?               @unique
+  musicPrompt           String?
+  caption               String?
+  imageUrl              String?
+  videoUrl              String?
+  videoPublicId         String?
+  musicPublicId         String?
+  musicUrl              String?
+  finalVideoUrl         String?
+  finalVideoPublicId    String?
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  userDataId            String
+  UserData              UserData              @relation(fields: [userDataId], references: [id])
+}
+
+enum videoGenerationStatus {
+  InProgress
+  Completed
+  Failed
 }

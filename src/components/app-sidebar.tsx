@@ -24,13 +24,13 @@ const data = {
   navMain: [
     {
       title: "Text-To-Video",
-      url: "#",
+      url: "/ai/text-to-video",
       icon: Video,
       isActive: true,
     },
     {
       title: "Image-To-Video",
-      url: "#",
+      url: "/ai/image-to-video",
       icon: Image,
       isActive: true,
     },

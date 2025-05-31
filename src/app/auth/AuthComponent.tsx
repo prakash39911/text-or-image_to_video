@@ -4,6 +4,7 @@ import SignIn from "@/components/SignIn";
 import SignUp from "@/components/SignUp";
 import { CldImage } from "next-cloudinary";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function AuthComponent() {
   const [isSignup, setIsSignup] = useState(false);
@@ -26,7 +27,42 @@ export default function AuthComponent() {
             loading="eager"
           />
 
-          <div className="absolute inset-0 flex justify-center items-center font-mono text-amber-100 text-3xl md:text-4xl tracking-tight lg:text-6xl font-bold">
+          <div className="absolute inset-0 flex justify-center items-center">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                repeatType: "mirror",
+              }}
+              className="font-mono text-white text-4xl md:text-5xl tracking-tight lg:text-6xl font-bold"
+            >
+              {"Video AI".split("").map((letter, index) => (
+                <motion.span
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 2,
+                    delay: index * 0.2,
+                    repeat: Infinity, // Repeat infinitely
+                    repeatType: "loop", // Makes the animation go back to start
+                    repeatDelay: 1, // Optional delay between repeats
+                  }}
+                  className={
+                    index === 0 || index === 6 // V is at index 0, A is at index 6
+                      ? "text-pink-500"
+                      : "text-white"
+                  }
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* <div className="absolute inset-0 flex justify-center items-center font-mono text-amber-100 text-3xl md:text-4xl tracking-tight lg:text-6xl font-bold">
             <CldImage
               alt="image"
               src={Logo}
@@ -34,7 +70,8 @@ export default function AuthComponent() {
               height={1024}
               className="w-35 h-35 rounded-4xl"
             />
-          </div>
+            Video AI
+          </div> */}
         </div>
       </div>
 

@@ -23,8 +23,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
 
       authorize: async (credentials) => {
-        console.log("Credentials got through Authorize function", credentials);
-
         if (!credentials.email || !credentials.password) return null;
 
         const isUserExist = await prisma.userData.findFirst({

@@ -38,6 +38,29 @@ export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTok
  * 
  */
 export type UserData = $Result.DefaultSelection<Prisma.$UserDataPayload>
+/**
+ * Model videoGenerationData
+ * 
+ */
+export type videoGenerationData = $Result.DefaultSelection<Prisma.$videoGenerationDataPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const videoGenerationStatus: {
+  InProgress: 'InProgress',
+  Completed: 'Completed',
+  Failed: 'Failed'
+};
+
+export type videoGenerationStatus = (typeof videoGenerationStatus)[keyof typeof videoGenerationStatus]
+
+}
+
+export type videoGenerationStatus = $Enums.videoGenerationStatus
+
+export const videoGenerationStatus: typeof $Enums.videoGenerationStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -213,6 +236,16 @@ export class PrismaClient<
     * ```
     */
   get userData(): Prisma.UserDataDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.videoGenerationData`: Exposes CRUD operations for the **videoGenerationData** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VideoGenerationData
+    * const videoGenerationData = await prisma.videoGenerationData.findMany()
+    * ```
+    */
+  get videoGenerationData(): Prisma.videoGenerationDataDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -657,7 +690,8 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     VerificationToken: 'VerificationToken',
-    UserData: 'UserData'
+    UserData: 'UserData',
+    videoGenerationData: 'videoGenerationData'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -676,7 +710,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "userData"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "userData" | "videoGenerationData"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1050,6 +1084,80 @@ export namespace Prisma {
           }
         }
       }
+      videoGenerationData: {
+        payload: Prisma.$videoGenerationDataPayload<ExtArgs>
+        fields: Prisma.videoGenerationDataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.videoGenerationDataFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.videoGenerationDataFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload>
+          }
+          findFirst: {
+            args: Prisma.videoGenerationDataFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.videoGenerationDataFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload>
+          }
+          findMany: {
+            args: Prisma.videoGenerationDataFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload>[]
+          }
+          create: {
+            args: Prisma.videoGenerationDataCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload>
+          }
+          createMany: {
+            args: Prisma.videoGenerationDataCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.videoGenerationDataCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload>[]
+          }
+          delete: {
+            args: Prisma.videoGenerationDataDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload>
+          }
+          update: {
+            args: Prisma.videoGenerationDataUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload>
+          }
+          deleteMany: {
+            args: Prisma.videoGenerationDataDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.videoGenerationDataUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.videoGenerationDataUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload>[]
+          }
+          upsert: {
+            args: Prisma.videoGenerationDataUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoGenerationDataPayload>
+          }
+          aggregate: {
+            args: Prisma.VideoGenerationDataAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVideoGenerationData>
+          }
+          groupBy: {
+            args: Prisma.videoGenerationDataGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VideoGenerationDataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.videoGenerationDataCountArgs<ExtArgs>
+            result: $Utils.Optional<VideoGenerationDataCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1139,6 +1247,7 @@ export namespace Prisma {
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
     userData?: UserDataOmit
+    videoGenerationData?: videoGenerationDataOmit
   }
 
   /* Types for Logging */
@@ -1265,6 +1374,37 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SessionWhereInput
+  }
+
+
+  /**
+   * Count Type UserDataCountOutputType
+   */
+
+  export type UserDataCountOutputType = {
+    videoGenerationData: number
+  }
+
+  export type UserDataCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    videoGenerationData?: boolean | UserDataCountOutputTypeCountVideoGenerationDataArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserDataCountOutputType without action
+   */
+  export type UserDataCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserDataCountOutputType
+     */
+    select?: UserDataCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserDataCountOutputType without action
+   */
+  export type UserDataCountOutputTypeCountVideoGenerationDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: videoGenerationDataWhereInput
   }
 
 
@@ -5791,6 +5931,8 @@ export namespace Prisma {
     password?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    videoGenerationData?: boolean | UserData$videoGenerationDataArgs<ExtArgs>
+    _count?: boolean | UserDataCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["userData"]>
 
   export type UserDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5821,10 +5963,18 @@ export namespace Prisma {
   }
 
   export type UserDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["userData"]>
+  export type UserDataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    videoGenerationData?: boolean | UserData$videoGenerationDataArgs<ExtArgs>
+    _count?: boolean | UserDataCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserDataIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserDataIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UserData"
-    objects: {}
+    objects: {
+      videoGenerationData: Prisma.$videoGenerationDataPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
@@ -6226,6 +6376,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    videoGenerationData<T extends UserData$videoGenerationDataArgs<ExtArgs> = {}>(args?: Subset<T, UserData$videoGenerationDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6278,6 +6429,10 @@ export namespace Prisma {
      */
     omit?: UserDataOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
+    /**
      * Filter, which UserData to fetch.
      */
     where: UserDataWhereUniqueInput
@@ -6296,6 +6451,10 @@ export namespace Prisma {
      */
     omit?: UserDataOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
+    /**
      * Filter, which UserData to fetch.
      */
     where: UserDataWhereUniqueInput
@@ -6313,6 +6472,10 @@ export namespace Prisma {
      * Omit specific fields from the UserData
      */
     omit?: UserDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
     /**
      * Filter, which UserData to fetch.
      */
@@ -6362,6 +6525,10 @@ export namespace Prisma {
      */
     omit?: UserDataOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
+    /**
      * Filter, which UserData to fetch.
      */
     where?: UserDataWhereInput
@@ -6410,6 +6577,10 @@ export namespace Prisma {
      */
     omit?: UserDataOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
+    /**
      * Filter, which UserData to fetch.
      */
     where?: UserDataWhereInput
@@ -6452,6 +6623,10 @@ export namespace Prisma {
      * Omit specific fields from the UserData
      */
     omit?: UserDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
     /**
      * The data needed to create a UserData.
      */
@@ -6500,6 +6675,10 @@ export namespace Prisma {
      * Omit specific fields from the UserData
      */
     omit?: UserDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
     /**
      * The data needed to update a UserData.
      */
@@ -6567,6 +6746,10 @@ export namespace Prisma {
      */
     omit?: UserDataOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
+    /**
      * The filter to search for the UserData to update in case it exists.
      */
     where: UserDataWhereUniqueInput
@@ -6593,6 +6776,10 @@ export namespace Prisma {
      */
     omit?: UserDataOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
+    /**
      * Filter which UserData to delete.
      */
     where: UserDataWhereUniqueInput
@@ -6613,6 +6800,30 @@ export namespace Prisma {
   }
 
   /**
+   * UserData.videoGenerationData
+   */
+  export type UserData$videoGenerationDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    where?: videoGenerationDataWhereInput
+    orderBy?: videoGenerationDataOrderByWithRelationInput | videoGenerationDataOrderByWithRelationInput[]
+    cursor?: videoGenerationDataWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VideoGenerationDataScalarFieldEnum | VideoGenerationDataScalarFieldEnum[]
+  }
+
+  /**
    * UserData without action
    */
   export type UserDataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -6624,6 +6835,1237 @@ export namespace Prisma {
      * Omit specific fields from the UserData
      */
     omit?: UserDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserDataInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model videoGenerationData
+   */
+
+  export type AggregateVideoGenerationData = {
+    _count: VideoGenerationDataCountAggregateOutputType | null
+    _min: VideoGenerationDataMinAggregateOutputType | null
+    _max: VideoGenerationDataMaxAggregateOutputType | null
+  }
+
+  export type VideoGenerationDataMinAggregateOutputType = {
+    id: string | null
+    userPrompt: string | null
+    status: $Enums.videoGenerationStatus | null
+    imageTaskId: string | null
+    videoTaskId: string | null
+    mergeAudioVideoTaskID: string | null
+    musicPrompt: string | null
+    caption: string | null
+    imageUrl: string | null
+    videoUrl: string | null
+    videoPublicId: string | null
+    musicPublicId: string | null
+    musicUrl: string | null
+    finalVideoUrl: string | null
+    finalVideoPublicId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userDataId: string | null
+  }
+
+  export type VideoGenerationDataMaxAggregateOutputType = {
+    id: string | null
+    userPrompt: string | null
+    status: $Enums.videoGenerationStatus | null
+    imageTaskId: string | null
+    videoTaskId: string | null
+    mergeAudioVideoTaskID: string | null
+    musicPrompt: string | null
+    caption: string | null
+    imageUrl: string | null
+    videoUrl: string | null
+    videoPublicId: string | null
+    musicPublicId: string | null
+    musicUrl: string | null
+    finalVideoUrl: string | null
+    finalVideoPublicId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userDataId: string | null
+  }
+
+  export type VideoGenerationDataCountAggregateOutputType = {
+    id: number
+    userPrompt: number
+    status: number
+    imageTaskId: number
+    videoTaskId: number
+    mergeAudioVideoTaskID: number
+    musicPrompt: number
+    caption: number
+    imageUrl: number
+    videoUrl: number
+    videoPublicId: number
+    musicPublicId: number
+    musicUrl: number
+    finalVideoUrl: number
+    finalVideoPublicId: number
+    createdAt: number
+    updatedAt: number
+    userDataId: number
+    _all: number
+  }
+
+
+  export type VideoGenerationDataMinAggregateInputType = {
+    id?: true
+    userPrompt?: true
+    status?: true
+    imageTaskId?: true
+    videoTaskId?: true
+    mergeAudioVideoTaskID?: true
+    musicPrompt?: true
+    caption?: true
+    imageUrl?: true
+    videoUrl?: true
+    videoPublicId?: true
+    musicPublicId?: true
+    musicUrl?: true
+    finalVideoUrl?: true
+    finalVideoPublicId?: true
+    createdAt?: true
+    updatedAt?: true
+    userDataId?: true
+  }
+
+  export type VideoGenerationDataMaxAggregateInputType = {
+    id?: true
+    userPrompt?: true
+    status?: true
+    imageTaskId?: true
+    videoTaskId?: true
+    mergeAudioVideoTaskID?: true
+    musicPrompt?: true
+    caption?: true
+    imageUrl?: true
+    videoUrl?: true
+    videoPublicId?: true
+    musicPublicId?: true
+    musicUrl?: true
+    finalVideoUrl?: true
+    finalVideoPublicId?: true
+    createdAt?: true
+    updatedAt?: true
+    userDataId?: true
+  }
+
+  export type VideoGenerationDataCountAggregateInputType = {
+    id?: true
+    userPrompt?: true
+    status?: true
+    imageTaskId?: true
+    videoTaskId?: true
+    mergeAudioVideoTaskID?: true
+    musicPrompt?: true
+    caption?: true
+    imageUrl?: true
+    videoUrl?: true
+    videoPublicId?: true
+    musicPublicId?: true
+    musicUrl?: true
+    finalVideoUrl?: true
+    finalVideoPublicId?: true
+    createdAt?: true
+    updatedAt?: true
+    userDataId?: true
+    _all?: true
+  }
+
+  export type VideoGenerationDataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which videoGenerationData to aggregate.
+     */
+    where?: videoGenerationDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of videoGenerationData to fetch.
+     */
+    orderBy?: videoGenerationDataOrderByWithRelationInput | videoGenerationDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: videoGenerationDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` videoGenerationData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` videoGenerationData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned videoGenerationData
+    **/
+    _count?: true | VideoGenerationDataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VideoGenerationDataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VideoGenerationDataMaxAggregateInputType
+  }
+
+  export type GetVideoGenerationDataAggregateType<T extends VideoGenerationDataAggregateArgs> = {
+        [P in keyof T & keyof AggregateVideoGenerationData]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVideoGenerationData[P]>
+      : GetScalarType<T[P], AggregateVideoGenerationData[P]>
+  }
+
+
+
+
+  export type videoGenerationDataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: videoGenerationDataWhereInput
+    orderBy?: videoGenerationDataOrderByWithAggregationInput | videoGenerationDataOrderByWithAggregationInput[]
+    by: VideoGenerationDataScalarFieldEnum[] | VideoGenerationDataScalarFieldEnum
+    having?: videoGenerationDataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VideoGenerationDataCountAggregateInputType | true
+    _min?: VideoGenerationDataMinAggregateInputType
+    _max?: VideoGenerationDataMaxAggregateInputType
+  }
+
+  export type VideoGenerationDataGroupByOutputType = {
+    id: string
+    userPrompt: string
+    status: $Enums.videoGenerationStatus
+    imageTaskId: string | null
+    videoTaskId: string | null
+    mergeAudioVideoTaskID: string | null
+    musicPrompt: string | null
+    caption: string | null
+    imageUrl: string | null
+    videoUrl: string | null
+    videoPublicId: string | null
+    musicPublicId: string | null
+    musicUrl: string | null
+    finalVideoUrl: string | null
+    finalVideoPublicId: string | null
+    createdAt: Date
+    updatedAt: Date
+    userDataId: string
+    _count: VideoGenerationDataCountAggregateOutputType | null
+    _min: VideoGenerationDataMinAggregateOutputType | null
+    _max: VideoGenerationDataMaxAggregateOutputType | null
+  }
+
+  type GetVideoGenerationDataGroupByPayload<T extends videoGenerationDataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VideoGenerationDataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VideoGenerationDataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VideoGenerationDataGroupByOutputType[P]>
+            : GetScalarType<T[P], VideoGenerationDataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type videoGenerationDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userPrompt?: boolean
+    status?: boolean
+    imageTaskId?: boolean
+    videoTaskId?: boolean
+    mergeAudioVideoTaskID?: boolean
+    musicPrompt?: boolean
+    caption?: boolean
+    imageUrl?: boolean
+    videoUrl?: boolean
+    videoPublicId?: boolean
+    musicPublicId?: boolean
+    musicUrl?: boolean
+    finalVideoUrl?: boolean
+    finalVideoPublicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userDataId?: boolean
+    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["videoGenerationData"]>
+
+  export type videoGenerationDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userPrompt?: boolean
+    status?: boolean
+    imageTaskId?: boolean
+    videoTaskId?: boolean
+    mergeAudioVideoTaskID?: boolean
+    musicPrompt?: boolean
+    caption?: boolean
+    imageUrl?: boolean
+    videoUrl?: boolean
+    videoPublicId?: boolean
+    musicPublicId?: boolean
+    musicUrl?: boolean
+    finalVideoUrl?: boolean
+    finalVideoPublicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userDataId?: boolean
+    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["videoGenerationData"]>
+
+  export type videoGenerationDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userPrompt?: boolean
+    status?: boolean
+    imageTaskId?: boolean
+    videoTaskId?: boolean
+    mergeAudioVideoTaskID?: boolean
+    musicPrompt?: boolean
+    caption?: boolean
+    imageUrl?: boolean
+    videoUrl?: boolean
+    videoPublicId?: boolean
+    musicPublicId?: boolean
+    musicUrl?: boolean
+    finalVideoUrl?: boolean
+    finalVideoPublicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userDataId?: boolean
+    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["videoGenerationData"]>
+
+  export type videoGenerationDataSelectScalar = {
+    id?: boolean
+    userPrompt?: boolean
+    status?: boolean
+    imageTaskId?: boolean
+    videoTaskId?: boolean
+    mergeAudioVideoTaskID?: boolean
+    musicPrompt?: boolean
+    caption?: boolean
+    imageUrl?: boolean
+    videoUrl?: boolean
+    videoPublicId?: boolean
+    musicPublicId?: boolean
+    musicUrl?: boolean
+    finalVideoUrl?: boolean
+    finalVideoPublicId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userDataId?: boolean
+  }
+
+  export type videoGenerationDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userPrompt" | "status" | "imageTaskId" | "videoTaskId" | "mergeAudioVideoTaskID" | "musicPrompt" | "caption" | "imageUrl" | "videoUrl" | "videoPublicId" | "musicPublicId" | "musicUrl" | "finalVideoUrl" | "finalVideoPublicId" | "createdAt" | "updatedAt" | "userDataId", ExtArgs["result"]["videoGenerationData"]>
+  export type videoGenerationDataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+  }
+  export type videoGenerationDataIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+  }
+  export type videoGenerationDataIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+  }
+
+  export type $videoGenerationDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "videoGenerationData"
+    objects: {
+      UserData: Prisma.$UserDataPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userPrompt: string
+      status: $Enums.videoGenerationStatus
+      imageTaskId: string | null
+      videoTaskId: string | null
+      mergeAudioVideoTaskID: string | null
+      musicPrompt: string | null
+      caption: string | null
+      imageUrl: string | null
+      videoUrl: string | null
+      videoPublicId: string | null
+      musicPublicId: string | null
+      musicUrl: string | null
+      finalVideoUrl: string | null
+      finalVideoPublicId: string | null
+      createdAt: Date
+      updatedAt: Date
+      userDataId: string
+    }, ExtArgs["result"]["videoGenerationData"]>
+    composites: {}
+  }
+
+  type videoGenerationDataGetPayload<S extends boolean | null | undefined | videoGenerationDataDefaultArgs> = $Result.GetResult<Prisma.$videoGenerationDataPayload, S>
+
+  type videoGenerationDataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<videoGenerationDataFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VideoGenerationDataCountAggregateInputType | true
+    }
+
+  export interface videoGenerationDataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['videoGenerationData'], meta: { name: 'videoGenerationData' } }
+    /**
+     * Find zero or one VideoGenerationData that matches the filter.
+     * @param {videoGenerationDataFindUniqueArgs} args - Arguments to find a VideoGenerationData
+     * @example
+     * // Get one VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends videoGenerationDataFindUniqueArgs>(args: SelectSubset<T, videoGenerationDataFindUniqueArgs<ExtArgs>>): Prisma__videoGenerationDataClient<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VideoGenerationData that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {videoGenerationDataFindUniqueOrThrowArgs} args - Arguments to find a VideoGenerationData
+     * @example
+     * // Get one VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends videoGenerationDataFindUniqueOrThrowArgs>(args: SelectSubset<T, videoGenerationDataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__videoGenerationDataClient<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VideoGenerationData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoGenerationDataFindFirstArgs} args - Arguments to find a VideoGenerationData
+     * @example
+     * // Get one VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends videoGenerationDataFindFirstArgs>(args?: SelectSubset<T, videoGenerationDataFindFirstArgs<ExtArgs>>): Prisma__videoGenerationDataClient<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VideoGenerationData that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoGenerationDataFindFirstOrThrowArgs} args - Arguments to find a VideoGenerationData
+     * @example
+     * // Get one VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends videoGenerationDataFindFirstOrThrowArgs>(args?: SelectSubset<T, videoGenerationDataFindFirstOrThrowArgs<ExtArgs>>): Prisma__videoGenerationDataClient<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VideoGenerationData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoGenerationDataFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.findMany()
+     * 
+     * // Get first 10 VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const videoGenerationDataWithIdOnly = await prisma.videoGenerationData.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends videoGenerationDataFindManyArgs>(args?: SelectSubset<T, videoGenerationDataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VideoGenerationData.
+     * @param {videoGenerationDataCreateArgs} args - Arguments to create a VideoGenerationData.
+     * @example
+     * // Create one VideoGenerationData
+     * const VideoGenerationData = await prisma.videoGenerationData.create({
+     *   data: {
+     *     // ... data to create a VideoGenerationData
+     *   }
+     * })
+     * 
+     */
+    create<T extends videoGenerationDataCreateArgs>(args: SelectSubset<T, videoGenerationDataCreateArgs<ExtArgs>>): Prisma__videoGenerationDataClient<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VideoGenerationData.
+     * @param {videoGenerationDataCreateManyArgs} args - Arguments to create many VideoGenerationData.
+     * @example
+     * // Create many VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends videoGenerationDataCreateManyArgs>(args?: SelectSubset<T, videoGenerationDataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VideoGenerationData and returns the data saved in the database.
+     * @param {videoGenerationDataCreateManyAndReturnArgs} args - Arguments to create many VideoGenerationData.
+     * @example
+     * // Create many VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VideoGenerationData and only return the `id`
+     * const videoGenerationDataWithIdOnly = await prisma.videoGenerationData.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends videoGenerationDataCreateManyAndReturnArgs>(args?: SelectSubset<T, videoGenerationDataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VideoGenerationData.
+     * @param {videoGenerationDataDeleteArgs} args - Arguments to delete one VideoGenerationData.
+     * @example
+     * // Delete one VideoGenerationData
+     * const VideoGenerationData = await prisma.videoGenerationData.delete({
+     *   where: {
+     *     // ... filter to delete one VideoGenerationData
+     *   }
+     * })
+     * 
+     */
+    delete<T extends videoGenerationDataDeleteArgs>(args: SelectSubset<T, videoGenerationDataDeleteArgs<ExtArgs>>): Prisma__videoGenerationDataClient<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VideoGenerationData.
+     * @param {videoGenerationDataUpdateArgs} args - Arguments to update one VideoGenerationData.
+     * @example
+     * // Update one VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends videoGenerationDataUpdateArgs>(args: SelectSubset<T, videoGenerationDataUpdateArgs<ExtArgs>>): Prisma__videoGenerationDataClient<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VideoGenerationData.
+     * @param {videoGenerationDataDeleteManyArgs} args - Arguments to filter VideoGenerationData to delete.
+     * @example
+     * // Delete a few VideoGenerationData
+     * const { count } = await prisma.videoGenerationData.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends videoGenerationDataDeleteManyArgs>(args?: SelectSubset<T, videoGenerationDataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VideoGenerationData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoGenerationDataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends videoGenerationDataUpdateManyArgs>(args: SelectSubset<T, videoGenerationDataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VideoGenerationData and returns the data updated in the database.
+     * @param {videoGenerationDataUpdateManyAndReturnArgs} args - Arguments to update many VideoGenerationData.
+     * @example
+     * // Update many VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VideoGenerationData and only return the `id`
+     * const videoGenerationDataWithIdOnly = await prisma.videoGenerationData.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends videoGenerationDataUpdateManyAndReturnArgs>(args: SelectSubset<T, videoGenerationDataUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VideoGenerationData.
+     * @param {videoGenerationDataUpsertArgs} args - Arguments to update or create a VideoGenerationData.
+     * @example
+     * // Update or create a VideoGenerationData
+     * const videoGenerationData = await prisma.videoGenerationData.upsert({
+     *   create: {
+     *     // ... data to create a VideoGenerationData
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VideoGenerationData we want to update
+     *   }
+     * })
+     */
+    upsert<T extends videoGenerationDataUpsertArgs>(args: SelectSubset<T, videoGenerationDataUpsertArgs<ExtArgs>>): Prisma__videoGenerationDataClient<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VideoGenerationData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoGenerationDataCountArgs} args - Arguments to filter VideoGenerationData to count.
+     * @example
+     * // Count the number of VideoGenerationData
+     * const count = await prisma.videoGenerationData.count({
+     *   where: {
+     *     // ... the filter for the VideoGenerationData we want to count
+     *   }
+     * })
+    **/
+    count<T extends videoGenerationDataCountArgs>(
+      args?: Subset<T, videoGenerationDataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VideoGenerationDataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VideoGenerationData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoGenerationDataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VideoGenerationDataAggregateArgs>(args: Subset<T, VideoGenerationDataAggregateArgs>): Prisma.PrismaPromise<GetVideoGenerationDataAggregateType<T>>
+
+    /**
+     * Group by VideoGenerationData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoGenerationDataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends videoGenerationDataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: videoGenerationDataGroupByArgs['orderBy'] }
+        : { orderBy?: videoGenerationDataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, videoGenerationDataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVideoGenerationDataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the videoGenerationData model
+   */
+  readonly fields: videoGenerationDataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for videoGenerationData.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__videoGenerationDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    UserData<T extends UserDataDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDataDefaultArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the videoGenerationData model
+   */
+  interface videoGenerationDataFieldRefs {
+    readonly id: FieldRef<"videoGenerationData", 'String'>
+    readonly userPrompt: FieldRef<"videoGenerationData", 'String'>
+    readonly status: FieldRef<"videoGenerationData", 'videoGenerationStatus'>
+    readonly imageTaskId: FieldRef<"videoGenerationData", 'String'>
+    readonly videoTaskId: FieldRef<"videoGenerationData", 'String'>
+    readonly mergeAudioVideoTaskID: FieldRef<"videoGenerationData", 'String'>
+    readonly musicPrompt: FieldRef<"videoGenerationData", 'String'>
+    readonly caption: FieldRef<"videoGenerationData", 'String'>
+    readonly imageUrl: FieldRef<"videoGenerationData", 'String'>
+    readonly videoUrl: FieldRef<"videoGenerationData", 'String'>
+    readonly videoPublicId: FieldRef<"videoGenerationData", 'String'>
+    readonly musicPublicId: FieldRef<"videoGenerationData", 'String'>
+    readonly musicUrl: FieldRef<"videoGenerationData", 'String'>
+    readonly finalVideoUrl: FieldRef<"videoGenerationData", 'String'>
+    readonly finalVideoPublicId: FieldRef<"videoGenerationData", 'String'>
+    readonly createdAt: FieldRef<"videoGenerationData", 'DateTime'>
+    readonly updatedAt: FieldRef<"videoGenerationData", 'DateTime'>
+    readonly userDataId: FieldRef<"videoGenerationData", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * videoGenerationData findUnique
+   */
+  export type videoGenerationDataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    /**
+     * Filter, which videoGenerationData to fetch.
+     */
+    where: videoGenerationDataWhereUniqueInput
+  }
+
+  /**
+   * videoGenerationData findUniqueOrThrow
+   */
+  export type videoGenerationDataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    /**
+     * Filter, which videoGenerationData to fetch.
+     */
+    where: videoGenerationDataWhereUniqueInput
+  }
+
+  /**
+   * videoGenerationData findFirst
+   */
+  export type videoGenerationDataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    /**
+     * Filter, which videoGenerationData to fetch.
+     */
+    where?: videoGenerationDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of videoGenerationData to fetch.
+     */
+    orderBy?: videoGenerationDataOrderByWithRelationInput | videoGenerationDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for videoGenerationData.
+     */
+    cursor?: videoGenerationDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` videoGenerationData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` videoGenerationData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of videoGenerationData.
+     */
+    distinct?: VideoGenerationDataScalarFieldEnum | VideoGenerationDataScalarFieldEnum[]
+  }
+
+  /**
+   * videoGenerationData findFirstOrThrow
+   */
+  export type videoGenerationDataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    /**
+     * Filter, which videoGenerationData to fetch.
+     */
+    where?: videoGenerationDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of videoGenerationData to fetch.
+     */
+    orderBy?: videoGenerationDataOrderByWithRelationInput | videoGenerationDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for videoGenerationData.
+     */
+    cursor?: videoGenerationDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` videoGenerationData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` videoGenerationData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of videoGenerationData.
+     */
+    distinct?: VideoGenerationDataScalarFieldEnum | VideoGenerationDataScalarFieldEnum[]
+  }
+
+  /**
+   * videoGenerationData findMany
+   */
+  export type videoGenerationDataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    /**
+     * Filter, which videoGenerationData to fetch.
+     */
+    where?: videoGenerationDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of videoGenerationData to fetch.
+     */
+    orderBy?: videoGenerationDataOrderByWithRelationInput | videoGenerationDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing videoGenerationData.
+     */
+    cursor?: videoGenerationDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` videoGenerationData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` videoGenerationData.
+     */
+    skip?: number
+    distinct?: VideoGenerationDataScalarFieldEnum | VideoGenerationDataScalarFieldEnum[]
+  }
+
+  /**
+   * videoGenerationData create
+   */
+  export type videoGenerationDataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    /**
+     * The data needed to create a videoGenerationData.
+     */
+    data: XOR<videoGenerationDataCreateInput, videoGenerationDataUncheckedCreateInput>
+  }
+
+  /**
+   * videoGenerationData createMany
+   */
+  export type videoGenerationDataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many videoGenerationData.
+     */
+    data: videoGenerationDataCreateManyInput | videoGenerationDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * videoGenerationData createManyAndReturn
+   */
+  export type videoGenerationDataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * The data used to create many videoGenerationData.
+     */
+    data: videoGenerationDataCreateManyInput | videoGenerationDataCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * videoGenerationData update
+   */
+  export type videoGenerationDataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    /**
+     * The data needed to update a videoGenerationData.
+     */
+    data: XOR<videoGenerationDataUpdateInput, videoGenerationDataUncheckedUpdateInput>
+    /**
+     * Choose, which videoGenerationData to update.
+     */
+    where: videoGenerationDataWhereUniqueInput
+  }
+
+  /**
+   * videoGenerationData updateMany
+   */
+  export type videoGenerationDataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update videoGenerationData.
+     */
+    data: XOR<videoGenerationDataUpdateManyMutationInput, videoGenerationDataUncheckedUpdateManyInput>
+    /**
+     * Filter which videoGenerationData to update
+     */
+    where?: videoGenerationDataWhereInput
+    /**
+     * Limit how many videoGenerationData to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * videoGenerationData updateManyAndReturn
+   */
+  export type videoGenerationDataUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * The data used to update videoGenerationData.
+     */
+    data: XOR<videoGenerationDataUpdateManyMutationInput, videoGenerationDataUncheckedUpdateManyInput>
+    /**
+     * Filter which videoGenerationData to update
+     */
+    where?: videoGenerationDataWhereInput
+    /**
+     * Limit how many videoGenerationData to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * videoGenerationData upsert
+   */
+  export type videoGenerationDataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    /**
+     * The filter to search for the videoGenerationData to update in case it exists.
+     */
+    where: videoGenerationDataWhereUniqueInput
+    /**
+     * In case the videoGenerationData found by the `where` argument doesn't exist, create a new videoGenerationData with this data.
+     */
+    create: XOR<videoGenerationDataCreateInput, videoGenerationDataUncheckedCreateInput>
+    /**
+     * In case the videoGenerationData was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<videoGenerationDataUpdateInput, videoGenerationDataUncheckedUpdateInput>
+  }
+
+  /**
+   * videoGenerationData delete
+   */
+  export type videoGenerationDataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    /**
+     * Filter which videoGenerationData to delete.
+     */
+    where: videoGenerationDataWhereUniqueInput
+  }
+
+  /**
+   * videoGenerationData deleteMany
+   */
+  export type videoGenerationDataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which videoGenerationData to delete
+     */
+    where?: videoGenerationDataWhereInput
+    /**
+     * Limit how many videoGenerationData to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * videoGenerationData without action
+   */
+  export type videoGenerationDataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
   }
 
 
@@ -6705,6 +8147,30 @@ export namespace Prisma {
   export type UserDataScalarFieldEnum = (typeof UserDataScalarFieldEnum)[keyof typeof UserDataScalarFieldEnum]
 
 
+  export const VideoGenerationDataScalarFieldEnum: {
+    id: 'id',
+    userPrompt: 'userPrompt',
+    status: 'status',
+    imageTaskId: 'imageTaskId',
+    videoTaskId: 'videoTaskId',
+    mergeAudioVideoTaskID: 'mergeAudioVideoTaskID',
+    musicPrompt: 'musicPrompt',
+    caption: 'caption',
+    imageUrl: 'imageUrl',
+    videoUrl: 'videoUrl',
+    videoPublicId: 'videoPublicId',
+    musicPublicId: 'musicPublicId',
+    musicUrl: 'musicUrl',
+    finalVideoUrl: 'finalVideoUrl',
+    finalVideoPublicId: 'finalVideoPublicId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userDataId: 'userDataId'
+  };
+
+  export type VideoGenerationDataScalarFieldEnum = (typeof VideoGenerationDataScalarFieldEnum)[keyof typeof VideoGenerationDataScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -6773,6 +8239,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'videoGenerationStatus'
+   */
+  export type EnumvideoGenerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'videoGenerationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'videoGenerationStatus[]'
+   */
+  export type ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'videoGenerationStatus[]'>
     
 
 
@@ -7067,6 +8547,7 @@ export namespace Prisma {
     password?: StringFilter<"UserData"> | string
     createdAt?: DateTimeFilter<"UserData"> | Date | string
     updatedAt?: DateTimeFilter<"UserData"> | Date | string
+    videoGenerationData?: VideoGenerationDataListRelationFilter
   }
 
   export type UserDataOrderByWithRelationInput = {
@@ -7076,6 +8557,7 @@ export namespace Prisma {
     password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    videoGenerationData?: videoGenerationDataOrderByRelationAggregateInput
   }
 
   export type UserDataWhereUniqueInput = Prisma.AtLeast<{
@@ -7088,6 +8570,7 @@ export namespace Prisma {
     password?: StringFilter<"UserData"> | string
     createdAt?: DateTimeFilter<"UserData"> | Date | string
     updatedAt?: DateTimeFilter<"UserData"> | Date | string
+    videoGenerationData?: VideoGenerationDataListRelationFilter
   }, "id" | "email">
 
   export type UserDataOrderByWithAggregationInput = {
@@ -7112,6 +8595,126 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"UserData"> | string
     createdAt?: DateTimeWithAggregatesFilter<"UserData"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserData"> | Date | string
+  }
+
+  export type videoGenerationDataWhereInput = {
+    AND?: videoGenerationDataWhereInput | videoGenerationDataWhereInput[]
+    OR?: videoGenerationDataWhereInput[]
+    NOT?: videoGenerationDataWhereInput | videoGenerationDataWhereInput[]
+    id?: StringFilter<"videoGenerationData"> | string
+    userPrompt?: StringFilter<"videoGenerationData"> | string
+    status?: EnumvideoGenerationStatusFilter<"videoGenerationData"> | $Enums.videoGenerationStatus
+    imageTaskId?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoTaskId?: StringNullableFilter<"videoGenerationData"> | string | null
+    mergeAudioVideoTaskID?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicPrompt?: StringNullableFilter<"videoGenerationData"> | string | null
+    caption?: StringNullableFilter<"videoGenerationData"> | string | null
+    imageUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
+    updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
+    userDataId?: StringFilter<"videoGenerationData"> | string
+    UserData?: XOR<UserDataScalarRelationFilter, UserDataWhereInput>
+  }
+
+  export type videoGenerationDataOrderByWithRelationInput = {
+    id?: SortOrder
+    userPrompt?: SortOrder
+    status?: SortOrder
+    imageTaskId?: SortOrderInput | SortOrder
+    videoTaskId?: SortOrderInput | SortOrder
+    mergeAudioVideoTaskID?: SortOrderInput | SortOrder
+    musicPrompt?: SortOrderInput | SortOrder
+    caption?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    videoUrl?: SortOrderInput | SortOrder
+    videoPublicId?: SortOrderInput | SortOrder
+    musicPublicId?: SortOrderInput | SortOrder
+    musicUrl?: SortOrderInput | SortOrder
+    finalVideoUrl?: SortOrderInput | SortOrder
+    finalVideoPublicId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userDataId?: SortOrder
+    UserData?: UserDataOrderByWithRelationInput
+  }
+
+  export type videoGenerationDataWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    imageTaskId?: string
+    videoTaskId?: string
+    mergeAudioVideoTaskID?: string
+    AND?: videoGenerationDataWhereInput | videoGenerationDataWhereInput[]
+    OR?: videoGenerationDataWhereInput[]
+    NOT?: videoGenerationDataWhereInput | videoGenerationDataWhereInput[]
+    userPrompt?: StringFilter<"videoGenerationData"> | string
+    status?: EnumvideoGenerationStatusFilter<"videoGenerationData"> | $Enums.videoGenerationStatus
+    musicPrompt?: StringNullableFilter<"videoGenerationData"> | string | null
+    caption?: StringNullableFilter<"videoGenerationData"> | string | null
+    imageUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
+    updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
+    userDataId?: StringFilter<"videoGenerationData"> | string
+    UserData?: XOR<UserDataScalarRelationFilter, UserDataWhereInput>
+  }, "id" | "imageTaskId" | "videoTaskId" | "mergeAudioVideoTaskID">
+
+  export type videoGenerationDataOrderByWithAggregationInput = {
+    id?: SortOrder
+    userPrompt?: SortOrder
+    status?: SortOrder
+    imageTaskId?: SortOrderInput | SortOrder
+    videoTaskId?: SortOrderInput | SortOrder
+    mergeAudioVideoTaskID?: SortOrderInput | SortOrder
+    musicPrompt?: SortOrderInput | SortOrder
+    caption?: SortOrderInput | SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    videoUrl?: SortOrderInput | SortOrder
+    videoPublicId?: SortOrderInput | SortOrder
+    musicPublicId?: SortOrderInput | SortOrder
+    musicUrl?: SortOrderInput | SortOrder
+    finalVideoUrl?: SortOrderInput | SortOrder
+    finalVideoPublicId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userDataId?: SortOrder
+    _count?: videoGenerationDataCountOrderByAggregateInput
+    _max?: videoGenerationDataMaxOrderByAggregateInput
+    _min?: videoGenerationDataMinOrderByAggregateInput
+  }
+
+  export type videoGenerationDataScalarWhereWithAggregatesInput = {
+    AND?: videoGenerationDataScalarWhereWithAggregatesInput | videoGenerationDataScalarWhereWithAggregatesInput[]
+    OR?: videoGenerationDataScalarWhereWithAggregatesInput[]
+    NOT?: videoGenerationDataScalarWhereWithAggregatesInput | videoGenerationDataScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"videoGenerationData"> | string
+    userPrompt?: StringWithAggregatesFilter<"videoGenerationData"> | string
+    status?: EnumvideoGenerationStatusWithAggregatesFilter<"videoGenerationData"> | $Enums.videoGenerationStatus
+    imageTaskId?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    videoTaskId?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    mergeAudioVideoTaskID?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    musicPrompt?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    caption?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    imageUrl?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    videoUrl?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    videoPublicId?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    musicPublicId?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    musicUrl?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    finalVideoUrl?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    finalVideoPublicId?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"videoGenerationData"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"videoGenerationData"> | Date | string
+    userDataId?: StringWithAggregatesFilter<"videoGenerationData"> | string
   }
 
   export type UserCreateInput = {
@@ -7407,6 +9010,7 @@ export namespace Prisma {
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    videoGenerationData?: videoGenerationDataCreateNestedManyWithoutUserDataInput
   }
 
   export type UserDataUncheckedCreateInput = {
@@ -7416,6 +9020,7 @@ export namespace Prisma {
     password: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    videoGenerationData?: videoGenerationDataUncheckedCreateNestedManyWithoutUserDataInput
   }
 
   export type UserDataUpdateInput = {
@@ -7425,6 +9030,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    videoGenerationData?: videoGenerationDataUpdateManyWithoutUserDataNestedInput
   }
 
   export type UserDataUncheckedUpdateInput = {
@@ -7434,6 +9040,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    videoGenerationData?: videoGenerationDataUncheckedUpdateManyWithoutUserDataNestedInput
   }
 
   export type UserDataCreateManyInput = {
@@ -7461,6 +9068,152 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type videoGenerationDataCreateInput = {
+    id?: string
+    userPrompt: string
+    status?: $Enums.videoGenerationStatus
+    imageTaskId?: string | null
+    videoTaskId?: string | null
+    mergeAudioVideoTaskID?: string | null
+    musicPrompt?: string | null
+    caption?: string | null
+    imageUrl?: string | null
+    videoUrl?: string | null
+    videoPublicId?: string | null
+    musicPublicId?: string | null
+    musicUrl?: string | null
+    finalVideoUrl?: string | null
+    finalVideoPublicId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    UserData: UserDataCreateNestedOneWithoutVideoGenerationDataInput
+  }
+
+  export type videoGenerationDataUncheckedCreateInput = {
+    id?: string
+    userPrompt: string
+    status?: $Enums.videoGenerationStatus
+    imageTaskId?: string | null
+    videoTaskId?: string | null
+    mergeAudioVideoTaskID?: string | null
+    musicPrompt?: string | null
+    caption?: string | null
+    imageUrl?: string | null
+    videoUrl?: string | null
+    videoPublicId?: string | null
+    musicPublicId?: string | null
+    musicUrl?: string | null
+    finalVideoUrl?: string | null
+    finalVideoPublicId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userDataId: string
+  }
+
+  export type videoGenerationDataUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userPrompt?: StringFieldUpdateOperationsInput | string
+    status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
+    imageTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    videoTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    mergeAudioVideoTaskID?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    UserData?: UserDataUpdateOneRequiredWithoutVideoGenerationDataNestedInput
+  }
+
+  export type videoGenerationDataUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userPrompt?: StringFieldUpdateOperationsInput | string
+    status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
+    imageTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    videoTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    mergeAudioVideoTaskID?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userDataId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type videoGenerationDataCreateManyInput = {
+    id?: string
+    userPrompt: string
+    status?: $Enums.videoGenerationStatus
+    imageTaskId?: string | null
+    videoTaskId?: string | null
+    mergeAudioVideoTaskID?: string | null
+    musicPrompt?: string | null
+    caption?: string | null
+    imageUrl?: string | null
+    videoUrl?: string | null
+    videoPublicId?: string | null
+    musicPublicId?: string | null
+    musicUrl?: string | null
+    finalVideoUrl?: string | null
+    finalVideoPublicId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userDataId: string
+  }
+
+  export type videoGenerationDataUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userPrompt?: StringFieldUpdateOperationsInput | string
+    status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
+    imageTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    videoTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    mergeAudioVideoTaskID?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type videoGenerationDataUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userPrompt?: StringFieldUpdateOperationsInput | string
+    status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
+    imageTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    videoTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    mergeAudioVideoTaskID?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userDataId?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -7774,6 +9527,16 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
+  export type VideoGenerationDataListRelationFilter = {
+    every?: videoGenerationDataWhereInput
+    some?: videoGenerationDataWhereInput
+    none?: videoGenerationDataWhereInput
+  }
+
+  export type videoGenerationDataOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserDataCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -7799,6 +9562,91 @@ export namespace Prisma {
     password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumvideoGenerationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.videoGenerationStatus | EnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.videoGenerationStatus[] | ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.videoGenerationStatus[] | ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumvideoGenerationStatusFilter<$PrismaModel> | $Enums.videoGenerationStatus
+  }
+
+  export type UserDataScalarRelationFilter = {
+    is?: UserDataWhereInput
+    isNot?: UserDataWhereInput
+  }
+
+  export type videoGenerationDataCountOrderByAggregateInput = {
+    id?: SortOrder
+    userPrompt?: SortOrder
+    status?: SortOrder
+    imageTaskId?: SortOrder
+    videoTaskId?: SortOrder
+    mergeAudioVideoTaskID?: SortOrder
+    musicPrompt?: SortOrder
+    caption?: SortOrder
+    imageUrl?: SortOrder
+    videoUrl?: SortOrder
+    videoPublicId?: SortOrder
+    musicPublicId?: SortOrder
+    musicUrl?: SortOrder
+    finalVideoUrl?: SortOrder
+    finalVideoPublicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userDataId?: SortOrder
+  }
+
+  export type videoGenerationDataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userPrompt?: SortOrder
+    status?: SortOrder
+    imageTaskId?: SortOrder
+    videoTaskId?: SortOrder
+    mergeAudioVideoTaskID?: SortOrder
+    musicPrompt?: SortOrder
+    caption?: SortOrder
+    imageUrl?: SortOrder
+    videoUrl?: SortOrder
+    videoPublicId?: SortOrder
+    musicPublicId?: SortOrder
+    musicUrl?: SortOrder
+    finalVideoUrl?: SortOrder
+    finalVideoPublicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userDataId?: SortOrder
+  }
+
+  export type videoGenerationDataMinOrderByAggregateInput = {
+    id?: SortOrder
+    userPrompt?: SortOrder
+    status?: SortOrder
+    imageTaskId?: SortOrder
+    videoTaskId?: SortOrder
+    mergeAudioVideoTaskID?: SortOrder
+    musicPrompt?: SortOrder
+    caption?: SortOrder
+    imageUrl?: SortOrder
+    videoUrl?: SortOrder
+    videoPublicId?: SortOrder
+    musicPublicId?: SortOrder
+    musicUrl?: SortOrder
+    finalVideoUrl?: SortOrder
+    finalVideoPublicId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userDataId?: SortOrder
+  }
+
+  export type EnumvideoGenerationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.videoGenerationStatus | EnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.videoGenerationStatus[] | ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.videoGenerationStatus[] | ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumvideoGenerationStatusWithAggregatesFilter<$PrismaModel> | $Enums.videoGenerationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumvideoGenerationStatusFilter<$PrismaModel>
+    _max?: NestedEnumvideoGenerationStatusFilter<$PrismaModel>
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -7935,6 +9783,66 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSessionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
+  }
+
+  export type videoGenerationDataCreateNestedManyWithoutUserDataInput = {
+    create?: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput> | videoGenerationDataCreateWithoutUserDataInput[] | videoGenerationDataUncheckedCreateWithoutUserDataInput[]
+    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserDataInput | videoGenerationDataCreateOrConnectWithoutUserDataInput[]
+    createMany?: videoGenerationDataCreateManyUserDataInputEnvelope
+    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+  }
+
+  export type videoGenerationDataUncheckedCreateNestedManyWithoutUserDataInput = {
+    create?: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput> | videoGenerationDataCreateWithoutUserDataInput[] | videoGenerationDataUncheckedCreateWithoutUserDataInput[]
+    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserDataInput | videoGenerationDataCreateOrConnectWithoutUserDataInput[]
+    createMany?: videoGenerationDataCreateManyUserDataInputEnvelope
+    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+  }
+
+  export type videoGenerationDataUpdateManyWithoutUserDataNestedInput = {
+    create?: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput> | videoGenerationDataCreateWithoutUserDataInput[] | videoGenerationDataUncheckedCreateWithoutUserDataInput[]
+    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserDataInput | videoGenerationDataCreateOrConnectWithoutUserDataInput[]
+    upsert?: videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput | videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput[]
+    createMany?: videoGenerationDataCreateManyUserDataInputEnvelope
+    set?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    disconnect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    delete?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    update?: videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput | videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput[]
+    updateMany?: videoGenerationDataUpdateManyWithWhereWithoutUserDataInput | videoGenerationDataUpdateManyWithWhereWithoutUserDataInput[]
+    deleteMany?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
+  }
+
+  export type videoGenerationDataUncheckedUpdateManyWithoutUserDataNestedInput = {
+    create?: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput> | videoGenerationDataCreateWithoutUserDataInput[] | videoGenerationDataUncheckedCreateWithoutUserDataInput[]
+    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserDataInput | videoGenerationDataCreateOrConnectWithoutUserDataInput[]
+    upsert?: videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput | videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput[]
+    createMany?: videoGenerationDataCreateManyUserDataInputEnvelope
+    set?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    disconnect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    delete?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    update?: videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput | videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput[]
+    updateMany?: videoGenerationDataUpdateManyWithWhereWithoutUserDataInput | videoGenerationDataUpdateManyWithWhereWithoutUserDataInput[]
+    deleteMany?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
+  }
+
+  export type UserDataCreateNestedOneWithoutVideoGenerationDataInput = {
+    create?: XOR<UserDataCreateWithoutVideoGenerationDataInput, UserDataUncheckedCreateWithoutVideoGenerationDataInput>
+    connectOrCreate?: UserDataCreateOrConnectWithoutVideoGenerationDataInput
+    connect?: UserDataWhereUniqueInput
+  }
+
+  export type EnumvideoGenerationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.videoGenerationStatus
+  }
+
+  export type UserDataUpdateOneRequiredWithoutVideoGenerationDataNestedInput = {
+    create?: XOR<UserDataCreateWithoutVideoGenerationDataInput, UserDataUncheckedCreateWithoutVideoGenerationDataInput>
+    connectOrCreate?: UserDataCreateOrConnectWithoutVideoGenerationDataInput
+    upsert?: UserDataUpsertWithoutVideoGenerationDataInput
+    connect?: UserDataWhereUniqueInput
+    update?: XOR<XOR<UserDataUpdateToOneWithWhereWithoutVideoGenerationDataInput, UserDataUpdateWithoutVideoGenerationDataInput>, UserDataUncheckedUpdateWithoutVideoGenerationDataInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -8096,6 +10004,23 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumvideoGenerationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.videoGenerationStatus | EnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.videoGenerationStatus[] | ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.videoGenerationStatus[] | ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumvideoGenerationStatusFilter<$PrismaModel> | $Enums.videoGenerationStatus
+  }
+
+  export type NestedEnumvideoGenerationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.videoGenerationStatus | EnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.videoGenerationStatus[] | ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.videoGenerationStatus[] | ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumvideoGenerationStatusWithAggregatesFilter<$PrismaModel> | $Enums.videoGenerationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumvideoGenerationStatusFilter<$PrismaModel>
+    _max?: NestedEnumvideoGenerationStatusFilter<$PrismaModel>
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -8344,6 +10269,148 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type videoGenerationDataCreateWithoutUserDataInput = {
+    id?: string
+    userPrompt: string
+    status?: $Enums.videoGenerationStatus
+    imageTaskId?: string | null
+    videoTaskId?: string | null
+    mergeAudioVideoTaskID?: string | null
+    musicPrompt?: string | null
+    caption?: string | null
+    imageUrl?: string | null
+    videoUrl?: string | null
+    videoPublicId?: string | null
+    musicPublicId?: string | null
+    musicUrl?: string | null
+    finalVideoUrl?: string | null
+    finalVideoPublicId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type videoGenerationDataUncheckedCreateWithoutUserDataInput = {
+    id?: string
+    userPrompt: string
+    status?: $Enums.videoGenerationStatus
+    imageTaskId?: string | null
+    videoTaskId?: string | null
+    mergeAudioVideoTaskID?: string | null
+    musicPrompt?: string | null
+    caption?: string | null
+    imageUrl?: string | null
+    videoUrl?: string | null
+    videoPublicId?: string | null
+    musicPublicId?: string | null
+    musicUrl?: string | null
+    finalVideoUrl?: string | null
+    finalVideoPublicId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type videoGenerationDataCreateOrConnectWithoutUserDataInput = {
+    where: videoGenerationDataWhereUniqueInput
+    create: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput>
+  }
+
+  export type videoGenerationDataCreateManyUserDataInputEnvelope = {
+    data: videoGenerationDataCreateManyUserDataInput | videoGenerationDataCreateManyUserDataInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput = {
+    where: videoGenerationDataWhereUniqueInput
+    update: XOR<videoGenerationDataUpdateWithoutUserDataInput, videoGenerationDataUncheckedUpdateWithoutUserDataInput>
+    create: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput>
+  }
+
+  export type videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput = {
+    where: videoGenerationDataWhereUniqueInput
+    data: XOR<videoGenerationDataUpdateWithoutUserDataInput, videoGenerationDataUncheckedUpdateWithoutUserDataInput>
+  }
+
+  export type videoGenerationDataUpdateManyWithWhereWithoutUserDataInput = {
+    where: videoGenerationDataScalarWhereInput
+    data: XOR<videoGenerationDataUpdateManyMutationInput, videoGenerationDataUncheckedUpdateManyWithoutUserDataInput>
+  }
+
+  export type videoGenerationDataScalarWhereInput = {
+    AND?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
+    OR?: videoGenerationDataScalarWhereInput[]
+    NOT?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
+    id?: StringFilter<"videoGenerationData"> | string
+    userPrompt?: StringFilter<"videoGenerationData"> | string
+    status?: EnumvideoGenerationStatusFilter<"videoGenerationData"> | $Enums.videoGenerationStatus
+    imageTaskId?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoTaskId?: StringNullableFilter<"videoGenerationData"> | string | null
+    mergeAudioVideoTaskID?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicPrompt?: StringNullableFilter<"videoGenerationData"> | string | null
+    caption?: StringNullableFilter<"videoGenerationData"> | string | null
+    imageUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
+    updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
+    userDataId?: StringFilter<"videoGenerationData"> | string
+  }
+
+  export type UserDataCreateWithoutVideoGenerationDataInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserDataUncheckedCreateWithoutVideoGenerationDataInput = {
+    id?: string
+    name: string
+    email: string
+    password: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserDataCreateOrConnectWithoutVideoGenerationDataInput = {
+    where: UserDataWhereUniqueInput
+    create: XOR<UserDataCreateWithoutVideoGenerationDataInput, UserDataUncheckedCreateWithoutVideoGenerationDataInput>
+  }
+
+  export type UserDataUpsertWithoutVideoGenerationDataInput = {
+    update: XOR<UserDataUpdateWithoutVideoGenerationDataInput, UserDataUncheckedUpdateWithoutVideoGenerationDataInput>
+    create: XOR<UserDataCreateWithoutVideoGenerationDataInput, UserDataUncheckedCreateWithoutVideoGenerationDataInput>
+    where?: UserDataWhereInput
+  }
+
+  export type UserDataUpdateToOneWithWhereWithoutVideoGenerationDataInput = {
+    where?: UserDataWhereInput
+    data: XOR<UserDataUpdateWithoutVideoGenerationDataInput, UserDataUncheckedUpdateWithoutVideoGenerationDataInput>
+  }
+
+  export type UserDataUpdateWithoutVideoGenerationDataInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserDataUncheckedUpdateWithoutVideoGenerationDataInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AccountCreateManyUserInput = {
     type: string
     provider: string
@@ -8428,6 +10495,86 @@ export namespace Prisma {
   export type SessionUncheckedUpdateManyWithoutUserInput = {
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type videoGenerationDataCreateManyUserDataInput = {
+    id?: string
+    userPrompt: string
+    status?: $Enums.videoGenerationStatus
+    imageTaskId?: string | null
+    videoTaskId?: string | null
+    mergeAudioVideoTaskID?: string | null
+    musicPrompt?: string | null
+    caption?: string | null
+    imageUrl?: string | null
+    videoUrl?: string | null
+    videoPublicId?: string | null
+    musicPublicId?: string | null
+    musicUrl?: string | null
+    finalVideoUrl?: string | null
+    finalVideoPublicId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type videoGenerationDataUpdateWithoutUserDataInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userPrompt?: StringFieldUpdateOperationsInput | string
+    status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
+    imageTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    videoTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    mergeAudioVideoTaskID?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type videoGenerationDataUncheckedUpdateWithoutUserDataInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userPrompt?: StringFieldUpdateOperationsInput | string
+    status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
+    imageTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    videoTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    mergeAudioVideoTaskID?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type videoGenerationDataUncheckedUpdateManyWithoutUserDataInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userPrompt?: StringFieldUpdateOperationsInput | string
+    status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
+    imageTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    videoTaskId?: NullableStringFieldUpdateOperationsInput | string | null
+    mergeAudioVideoTaskID?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPrompt?: NullableStringFieldUpdateOperationsInput | string | null
+    caption?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    videoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

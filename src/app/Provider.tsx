@@ -1,7 +1,7 @@
 import React from "react";
 import { auth } from "./auth";
 import { SessionProvider } from "next-auth/react";
-import FinalProvider from "./FinalProvider";
+import { Toaster } from "sonner";
 
 export default async function Provider({
   children,
@@ -13,7 +13,8 @@ export default async function Provider({
   return (
     <div>
       <SessionProvider session={session}>
-        <FinalProvider>{children}</FinalProvider>
+        <main>{children}</main>
+        <Toaster />
       </SessionProvider>
     </div>
   );

@@ -12,10 +12,13 @@ import { SignUpFormSchema, SignUpFormSchemaType } from "@/lib/ZodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterUser } from "@/app/actions/authActions";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function SignUp({ setIsSignup }: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const router = useRouter();
 
   const {
     register,
@@ -27,15 +30,19 @@ export default function SignUp({ setIsSignup }: any) {
 
   async function actualSubmit(data: SignUpFormSchemaType) {
     setIsLoading(true);
+    try {
+      const result = await RegisterUser(data);
 
-    const result = await RegisterUser(data);
+      if (!result?.status) {
+        throw new Error("Something went wrong");
+      }
 
-    if (!result?.status) {
-      throw new Error("Something went wrong");
+      toast("User Registered Successfully");
+    } catch (error) {
+      console.log("Error while Registering User", error);
+    } finally {
+      setIsLoading(false);
     }
-
-    toast("User Registered Successfully");
-    setIsLoading(false);
   }
 
   return (

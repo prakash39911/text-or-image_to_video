@@ -3,13 +3,33 @@
 import React, { useState, useRef, ChangeEvent, KeyboardEvent } from "react";
 import { Send, Image as ImageIcon, X } from "lucide-react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
+import {
+  GenerateImage,
+  GenerateImagePrompt,
+} from "@/app/actions/GenerateVideoActions";
+import { prisma } from "@/lib/PrismaClient";
+import { useSessionData } from "@/hooks/useSessionData";
+import {
+  createVideoFirstEntry,
+  storeImageTaskID,
+} from "@/app/actions/DatabaseActions";
 
-export default function ChatWindow(): React.ReactElement {
+export default function ChatWindow() {
+  const userId = useSessionData();
+
   const [message, setMessage] = useState<string>("");
   const [image, setImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const pathname = usePathname();
+  const isTextToVideo = pathname.includes("text");
+
+  if (!userId) {
+    return;
+  }
 
   const handleMessageChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setMessage(e.target.value);
@@ -48,9 +68,34 @@ export default function ChatWindow(): React.ReactElement {
     }
   };
 
-  const handleSubmit = (): void => {
+  const handleSubmit = async () => {
     // In a real application, you would handle the message and image submission here
     console.log("Submitting:", { message, image });
+
+    const dbEntry = await createVideoFirstEntry(message);
+
+    if (!dbEntry) {
+      console.log("Error while interacting with the Db");
+      return;
+    }
+
+    const imagePrompt = await GenerateImagePrompt(message);
+
+    console.log("Response Received from GEMINI-API call--:", imagePrompt);
+
+    if (!imagePrompt) {
+      console.log("Image prompt creation failed");
+      return;
+    }
+
+    const generatedImageData = await GenerateImage(imagePrompt);
+
+    console.log("Generated Image Data---", generatedImageData);
+
+    const storeResult = await storeImageTaskID(
+      generatedImageData.data.task_id,
+      dbEntry?.id
+    );
 
     // Reset form after submission
     setMessage("");
@@ -85,7 +130,7 @@ export default function ChatWindow(): React.ReactElement {
             onChange={handleMessageChange}
             onKeyDown={handleKeyDown}
             placeholder="Type your message here..."
-            className="w-full bg-zinc-900 rounded-lg p-1.5 text-gray-300 resize-none min-h-20 max-h-36 focus:outline-none scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-900 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+            className="w-full bg-zinc-900 rounded-lg p-1.5 text-gray-300 resize-none min-h-20 max-h-40 focus:outline-none scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-900 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
             style={{ lineHeight: "1.5" }}
           />
           {/* Image preview section */}
@@ -116,16 +161,18 @@ export default function ChatWindow(): React.ReactElement {
         <div className="flex items-center justify-between px-4 py-3 border-t border-gray-700">
           <div className="flex items-center space-x-2">
             {/* Image upload button */}
-            <label className="cursor-pointer p-2 rounded-full hover:bg-gray-700 text-gray-300 hover:text-teal-400 transition-colors">
-              <ImageIcon size={20} />
-              <input
-                type="file"
-                ref={fileInputRef}
-                accept="image/*"
-                onChange={handleImageSelect}
-                className="hidden"
-              />
-            </label>
+            {!isTextToVideo && (
+              <label className="cursor-pointer p-2 rounded-full hover:bg-gray-700 text-gray-300 hover:text-teal-400 transition-colors">
+                <ImageIcon size={20} />
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/*"
+                  onChange={handleImageSelect}
+                  className="hidden"
+                />
+              </label>
+            )}
           </div>
 
           {/* Submit button */}

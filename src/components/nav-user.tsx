@@ -62,7 +62,7 @@ export function NavUser() {
                   {userData?.user?.email}
                 </span>
               </div>
-              <ChevronsUpDown className="ml-auto size-4 text-teal-300" />
+              <ChevronsUpDown className="ml-auto size-4 text-pink-400" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent

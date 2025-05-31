@@ -169,6 +169,27 @@ exports.Prisma.UserDataScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VideoGenerationDataScalarFieldEnum = {
+  id: 'id',
+  userPrompt: 'userPrompt',
+  status: 'status',
+  imageTaskId: 'imageTaskId',
+  videoTaskId: 'videoTaskId',
+  mergeAudioVideoTaskID: 'mergeAudioVideoTaskID',
+  musicPrompt: 'musicPrompt',
+  caption: 'caption',
+  imageUrl: 'imageUrl',
+  videoUrl: 'videoUrl',
+  videoPublicId: 'videoPublicId',
+  musicPublicId: 'musicPublicId',
+  musicUrl: 'musicUrl',
+  finalVideoUrl: 'finalVideoUrl',
+  finalVideoPublicId: 'finalVideoPublicId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  userDataId: 'userDataId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -183,14 +204,19 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.videoGenerationStatus = exports.$Enums.videoGenerationStatus = {
+  InProgress: 'InProgress',
+  Completed: 'Completed',
+  Failed: 'Failed'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
-  UserData: 'UserData'
+  UserData: 'UserData',
+  videoGenerationData: 'videoGenerationData'
 };
 
 /**

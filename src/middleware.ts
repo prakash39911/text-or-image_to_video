@@ -3,7 +3,7 @@ import { getToken } from "next-auth/jwt";
 
 const publicRoute = ["/"];
 const authRoutes = ["/auth"];
-const protectedRoute = ["/text-to-video", "/image-to-video"];
+const protectedRoute = ["/ai/text-to-video", "/ai/image-to-video"];
 
 export default async function middleware(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
