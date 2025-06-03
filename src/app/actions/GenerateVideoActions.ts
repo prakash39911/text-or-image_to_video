@@ -108,11 +108,7 @@ export async function GenerateVideoPrompt(base64ImageData: string) {
   try {
     const prompt = ` Create a Video Prompt by analyzing the image and the given instructions.
 
-    Example Output - A whimsical, fast-paced animation featuring tiny toy chefs working quickly on a massive pizza. The Schene begins with a rotating camera orbiting the pizza surface, revealing multiple layers of activity. Miniature chefs run up and down ladders, rapidly spread tomato sauce using toy paint rollers, and quickly place huge pepperoni slices. Others zipline between platforms or operate toy forklifts carrying basil leaves and cheese chunks. 
-    
-    The camera spins slowly around the scene, then dips down for low angle shots and dramatic close-ups of melting cheese and sizzling toppings. Steam rises as the cheese bubbles and browns. 
-    
-    The animation is lively and energetic, with fast but smooth character movements and lots of background activity.
+    Example Output - A whimsical, fast-paced animation featuring tiny toy chefs working quickly on a massive pizza. The scene begins with a slow, deliberate camera orbiting the pizza surface, revealing multiple layers of activity. Miniature chefs run up and down ladders, rapidly spread tomato sauce using toy paint rollers, and quickly place huge pepperoni slices. Others zipline between platforms or operate toy forklifts carrying basil leaves and cheese chunks. The camera smoothly glides around the scene, occasionally dipping down for gentle low-angle shots and clear, focused close-ups of melting cheese and sizzling toppings. Steam rises as the cheese bubbles and browns. The animation is lively and energetic, with fast but smooth character movements and lots of background activity, maintaining visual clarity throughout.
     `;
 
     const response = await geminiAI.models.generateContent({
@@ -131,18 +127,20 @@ export async function GenerateVideoPrompt(base64ImageData: string) {
         
         Your task is to analyze an image and create whimsical, cinematic video animation prompt. 
         
-        The prompt should describe camera movements (including rotating shots), fast-paced actions of tiny-toy-like characters, dynamic environment effects, and ambient sound design. 
+        The prompt should describe camera movements (emphasizing **smooth, controlled, and deliberate** movements over rapid or jerky ones), fast-paced actions of tiny-toy-like characters, dynamic environment effects, and ambient sound design. 
         
         The tone must be magical, playful, and visually immersive---perfect for a short animated video in tools like Kling, Runway, or Sora.
         
         Strict Note : 
-        1. All characters should appear to be working very fast and efficiently, not slow of idle. Their poses and actions should suggest speed, urgency, or rapid coordination -- as if everythimh is moving in a high-efficieny, fast-paced system.
+        1. All characters should appear to be working very fast and efficiently, not slow or idle. Their poses and actions should suggest speed, urgency, or rapid coordination -- as if everything is moving in a high-efficiency, fast-paced system.
         
-        2. This is a 5 seconds Video script
+        2. Camera movements should be **slow, smooth, and intentional**, designed to enhance clarity and focus on details. Avoid quick pans, rapid zooms, or excessive rotations that could cause blur. Prioritize stable, cinematic shots.
 
-        3. Keep the prompt lite and short and under 500 words and include all the information as well.
+        3. This is a 5 seconds Video script
 
-        4. Output should only contain the exact Prompt. Any other words or sentence should not be there in the Ouput.
+        4. Keep the prompt lite and short.
+
+        5. Output should only contain the exact Prompt. Any other words or sentence should not be there in the Output.
         `,
         temperature: 0.7,
       },
@@ -321,37 +319,29 @@ export async function GenerateMusic(musicPrompt: string) {
   }
 }
 
-export async function MergeAudioAndVideo(videoUrl: string, musicUrl: string) {
+export async function MergeAudioAndVideo(videoUrl: string, audioUrl: string) {
   try {
     const result = await axios.post(
-      `${process.env.SEGMIND_BASE_URL}/v1/video-audio-merge`,
+      `${process.env.MERGE_BACKEND_URL}/v1/api/mergeVideoAudio`,
       {
-        input_video: videoUrl,
-        input_audio: musicUrl,
+        videoUrl,
+        audioUrl,
       },
       {
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": `${process.env.SEGMIND_API_KEY}`,
         },
-        responseType: "arraybuffer",
       }
     );
 
-    const videoBuffer = Buffer.from(result.data);
-    const base64Video = videoBuffer.toString("base64");
-
-    const dataUri = `data:video/mp4;base64,${base64Video}`;
-
-    // Upload to Cloudinary using base64
-    const uploadResult = await cloudinary.uploader.upload(dataUri, {
-      resource_type: "video",
-      folder: "text-to-video/finalVideo",
-    });
+    console.log(
+      "Result of Separate backend call, to merge audio and video--",
+      result.data
+    );
 
     return {
-      finalVideoUrl: uploadResult.secure_url,
-      finalVideoPublicId: uploadResult.public_id,
+      finalVideoUrl: result.data.cloudinary.url,
+      finalVideoPublicId: result.data.cloudinary.public_id,
     };
   } catch (error) {
     console.error("Unable to Merge Audio and Video", error);

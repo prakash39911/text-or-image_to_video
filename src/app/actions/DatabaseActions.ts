@@ -134,6 +134,14 @@ export async function SaveFinalVideo(
         finalVideoPublicId: videoPublicId,
         status: "Completed",
       },
+      select: {
+        id: true,
+        finalVideoUrl: true,
+        userPrompt: true,
+        imageUrl: true,
+        status: true,
+        userDataId: true,
+      },
     });
 
     return isSaved;

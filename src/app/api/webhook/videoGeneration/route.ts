@@ -8,6 +8,7 @@ import {
 } from "@/app/actions/GenerateVideoActions";
 import { auth } from "@/app/auth";
 import { prisma } from "@/lib/PrismaClient";
+import { pusherServer } from "@/lib/pusher";
 import { generateSignature, verifySignature } from "@/lib/utilityFunctions";
 
 export async function POST(request: Request) {
@@ -112,22 +113,32 @@ const handleCompleted = async (parsedBody: any) => {
         return;
       }
 
-      const { finalVideoUrl, finalVideoPublicId } = await MergeAudioAndVideo(
-        videoUrl,
-        musicUrl
+      const response = await MergeAudioAndVideo(videoUrl, musicUrl);
+
+      const isSavedFinally = await SaveFinalVideo(
+        response.finalVideoUrl,
+        response.finalVideoPublicId,
+        parsedBody.task_id
       );
 
-      if (finalVideoUrl.length > 0) {
-        const isSaved = await SaveFinalVideo(
-          finalVideoUrl,
-          finalVideoPublicId,
-          parsedBody.task_id
-        );
+      const dataToSendUsingPusher = {
+        id: isSavedFinally.id,
+        url: isSavedFinally.finalVideoUrl,
+        title: isSavedFinally.userPrompt,
+        thumbnail: isSavedFinally.imageUrl,
+        status: isSavedFinally.status,
+      };
 
-        if (isSaved) {
-          console.log("Task Complete--Final Video generated--", finalVideoUrl);
-        }
-      }
+      await pusherServer.trigger(
+        `private-${isSavedFinally.userDataId}`,
+        "video:generated",
+        dataToSendUsingPusher
+      );
+
+      console.log(
+        "Video Generation along With Audio is finally Complete",
+        response.finalVideoUrl
+      );
     }
 
     return Response.json(

@@ -69,7 +69,7 @@ export function NavMain({
                     if (item.title === "Text-To-Video") {
                       router.push("/ai/text-to-video");
                     } else {
-                      router.push("/ai/image-to-video");
+                      router.push("/ai/videogallery");
                     }
                   }}
                 >

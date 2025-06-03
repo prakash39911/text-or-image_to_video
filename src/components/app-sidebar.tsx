@@ -29,8 +29,8 @@ const data = {
       isActive: true,
     },
     {
-      title: "Image-To-Video",
-      url: "/ai/image-to-video",
+      title: "Video Gallery",
+      url: "/ai/videogallery",
       icon: Image,
       isActive: true,
     },

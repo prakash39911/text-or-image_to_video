@@ -1,14 +1,18 @@
+"use client";
+
 import React from "react";
-import { auth } from "./auth";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
+import { useNotificationChannel } from "@/hooks/useNotificationChannel";
 
-export default async function Provider({
+export default function Provider({
   children,
+  session,
 }: {
   children: React.ReactNode;
+  session: any;
 }) {
-  const session = await auth();
+  useNotificationChannel(session?.user?.id);
 
   return (
     <div>

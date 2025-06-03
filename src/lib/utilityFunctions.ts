@@ -42,6 +42,14 @@ export const GenerateRandomName = () => {
   return str;
 };
 
+export const CalcNoOfVideosInProgress = (videoList: EachVideo[]) => {
+  return videoList.reduce(
+    (accumulator, currentVal) =>
+      currentVal.status === "InProgress" ? (accumulator += 1) : accumulator,
+    0
+  );
+};
+
 // export async function waitForImageTaskID(
 //   taskId: string,
 //   retries = 3,
