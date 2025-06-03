@@ -141,6 +141,12 @@ export async function SaveFinalVideo(
         imageUrl: true,
         status: true,
         userDataId: true,
+        UserData: {
+          select: {
+            email: true,
+            name: true,
+          },
+        },
       },
     });
 

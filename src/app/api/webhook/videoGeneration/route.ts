@@ -6,7 +6,12 @@ import {
   MergeAudioAndVideo,
   uploadVideoToCloudinary,
 } from "@/app/actions/GenerateVideoActions";
+import { sendMail } from "@/app/actions/mailAction";
 import { auth } from "@/app/auth";
+import {
+  VerifyEmail,
+  VideoNotificationEmail,
+} from "@/components/emailTemplates";
 import { prisma } from "@/lib/PrismaClient";
 import { pusherServer } from "@/lib/pusher";
 import { generateSignature, verifySignature } from "@/lib/utilityFunctions";
@@ -133,6 +138,18 @@ const handleCompleted = async (parsedBody: any) => {
         `private-${isSavedFinally.userDataId}`,
         "video:generated",
         dataToSendUsingPusher
+      );
+
+      await sendMail(
+        "textToVideo@mail.com",
+        isSavedFinally.UserData.email,
+        "Video Generation Complete",
+        VideoNotificationEmail({
+          firstName: isSavedFinally.UserData.name,
+          prompt: isSavedFinally.userPrompt,
+          thumbnailUrl: isSavedFinally.imageUrl!,
+          videoUrl: isSavedFinally.finalVideoUrl!,
+        })
       );
 
       console.log(
