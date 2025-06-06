@@ -147,12 +147,38 @@ export async function SaveFinalVideo(
             name: true,
           },
         },
+        createdAt: true,
+        updatedAt: true,
       },
     });
 
     return isSaved;
   } catch (error) {
     console.log("Unable to save final video data", error);
+    throw error;
+  }
+}
+
+export async function saveFailedStatus(videoTaskId: string) {
+  try {
+    const isUpdated = await prisma.videoGenerationData.update({
+      where: {
+        videoTaskId,
+      },
+      data: {
+        status: "Failed",
+      },
+      select: {
+        id: true,
+        videoTaskId: true,
+        userPrompt: true,
+        userDataId: true,
+      },
+    });
+
+    return isUpdated;
+  } catch (error) {
+    console.log("Unable to save Failed Status", error);
     throw error;
   }
 }

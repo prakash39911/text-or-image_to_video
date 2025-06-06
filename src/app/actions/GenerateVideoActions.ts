@@ -2,6 +2,8 @@
 
 import { cloudinary } from "@/lib/cloudinary";
 import { geminiAI } from "@/lib/GeminiApi";
+import { pusherServer } from "@/lib/pusher";
+import { getMinutesDifference } from "@/lib/utilityFunctions";
 import axios from "axios";
 import { error } from "console";
 
@@ -34,29 +36,31 @@ export async function uploadVideoToCloudinary(videoUrl: string) {
 
 export async function GenerateImagePrompt(userInput: string) {
   try {
-    const prompt = `Create a whimsical and detailed macro photography-style image prompt based on the topic: ${userInput}
-    
-    Example output: A whimsical and detailed miniature scene showing tiny toy chefs making a giant pizza. The setting is a kitchen counter turned into a pizza factory. Miniature workers in chef hats and aprons use toy-sized cooking tools: rooling pins, paint rollers for spreading dough, tiny buckets of tomato sauce, and ladders to reach toppings like ginat olives, pepperoni slices, and basil leaves. One chef is shredding cheese with a huge grater, while another uses a bloqtorch to melt cheese. Construction cones and scaffolding surround the pizza as if it is a worksite. Warm lighting, **controlled depth of field**, cinematic realism, macro photography style.`;
+    const prompt = `Create a whimsical and detailed macro photography-style image prompt featuring miniature people or creatures interacting with the world related to the topic: "${userInput}".
+
+    Focus on depicting a scene where tiny characters are engaged in activities or scenarios directly inspired by "${userInput}", treating everyday objects as if they are colossal environments.
+
+    For example, if the topic is "library," think about miniature people navigating towering bookshelves or using pencils as beams. If the topic is "beach," imagine tiny figures building sandcastles with giant grains of sand or surfing on a ripple.
+
+    Ensure the prompt emphasizes:
+    - Many tiny workers/people/creatures.
+    - Whimsical and detailed macro photography style.
+    - Cinematic realism.
+    - Controlled depth of field.
+    - Storytelling elements within the miniature scene.
+    - The interaction of miniature characters with the environment related to "${userInput}".`;
 
     const response = await geminiAI.models.generateContent({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.0-flash", // Or 'gemini-1.5-flash' if you prefer
       contents: prompt,
       config: {
-        systemInstruction: `You are an imaginative and detail-oriented prompt engineer specializing in creating cinematic and whimsical image prompts. 
-        
-        Your outputs should be structured, vivid, and tailored for high quality image generation in a macro photography style. 
-        
-        All scenes should feature toy-sized characters (like miniature chefs, workers, or animals) interacting with real-world objects as if they are ginat environments. 
-        
-        Use storytelling elements and focus on realism, charm and creativity
-
-        Output should only contain the exact Prompt. Any other words or sentence should not be there in the Ouput. 
-          
-        Note : Many tiny workers should be there`,
-        temperature: 0.7,
+        systemInstruction: `You are an imaginative and detail-oriented prompt engineer specializing in creating cinematic and whimsical image prompts.
+        Your primary goal is to generate vivid, structured image prompts for macro photography that exclusively feature miniature people or creatures interacting with environments and objects related to the user's provided topic.
+        The output must be a direct, high-quality image prompt only. No conversational text or additional explanations.
+        Always ensure the scene includes numerous tiny characters.`,
+        temperature: 0.8, // Slightly increase temperature for more creativity
       },
     });
-
     return response.text;
   } catch (error) {
     console.log("Error while generating image prompt", error);
@@ -345,6 +349,52 @@ export async function MergeAudioAndVideo(videoUrl: string, audioUrl: string) {
     };
   } catch (error) {
     console.error("Unable to Merge Audio and Video", error);
+    throw error;
+  }
+}
+
+export async function SendRealTimeDataToClient(
+  userId: string,
+  isSavedFinally: any
+) {
+  const dataToSendUsingPusher = {
+    id: isSavedFinally.id,
+    url: isSavedFinally.finalVideoUrl,
+    title: isSavedFinally.userPrompt,
+    thumbnail: isSavedFinally.imageUrl,
+    status: isSavedFinally.status,
+  };
+
+  const minutes = getMinutesDifference(
+    isSavedFinally.updatedAt,
+    isSavedFinally.createdAt
+  );
+
+  try {
+    await pusherServer.trigger(`private-${userId}`, "video:generated", {
+      videoObj: dataToSendUsingPusher,
+      minutesTaken: minutes,
+    });
+  } catch (error) {
+    console.error("Pusher Notification trigger error:", error);
+    throw error;
+  }
+}
+
+export async function sendNotificationToClient(data: {
+  id: string;
+  userPrompt: string;
+  videoTaskId: string | null;
+  userDataId: string;
+}) {
+  try {
+    await pusherServer.trigger(
+      `private-${data.userDataId}`,
+      "videoGeneration:failed",
+      { id: data.id, status: "Failed", prompt: data.userPrompt }
+    );
+  } catch (error) {
+    console.error("Unable to send failed status update to client", error);
     throw error;
   }
 }

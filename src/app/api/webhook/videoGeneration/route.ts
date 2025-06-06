@@ -1,19 +1,18 @@
 import {
   GetVideoAudioUrl,
+  saveFailedStatus,
   SaveFinalVideo,
 } from "@/app/actions/DatabaseActions";
 import {
   MergeAudioAndVideo,
+  sendNotificationToClient,
+  SendRealTimeDataToClient,
   uploadVideoToCloudinary,
 } from "@/app/actions/GenerateVideoActions";
 import { sendMail } from "@/app/actions/mailAction";
 import { auth } from "@/app/auth";
-import {
-  VerifyEmail,
-  VideoNotificationEmail,
-} from "@/components/emailTemplates";
+import { VideoNotificationEmail } from "@/components/emailTemplates";
 import { prisma } from "@/lib/PrismaClient";
-import { pusherServer } from "@/lib/pusher";
 import { generateSignature, verifySignature } from "@/lib/utilityFunctions";
 
 export async function POST(request: Request) {
@@ -134,15 +133,14 @@ const handleCompleted = async (parsedBody: any) => {
         status: isSavedFinally.status,
       };
 
-      await pusherServer.trigger(
-        `private-${isSavedFinally.userDataId}`,
-        "video:generated",
-        dataToSendUsingPusher
+      const isSent = await SendRealTimeDataToClient(
+        isSavedFinally.userDataId,
+        isSavedFinally
       );
 
       await sendMail(
-        "textToVideo@mail.com",
-        isSavedFinally.UserData.email,
+        "TextToVideo@resend.dev",
+        "prakash39911@gmail.com",
         "Video Generation Complete",
         VideoNotificationEmail({
           firstName: isSavedFinally.UserData.name,
@@ -172,7 +170,16 @@ const handleCompleted = async (parsedBody: any) => {
 };
 
 const handleFailed = async (parsedBody: any) => {
-  console.log(`Task with task ID- ${parsedBody.task_id} has failed`);
+  console.log(
+    `Video Generation Task with task ID- ${parsedBody.task_id} has failed`,
+    parsedBody
+  );
+
+  const isSuccess = await saveFailedStatus(parsedBody.task_id);
+
+  if (isSuccess) {
+    await sendNotificationToClient(isSuccess);
+  }
 
   return Response.json({
     message: "Task Failure recorded",

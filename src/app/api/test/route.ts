@@ -1,43 +1,21 @@
-// import { cloudinary } from "@/lib/cloudinary";
-// import axios from "axios";
+import getServerSession from "next-auth";
+import { pusherServer } from "@/lib/pusher";
+import { NextRequest, NextResponse } from "next/server";
 
-// export async function POST(request: Request) {
-//   try {
-//     const { videoUrl, musicUrl } = await request.json();
+export async function POST(request: NextRequest) {
+  try {
+    await pusherServer.trigger(
+      `private-123abc`,
+      "test:notification",
+      `is Notification received via PUSHER to particular user having email- prakash39911@gmail.com`
+    );
 
-//     const result = await axios.post(
-//       `${process.env.SEGMIND_BASE_URL}/v1/video-audio-merge`,
-//       {
-//         input_video: videoUrl,
-//         input_audio: musicUrl,
-//       },
-//       {
-//         headers: {
-//           "Content-Type": "application/json",
-//           "x-api-key": `${process.env.SEGMIND_API_KEY}`,
-//         },
-//         responseType: "arraybuffer",
-//       }
-//     );
-
-//     const videoBuffer = Buffer.from(result.data);
-//     const base64Video = videoBuffer.toString("base64");
-
-//     const dataUri = `data:video/mp4;base64,${base64Video}`;
-
-//     // Upload to Cloudinary using base64
-//     const uploadResult = await cloudinary.uploader.upload(dataUri, {
-//       resource_type: "video",
-//       folder: "text-to-video/finalVideo",
-//     });
-
-//     return Response.json({
-//       success: true,
-//       cloudinaryUrl: uploadResult.secure_url,
-//       publicId: uploadResult.public_id,
-//     });
-//   } catch (error) {
-//     console.error("Unable to Merge Audio and Video", error);
-//     return Response.json({ message: "Internal server error" }, { status: 500 });
-//   }
-// }
+    return NextResponse.json({ message: "Notification sent successfully" });
+  } catch (error) {
+    console.log("Unable to trigger pusher notification", error);
+    return NextResponse.json(
+      { message: "Pusher Trigger notification failed" },
+      { status: 500 }
+    );
+  }
+}

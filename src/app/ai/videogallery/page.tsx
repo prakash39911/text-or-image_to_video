@@ -15,15 +15,9 @@ export default async function page() {
     );
   }
 
-  const generatingCount = CalcNoOfVideosInProgress(videoList);
-
   return (
     <div>
-      <VideoGallery
-        videos={videoList}
-        generatingCount={generatingCount}
-        isGenerating={generatingCount > 0 ? true : false}
-      />
+      <VideoGallery videos={videoList} />
     </div>
   );
 }

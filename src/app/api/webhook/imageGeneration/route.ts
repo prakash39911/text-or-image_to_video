@@ -135,7 +135,7 @@ async function handleCompleted(body: any) {
     );
 
     if (isSaved) {
-      console.log("Video and Music URL Successfully saved in DB");
+      console.log("Video Task ID and Music URL Successfully saved in DB");
     }
 
     return Response.json({
@@ -156,7 +156,7 @@ async function handleCompleted(body: any) {
 }
 
 async function handleFailed(body: any) {
-  console.log(`Task ${body.task_id} failed:`);
+  console.log(`Image Generation Task with Task ID ${body.task_id} failed:`);
 
   // Optional: Update database with failed status
   // await updateTaskStatus(body.task_id, 'FAILED', { error: body.error_message });

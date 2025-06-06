@@ -3,26 +3,51 @@ import { Channel } from "pusher-js";
 import { useCallback, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { videoStore } from "@/lib/store/videoStore";
+import {
+  showErrorToast,
+  showSuccessToast,
+} from "@/components/toastComponet/toastComponent";
+
+type incomingDataPusher = {
+  videoObj: EachVideo;
+  minutesTaken: number;
+};
 
 export const useNotificationChannel = (userId: string | null) => {
   const channelRef = useRef<Channel | null>(null);
-  const setVideoArray = videoStore((state) => state.setVideoArray);
+  const updateVideoArray = videoStore((state) => state.updateVideoArray);
+  const removeVideo = videoStore((state) => state.removeVideo);
 
   const handleVideoGeneratedNotification = useCallback(
-    async (data: any) => {
+    async (data: incomingDataPusher) => {
       console.log(
         "Incoming data in UseNotificationChannel hook using Pusher --",
         data
       );
 
-      toast(`Video Generation Complete for your Prompt -`, {
-        duration: 5000,
-        className: "text-bold text-xl text-teal-500",
-      });
+      showSuccessToast(
+        `Video Generated Successfully within ${data.minutesTaken} minutes`,
+        `For the prompt ${data.videoObj.title}`
+      );
 
-      setVideoArray(data);
+      removeVideo(data.videoObj.id);
+      updateVideoArray(data.videoObj);
     },
-    [setVideoArray]
+    [updateVideoArray, removeVideo]
+  );
+
+  const handleVideoGenerationFailedNotification = useCallback(
+    async (data: { id: string; status: string; prompt: string }) => {
+      console.log(
+        "Incoming Data in useNotification challen for failed video generation",
+        data
+      );
+
+      showErrorToast(`Video generation failed for Prompt ${prompt}`, "Error");
+
+      removeVideo(data.id);
+    },
+    [removeVideo]
   );
 
   useEffect(() => {
@@ -35,6 +60,10 @@ export const useNotificationChannel = (userId: string | null) => {
         "video:generated",
         handleVideoGeneratedNotification
       );
+      channelRef.current.bind(
+        "videoGeneration:failed",
+        handleVideoGenerationFailedNotification
+      );
     }
 
     return () => {
@@ -46,8 +75,17 @@ export const useNotificationChannel = (userId: string | null) => {
           handleVideoGeneratedNotification
         );
 
+        channelRef.current.unbind(
+          "videoGeneration:failed",
+          handleVideoGenerationFailedNotification
+        );
+
         channelRef.current = null;
       }
     };
-  }, [userId, handleVideoGeneratedNotification]);
+  }, [
+    userId,
+    handleVideoGeneratedNotification,
+    handleVideoGenerationFailedNotification,
+  ]);
 };

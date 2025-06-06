@@ -50,6 +50,23 @@ export const CalcNoOfVideosInProgress = (videoList: EachVideo[]) => {
   );
 };
 
+export function getMinutesDifference(
+  dateTimeStr1: string,
+  dateTimeStr2: string
+): number {
+  // Parse the date-time strings into Date objects
+  const date1 = new Date(dateTimeStr1).getTime(); // Convert to timestamp
+  const date2 = new Date(dateTimeStr2).getTime(); // Convert to timestamp
+
+  // Calculate the difference in milliseconds
+  const diffInMs = Math.abs(date2 - date1);
+
+  // Convert milliseconds to minutes
+  const diffInMinutes = diffInMs / (1000 * 60);
+
+  return Math.floor(diffInMinutes);
+}
+
 // export async function waitForImageTaskID(
 //   taskId: string,
 //   retries = 3,

@@ -4,6 +4,7 @@ import React from "react";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "sonner";
 import { useNotificationChannel } from "@/hooks/useNotificationChannel";
+import { ThemeProvider } from "next-themes";
 
 export default function Provider({
   children,

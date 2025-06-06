@@ -18,6 +18,9 @@ export async function GetAllGeneratedVideos() {
         finalVideoUrl: true,
         status: true,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     const finalArray = data.map((eachObj) => {
