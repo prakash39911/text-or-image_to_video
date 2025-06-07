@@ -13,6 +13,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterUser } from "@/app/actions/authActions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { VerifyEmail } from "./emailTemplates";
+import { sendMail } from "@/app/actions/mailAction";
+import { generateToken } from "@/app/actions/tokenActions";
 
 export default function SignUp({ setIsSignup }: any) {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,11 +36,15 @@ export default function SignUp({ setIsSignup }: any) {
     try {
       const result = await RegisterUser(data);
 
-      if (!result?.status) {
+      if (!result) {
         throw new Error("Something went wrong");
       }
 
       toast("User Registered Successfully");
+
+      router.push("/verify-email-alert");
+
+      toast("Verify Your Email to Continue Using our Services");
     } catch (error) {
       console.log("Error while Registering User", error);
     } finally {

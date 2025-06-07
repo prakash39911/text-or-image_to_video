@@ -164,6 +164,7 @@ exports.Prisma.UserDataScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  emailVerified: 'emailVerified',
   password: 'password',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -190,6 +191,14 @@ exports.Prisma.VideoGenerationDataScalarFieldEnum = {
   userDataId: 'userDataId'
 };
 
+exports.Prisma.TokenScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  expires: 'expires',
+  type: 'type'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -210,13 +219,19 @@ exports.videoGenerationStatus = exports.$Enums.videoGenerationStatus = {
   Failed: 'Failed'
 };
 
+exports.tokenType = exports.$Enums.tokenType = {
+  EMAIL_VERIFICATION: 'EMAIL_VERIFICATION',
+  PASSWORD_RESET: 'PASSWORD_RESET'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   UserData: 'UserData',
-  videoGenerationData: 'videoGenerationData'
+  videoGenerationData: 'videoGenerationData',
+  token: 'token'
 };
 
 /**

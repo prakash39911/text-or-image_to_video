@@ -4,6 +4,13 @@ import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/PrismaClient";
 import bcrypt from "bcrypt";
 
+type customUser = {
+  id: string;
+  email: string;
+  name: string;
+  emailVerified: Date | null;
+};
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
 
@@ -34,6 +41,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             email: true,
             name: true,
             password: true,
+            emailVerified: true,
           },
         });
 
@@ -50,16 +58,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: isUserExist.id,
           name: isUserExist.name,
           email: isUserExist.email,
-        };
+          emailVerified: isUserExist.emailVerified,
+        } satisfies customUser;
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
+        const customUser = user as customUser;
+        token.id = customUser.id;
+        token.email = customUser.email;
+        token.name = customUser.name;
+        token.emailVerified = customUser.emailVerified;
       }
       return token;
     },
@@ -68,6 +79,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user.id = token.id as string;
       session.user.email = token.email as string;
       session.user.name = token.name;
+      session.user.emailVerified = token.emailVerified as Date | null;
 
       return session;
     },

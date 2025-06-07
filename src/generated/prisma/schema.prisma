@@ -70,6 +70,7 @@ model UserData {
   id                  String                @id @default(cuid())
   name                String
   email               String                @unique
+  emailVerified       DateTime?
   password            String
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
@@ -102,4 +103,19 @@ enum videoGenerationStatus {
   InProgress
   Completed
   Failed
+}
+
+model token {
+  id      String    @id @default(cuid())
+  email   String
+  token   String
+  expires DateTime
+  type    tokenType
+
+  @@unique([email, token])
+}
+
+enum tokenType {
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
 }

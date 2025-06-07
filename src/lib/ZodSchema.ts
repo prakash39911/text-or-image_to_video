@@ -17,3 +17,21 @@ export const SignUpFormSchema = z.object({
 });
 
 export type SignUpFormSchemaType = z.infer<typeof SignUpFormSchema>;
+
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+export type ForgotPasswordSchemaType = z.infer<typeof ForgotPasswordSchema>;
+
+export const ResetPasswordSchema = z
+  .object({
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    confirmPassword: z.string().min(1, "Please confirm your password"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+export type ResetPasswordSchemaType = z.infer<typeof ResetPasswordSchema>;
