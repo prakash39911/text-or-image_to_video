@@ -45,10 +45,6 @@ const VideoGallery = ({ videos }: VideoGalleryProps) => {
     document.body.removeChild(link);
   };
 
-  if (videosArray.length === 0) {
-    return null;
-  }
-
   return (
     <div className="h-full bg-zinc-900 p-6">
       {/* Header */}
@@ -57,27 +53,32 @@ const VideoGallery = ({ videos }: VideoGalleryProps) => {
           Video Gallery
         </h1>
       </div>
-
-      {/* Video Grid - Made tiles larger by reducing number of columns */}
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {/* Video Cards */}
-          {videosArray.map((video) => {
-            if (video.status === "Completed") {
-              return (
-                <VideoCard
-                  key={video.id}
-                  video={video}
-                  onVideoClick={handleVideoClick}
-                  onDownload={handleDownload}
-                />
-              );
-            } else if (video.status === "InProgress") {
-              return <LoadingState key={video.id} />;
-            }
-          })}
+      {videosArray && videosArray.length === 0 ? (
+        <div className="vertical-center flex justify-center mt-20 text-xl text-teal-500">
+          No Video Found..
         </div>
-      </div>
+      ) : (
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {/* Video Cards */}
+            {videosArray.map((video) => {
+              if (video.status === "Completed") {
+                return (
+                  <VideoCard
+                    key={video.id}
+                    video={video}
+                    onVideoClick={handleVideoClick}
+                    onDownload={handleDownload}
+                  />
+                );
+              } else if (video.status === "InProgress") {
+                return <LoadingState key={video.id} />;
+              }
+            })}
+          </div>
+        </div>
+      )}
+      {/* Video Grid - Made tiles larger by reducing number of columns */}
 
       {/* Video Modal */}
       <VideoModal
