@@ -64,7 +64,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      // Initial Sign In
       if (user) {
         const customUser = user as customUser;
         token.id = customUser.id;
@@ -72,6 +73,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.name = customUser.name;
         token.emailVerified = customUser.emailVerified;
       }
+
+      // This block will run when the session is updated
+      if (trigger === "update") {
+        console.log("Update trigger detected, fetching fresh data from DB");
+
+        // Re-fetch the user from the database
+        const dbUser = await prisma.userData.findUnique({
+          where: { id: token.id as string },
+          select: {
+            id: true,
+            email: true,
+            name: true,
+            emailVerified: true,
+          },
+        });
+
+        if (dbUser) {
+          // Update the token with fresh data from database
+          token.id = dbUser.id;
+          token.email = dbUser.email;
+          token.name = dbUser.name;
+          token.emailVerified = dbUser.emailVerified;
+        }
+      }
+
       return token;
     },
 

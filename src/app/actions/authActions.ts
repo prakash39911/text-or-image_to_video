@@ -7,6 +7,7 @@ import { signOut } from "../auth";
 import { generateToken, getTokenByToken } from "./tokenActions";
 import { sendMail } from "./mailAction";
 import { VerifyEmail } from "@/components/emailTemplates";
+import { redirect } from "next/navigation";
 
 type tokenData = {
   status: string;

@@ -13,13 +13,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterUser } from "@/app/actions/authActions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { VerifyEmail } from "./emailTemplates";
-import { sendMail } from "@/app/actions/mailAction";
-import { generateToken } from "@/app/actions/tokenActions";
 
 export default function SignUp({ setIsSignup }: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isSignupDone, setIsSignUpDone] = useState(false);
 
   const router = useRouter();
 
@@ -27,6 +25,7 @@ export default function SignUp({ setIsSignup }: any) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SignUpFormSchemaType>({
     resolver: zodResolver(SignUpFormSchema),
   });
@@ -40,11 +39,11 @@ export default function SignUp({ setIsSignup }: any) {
         throw new Error("Something went wrong");
       }
 
+      setIsSignUpDone(true);
       toast("User Registered Successfully");
-
-      router.push("/verify-email-alert");
-
       toast("Verify Your Email to Continue Using our Services");
+
+      reset();
     } catch (error) {
       console.log("Error while Registering User", error);
     } finally {
@@ -56,7 +55,7 @@ export default function SignUp({ setIsSignup }: any) {
     <div className="w-full border rounded-3xl p-4 border-gray-700 max-w-md mx-auto space-y-8 animate-in fade-in duration-500 slide-in-from-bottom-4">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold tracking-tight text-teal-500">
-          Create an account
+          {isSignupDone ? "Verify Your Email" : "Create an account"}
         </h1>
         <p className="text-sm text-gray-400">
           Sign up to get started with our platform
@@ -192,6 +191,9 @@ export default function SignUp({ setIsSignup }: any) {
             )}
           </Button>
         </form>
+      </div>
+      <div className="text-center mt-[-10px]">
+        {isSignupDone && <p className="text-red-600">Verify Your Email</p>}
       </div>
 
       <div className="text-center">

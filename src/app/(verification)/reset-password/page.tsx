@@ -1,7 +1,8 @@
+// app/reset-password/page.tsx
 import React from "react";
-import { verifyEmail } from "../actions/authActions";
-import EmailVerifiedSuccess from "./EmailVerifiedSuccess";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import ResetPassword from "./ResetPassword";
+import { getTokenByToken } from "../../actions/tokenActions";
+import { redirect } from "next/navigation";
 
 export default async function Page({
   searchParams,
@@ -10,20 +11,26 @@ export default async function Page({
 }) {
   const { token } = await searchParams;
 
-  const result = token ? await verifyEmail(token) : null;
+  const result = token ? await getTokenByToken(token) : null;
+
+  if (!result) {
+    redirect("/");
+  }
 
   return (
     <div>
-      {!result && (
+      {/* {!result && (
         <div className="flex flex-col gap-4 min-h-screen justify-center items-center">
           <LoadingSpinner />
         </div>
-      )}
-      {result && result.status === "success" && (
+      )} */}
+
+      {result && result?.status === "success" && (
         <div className="flex min-h-screen justify-center items-center">
-          <EmailVerifiedSuccess />
+          <ResetPassword token={token} />
         </div>
       )}
+
       {result && result.status !== "success" && (
         <div className="flex min-h-screen text-red-700 text-xl justify-center items-center">
           Something went wrong

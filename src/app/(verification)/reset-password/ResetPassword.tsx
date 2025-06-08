@@ -10,14 +10,16 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { ResetPasswordSchema, ResetPasswordSchemaType } from "@/lib/ZodSchema";
-import { ResetUserPassword } from "../actions/authActions";
+import { LogoutUser, ResetUserPassword } from "../../actions/authActions";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function ResetPassword({
   token,
 }: {
   token: string | undefined;
 }) {
+  const { status } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -47,6 +49,10 @@ export default function ResetPassword({
       if (isSuccess.status === "success") {
         setIsSuccess(true);
         toast.success("Password reset successfully!");
+
+        if (status === "authenticated") {
+          await LogoutUser();
+        }
       }
     } catch (error) {
       console.error("Password reset error:", error);
@@ -68,7 +74,10 @@ export default function ResetPassword({
               Your password has been successfully updated. You can now sign in
               with your new password.
             </p>
-            <Button className="mt-3" onClick={() => router.push("/auth")}>
+            <Button
+              className="mt-3 cursor-pointer"
+              onClick={() => router.push("/auth")}
+            >
               Login
             </Button>
           </div>
