@@ -10,6 +10,7 @@ interface VideoPlayerProps {
   muted?: boolean;
   loop?: boolean;
   className?: string;
+  onReady?: () => void; // Add this new prop
 }
 
 const VideoPlayer: React.FC<VideoPlayerProps> = ({
@@ -21,6 +22,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
   muted = true,
   loop = false,
   className = "",
+  onReady, // Destructure the new prop
 }) => {
   return (
     <div className={`relative ${className}`}>
@@ -32,6 +34,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({
         playing={playing}
         muted={muted}
         loop={loop}
+        onReady={onReady} // Pass it down to ReactPlayer
         config={{
           file: {
             attributes: {

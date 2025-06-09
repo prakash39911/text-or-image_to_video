@@ -17,9 +17,11 @@ const VideoGallery = ({ videos }: VideoGalleryProps) => {
 
   const [selectedVideo, setSelectedVideo] = useState<EachVideo | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setisLoading] = useState(true);
 
   useEffect(() => {
     setVideoArray(videos);
+    setisLoading(false);
 
     return () => {
       reset();
@@ -45,8 +47,12 @@ const VideoGallery = ({ videos }: VideoGalleryProps) => {
     document.body.removeChild(link);
   };
 
+  if (isLoading) {
+    return null;
+  }
+
   return (
-    <div className="h-full bg-zinc-900 p-6">
+    <div className="min-h-screen bg-zinc-900 p-6">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r text-transparent bg-clip-text bg-teal-500">

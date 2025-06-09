@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import clsx from "clsx";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type currentlyActiveType = {
   title: string;
@@ -33,10 +33,7 @@ export function NavMain({
     }[];
   }[];
 }) {
-  const [currentlyActive, setCurrentlyActive] = useState<currentlyActiveType>({
-    title: "Text-To-Video",
-    isActive: true,
-  });
+  const pathname = usePathname();
 
   const router = useRouter();
 
@@ -55,7 +52,7 @@ export function NavMain({
               <CollapsibleTrigger
                 className={clsx(
                   "text-xl font-semibold text-gray-300",
-                  currentlyActive?.title === item.title
+                  pathname === item.url
                     ? "text-teal-500 border border-teal-800"
                     : ""
                 )}
@@ -64,14 +61,7 @@ export function NavMain({
                 <SidebarMenuButton
                   className="mb-6 p-5 py-6 mt-2 bg-zinc-800 cursor-pointer"
                   tooltip={item.title}
-                  onClick={() => {
-                    setCurrentlyActive({ title: item.title, isActive: true });
-                    if (item.title === "Text-To-Video") {
-                      router.push("/ai/text-to-video");
-                    } else {
-                      router.push("/ai/videogallery");
-                    }
-                  }}
+                  onClick={() => router.push(item.url)}
                 >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
