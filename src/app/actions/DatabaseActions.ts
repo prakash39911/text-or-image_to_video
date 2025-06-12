@@ -182,3 +182,32 @@ export async function saveFailedStatus(videoTaskId: string) {
     throw error;
   }
 }
+
+export const updateCreditsForUser = async (userId: string) => {
+  try {
+    const user = await prisma.userData.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user || !user.credits) {
+      console.error("User and credit not found");
+      return;
+    }
+
+    const isUpdated = await prisma.userData.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        credits: user?.credits - 1,
+      },
+    });
+
+    return isUpdated;
+  } catch (error) {
+    console.error("Unable to update credit details in DB");
+    throw error;
+  }
+};

@@ -72,6 +72,7 @@ model UserData {
   email               String                @unique
   emailVerified       DateTime?
   password            String
+  credits             Int?
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   videoGenerationData videoGenerationData[]

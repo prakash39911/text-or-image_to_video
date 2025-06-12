@@ -14,9 +14,15 @@ import {
   storeImageTaskID,
 } from "@/app/actions/DatabaseActions";
 import LoadingSpinner from "./LoadingSpinner";
-import { tree } from "next/dist/build/templates/app-page";
+import { getUserCredits } from "@/app/actions/authActions";
+import Modal from "./Modal";
+import { Button } from "./ui/button";
 
-export default function ChatWindow() {
+export default function ChatWindow({
+  credit,
+}: {
+  credit: number | null | undefined;
+}) {
   const userId = useSessionData();
 
   const router = useRouter();
@@ -28,11 +34,13 @@ export default function ChatWindow() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   const pathname = usePathname();
   const isTextToVideo = pathname.includes("text");
 
   if (!userId) {
+    setShowModal(true);
     return;
   }
 
@@ -75,7 +83,10 @@ export default function ChatWindow() {
   };
 
   const handleSubmit = async () => {
-    // In a real application, you would handle the message and image submission here
+    if (!credit) {
+      setShowModal(true);
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -152,6 +163,19 @@ export default function ChatWindow() {
       {isError && (
         <div className="text-red-600 text-xl text-center py-5">{isError}</div>
       )}
+      <Modal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        title="You Don't have Enough Credits"
+      >
+        <Button
+          variant="ghost"
+          onClick={() => router.push("/")}
+          className="border border-teal-700 cursor-pointer bg-teal-700"
+        >
+          Buy Now
+        </Button>
+      </Modal>
       <div className="w-full max-w-4xl mx-auto p-4">
         <div className="bg-zinc-900 rounded-lg border border-gray-700 shadow-lg shadow-teal-600/30">
           {/* Message composition area */}

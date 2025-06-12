@@ -184,11 +184,7 @@ export const getUserCredits = async () => {
         email: session?.user?.email,
       },
       select: {
-        PurchaseDetails: {
-          select: {
-            creditPurchased: true,
-          },
-        },
+        credits: true,
       },
     });
 
@@ -197,10 +193,7 @@ export const getUserCredits = async () => {
       return;
     }
 
-    return creditData.PurchaseDetails.reduce(
-      (prev, curr) => (prev += curr.creditPurchased),
-      0
-    );
+    return creditData.credits;
   } catch (error) {
     console.log("Unable to fetch Data from Db", error);
     throw error;

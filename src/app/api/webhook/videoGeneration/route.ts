@@ -2,6 +2,7 @@ import {
   GetVideoAudioUrl,
   saveFailedStatus,
   SaveFinalVideo,
+  updateCreditsForUser,
 } from "@/app/actions/DatabaseActions";
 import {
   MergeAudioAndVideo,
@@ -133,27 +134,41 @@ const handleCompleted = async (parsedBody: any) => {
         status: isSavedFinally.status,
       };
 
-      const isSent = await SendRealTimeDataToClient(
-        isSavedFinally.userDataId,
-        isSavedFinally
-      );
+      try {
+        const isSent = await SendRealTimeDataToClient(
+          isSavedFinally.userDataId,
+          isSavedFinally
+        );
+      } catch (error) {
+        console.error("Pusher error in video webhook");
+      }
 
-      await sendMail(
-        "TextToVideo@resend.dev",
-        isSavedFinally.UserData.email,
-        "Video Generation Complete",
-        VideoNotificationEmail({
-          firstName: isSavedFinally.UserData.name,
-          prompt: isSavedFinally.userPrompt,
-          thumbnailUrl: isSavedFinally.imageUrl!,
-          videoUrl: isSavedFinally.finalVideoUrl!,
-        })
-      );
+      try {
+        await sendMail(
+          "TextToVideo@resend.dev",
+          isSavedFinally.UserData.email,
+          "Video Generation Complete",
+          VideoNotificationEmail({
+            firstName: isSavedFinally.UserData.name,
+            prompt: isSavedFinally.userPrompt,
+            thumbnailUrl: isSavedFinally.imageUrl!,
+            videoUrl: isSavedFinally.finalVideoUrl!,
+          })
+        );
+      } catch (error) {
+        console.error("Send email got failed in video webhook");
+      }
 
       console.log(
         "Video Generation along With Audio is finally Complete",
         response.finalVideoUrl
       );
+    }
+
+    const isCreditUpdated = await updateCreditsForUser(isSaved.userDataId);
+
+    if (isCreditUpdated) {
+      console.log("Credits Updated for User");
     }
 
     return Response.json(

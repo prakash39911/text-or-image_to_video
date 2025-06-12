@@ -29,7 +29,7 @@ export default async function AiLayout({
                 className="w-1/2"
               />
               <div className="ml-30">
-                <CreditsWidget credits={credit} />
+                <CreditsWidget credits={credit ? credit : 0} />
               </div>
             </div>
           </header>

@@ -6103,8 +6103,18 @@ export namespace Prisma {
 
   export type AggregateUserData = {
     _count: UserDataCountAggregateOutputType | null
+    _avg: UserDataAvgAggregateOutputType | null
+    _sum: UserDataSumAggregateOutputType | null
     _min: UserDataMinAggregateOutputType | null
     _max: UserDataMaxAggregateOutputType | null
+  }
+
+  export type UserDataAvgAggregateOutputType = {
+    credits: number | null
+  }
+
+  export type UserDataSumAggregateOutputType = {
+    credits: number | null
   }
 
   export type UserDataMinAggregateOutputType = {
@@ -6113,6 +6123,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     password: string | null
+    credits: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6123,6 +6134,7 @@ export namespace Prisma {
     email: string | null
     emailVerified: Date | null
     password: string | null
+    credits: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6133,11 +6145,20 @@ export namespace Prisma {
     email: number
     emailVerified: number
     password: number
+    credits: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
+
+  export type UserDataAvgAggregateInputType = {
+    credits?: true
+  }
+
+  export type UserDataSumAggregateInputType = {
+    credits?: true
+  }
 
   export type UserDataMinAggregateInputType = {
     id?: true
@@ -6145,6 +6166,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     password?: true
+    credits?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6155,6 +6177,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     password?: true
+    credits?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6165,6 +6188,7 @@ export namespace Prisma {
     email?: true
     emailVerified?: true
     password?: true
+    credits?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6208,6 +6232,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserDataAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserDataSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserDataMinAggregateInputType
@@ -6238,6 +6274,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserDataCountAggregateInputType | true
+    _avg?: UserDataAvgAggregateInputType
+    _sum?: UserDataSumAggregateInputType
     _min?: UserDataMinAggregateInputType
     _max?: UserDataMaxAggregateInputType
   }
@@ -6248,9 +6286,12 @@ export namespace Prisma {
     email: string
     emailVerified: Date | null
     password: string
+    credits: number | null
     createdAt: Date
     updatedAt: Date
     _count: UserDataCountAggregateOutputType | null
+    _avg: UserDataAvgAggregateOutputType | null
+    _sum: UserDataSumAggregateOutputType | null
     _min: UserDataMinAggregateOutputType | null
     _max: UserDataMaxAggregateOutputType | null
   }
@@ -6275,6 +6316,7 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     password?: boolean
+    credits?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     videoGenerationData?: boolean | UserData$videoGenerationDataArgs<ExtArgs>
@@ -6288,6 +6330,7 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     password?: boolean
+    credits?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["userData"]>
@@ -6298,6 +6341,7 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     password?: boolean
+    credits?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["userData"]>
@@ -6308,11 +6352,12 @@ export namespace Prisma {
     email?: boolean
     emailVerified?: boolean
     password?: boolean
+    credits?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "createdAt" | "updatedAt", ExtArgs["result"]["userData"]>
+  export type UserDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "credits" | "createdAt" | "updatedAt", ExtArgs["result"]["userData"]>
   export type UserDataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     videoGenerationData?: boolean | UserData$videoGenerationDataArgs<ExtArgs>
     PurchaseDetails?: boolean | UserData$PurchaseDetailsArgs<ExtArgs>
@@ -6333,6 +6378,7 @@ export namespace Prisma {
       email: string
       emailVerified: Date | null
       password: string
+      credits: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["userData"]>
@@ -6765,6 +6811,7 @@ export namespace Prisma {
     readonly email: FieldRef<"UserData", 'String'>
     readonly emailVerified: FieldRef<"UserData", 'DateTime'>
     readonly password: FieldRef<"UserData", 'String'>
+    readonly credits: FieldRef<"UserData", 'Int'>
     readonly createdAt: FieldRef<"UserData", 'DateTime'>
     readonly updatedAt: FieldRef<"UserData", 'DateTime'>
   }
@@ -11835,6 +11882,7 @@ export namespace Prisma {
     email: 'email',
     emailVerified: 'emailVerified',
     password: 'password',
+    credits: 'credits',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12310,6 +12358,7 @@ export namespace Prisma {
     email?: StringFilter<"UserData"> | string
     emailVerified?: DateTimeNullableFilter<"UserData"> | Date | string | null
     password?: StringFilter<"UserData"> | string
+    credits?: IntNullableFilter<"UserData"> | number | null
     createdAt?: DateTimeFilter<"UserData"> | Date | string
     updatedAt?: DateTimeFilter<"UserData"> | Date | string
     videoGenerationData?: VideoGenerationDataListRelationFilter
@@ -12322,6 +12371,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
     password?: SortOrder
+    credits?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     videoGenerationData?: videoGenerationDataOrderByRelationAggregateInput
@@ -12337,6 +12387,7 @@ export namespace Prisma {
     name?: StringFilter<"UserData"> | string
     emailVerified?: DateTimeNullableFilter<"UserData"> | Date | string | null
     password?: StringFilter<"UserData"> | string
+    credits?: IntNullableFilter<"UserData"> | number | null
     createdAt?: DateTimeFilter<"UserData"> | Date | string
     updatedAt?: DateTimeFilter<"UserData"> | Date | string
     videoGenerationData?: VideoGenerationDataListRelationFilter
@@ -12349,11 +12400,14 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
     password?: SortOrder
+    credits?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserDataCountOrderByAggregateInput
+    _avg?: UserDataAvgOrderByAggregateInput
     _max?: UserDataMaxOrderByAggregateInput
     _min?: UserDataMinOrderByAggregateInput
+    _sum?: UserDataSumOrderByAggregateInput
   }
 
   export type UserDataScalarWhereWithAggregatesInput = {
@@ -12365,6 +12419,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"UserData"> | string
     emailVerified?: DateTimeNullableWithAggregatesFilter<"UserData"> | Date | string | null
     password?: StringWithAggregatesFilter<"UserData"> | string
+    credits?: IntNullableWithAggregatesFilter<"UserData"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"UserData"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserData"> | Date | string
   }
@@ -12991,6 +13046,7 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password: string
+    credits?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     videoGenerationData?: videoGenerationDataCreateNestedManyWithoutUserDataInput
@@ -13003,6 +13059,7 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password: string
+    credits?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     videoGenerationData?: videoGenerationDataUncheckedCreateNestedManyWithoutUserDataInput
@@ -13015,6 +13072,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     videoGenerationData?: videoGenerationDataUpdateManyWithoutUserDataNestedInput
@@ -13027,6 +13085,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     videoGenerationData?: videoGenerationDataUncheckedUpdateManyWithoutUserDataNestedInput
@@ -13039,6 +13098,7 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password: string
+    credits?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13049,6 +13109,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13059,6 +13120,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13772,8 +13834,13 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
+    credits?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UserDataAvgOrderByAggregateInput = {
+    credits?: SortOrder
   }
 
   export type UserDataMaxOrderByAggregateInput = {
@@ -13782,6 +13849,7 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
+    credits?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13792,8 +13860,13 @@ export namespace Prisma {
     email?: SortOrder
     emailVerified?: SortOrder
     password?: SortOrder
+    credits?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UserDataSumOrderByAggregateInput = {
+    credits?: SortOrder
   }
 
   export type EnumvideoGenerationStatusFilter<$PrismaModel = never> = {
@@ -15047,6 +15120,7 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password: string
+    credits?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     PurchaseDetails?: PurchaseDetailsCreateNestedManyWithoutUserLinkedInput
@@ -15058,6 +15132,7 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password: string
+    credits?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     PurchaseDetails?: PurchaseDetailsUncheckedCreateNestedManyWithoutUserLinkedInput
@@ -15085,6 +15160,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     PurchaseDetails?: PurchaseDetailsUpdateManyWithoutUserLinkedNestedInput
@@ -15096,6 +15172,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     PurchaseDetails?: PurchaseDetailsUncheckedUpdateManyWithoutUserLinkedNestedInput
@@ -15161,6 +15238,7 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password: string
+    credits?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     videoGenerationData?: videoGenerationDataCreateNestedManyWithoutUserDataInput
@@ -15172,6 +15250,7 @@ export namespace Prisma {
     email: string
     emailVerified?: Date | string | null
     password: string
+    credits?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     videoGenerationData?: videoGenerationDataUncheckedCreateNestedManyWithoutUserDataInput
@@ -15222,6 +15301,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     videoGenerationData?: videoGenerationDataUpdateManyWithoutUserDataNestedInput
@@ -15233,6 +15313,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     videoGenerationData?: videoGenerationDataUncheckedUpdateManyWithoutUserDataNestedInput

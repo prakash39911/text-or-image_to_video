@@ -13,7 +13,7 @@ const LandingPage = async ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
   return (
     <div className="min-h-screen overflow-hidden text-white">
-      <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg')] bg-cover bg-center opacity-5 z-0"></div>
+      <div className="absolute inset-0 bg-cover bg-center opacity-5 z-0"></div>
       <div className="relative z-10">
         <Header isLoggedIn={isLoggedIn} credit={credit ? credit : 0} />
         <main>
