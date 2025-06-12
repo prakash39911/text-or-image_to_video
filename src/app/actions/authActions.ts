@@ -3,7 +3,7 @@
 import { SignUpFormSchema, SignUpFormSchemaType } from "@/lib/ZodSchema";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/PrismaClient";
-import { signOut } from "../auth";
+import { auth, signOut } from "../auth";
 import { generateToken, getTokenByToken } from "./tokenActions";
 import { sendMail } from "./mailAction";
 import { VerifyEmail } from "@/components/emailTemplates";
@@ -166,6 +166,43 @@ export const ResetUserPassword = async (token: string, password: string) => {
     return { status: "success", message: "password reset successfull" };
   } catch (error) {
     console.log("Error while resetting password", error);
+    throw error;
+  }
+};
+
+export const getUserCredits = async () => {
+  const session = await auth();
+
+  if (!session?.user.email) {
+    console.error("User is not logged In");
+    return;
+  }
+
+  try {
+    const creditData = await prisma.userData.findFirst({
+      where: {
+        email: session?.user?.email,
+      },
+      select: {
+        PurchaseDetails: {
+          select: {
+            creditPurchased: true,
+          },
+        },
+      },
+    });
+
+    if (!creditData) {
+      console.error("Credit data not found");
+      return;
+    }
+
+    return creditData.PurchaseDetails.reduce(
+      (prev, curr) => (prev += curr.creditPurchased),
+      0
+    );
+  } catch (error) {
+    console.log("Unable to fetch Data from Db", error);
     throw error;
   }
 };

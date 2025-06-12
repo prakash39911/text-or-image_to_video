@@ -6,8 +6,15 @@ import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { LogoutUser } from "@/app/actions/authActions";
 import { toast } from "sonner";
+import CreditsWidget from "../CreditWidget";
 
-const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+const Header = ({
+  isLoggedIn,
+  credit,
+}: {
+  isLoggedIn: boolean;
+  credit: number;
+}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -66,6 +73,7 @@ const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
             {isLoggedIn ? (
               <div className="flex gap-2">
+                <CreditsWidget credits={credit} />
                 <Button
                   variant="ghost"
                   className="border border-teal-400 cursor-pointer"

@@ -1,12 +1,20 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import CreditsWidget from "@/components/CreditWidget";
 import ScrollingComponent from "@/components/ScrollingComponent";
 import {
   SidebarProvider,
   SidebarInset,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { getUserCredits } from "../actions/authActions";
 
-export default function AiLayout({ children }: { children: React.ReactNode }) {
+export default async function AiLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const credit = await getUserCredits();
+
   return (
     <SidebarProvider>
       <div className="flex w-full">
@@ -20,6 +28,9 @@ export default function AiLayout({ children }: { children: React.ReactNode }) {
                 speed="slow"
                 className="w-1/2"
               />
+              <div className="ml-30">
+                <CreditsWidget credits={credit} />
+              </div>
             </div>
           </header>
           <div>
