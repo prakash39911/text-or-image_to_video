@@ -161,3 +161,49 @@ export const VideoNotificationEmail: React.FC<
     </p>
   </div>
 );
+
+export const CreditPurchaseEmail: React.FC<{
+  firstName?: string;
+  credits: number;
+  amountPaid: number;
+}> = ({ firstName, credits, amountPaid }) => (
+  <div
+    style={{
+      backgroundColor: "#ffffff",
+      padding: "24px",
+      borderRadius: "8px",
+      fontFamily: "sans-serif",
+      color: "#333",
+    }}
+  >
+    <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>
+      ✅ Purchase Successful!
+    </h2>
+    <p style={{ marginBottom: "8px" }}>Hi {firstName},</p>
+    <p style={{ marginBottom: "16px" }}>
+      Thank you for your purchase. You have successfully bought:
+    </p>
+    <ul
+      style={{
+        backgroundColor: "#f9fafb",
+        padding: "16px",
+        borderRadius: "8px",
+        listStyle: "none",
+        marginBottom: "16px",
+      }}
+    >
+      <li>
+        <strong>Credits:</strong> {credits}
+      </li>
+      <li>
+        <strong>Amount Paid:</strong> ₹{amountPaid}
+      </li>
+    </ul>
+    <p style={{ marginBottom: "16px" }}>
+      You can now use your credits to access premium features.
+    </p>
+    <p style={{ fontSize: "12px", color: "#888", marginTop: "24px" }}>
+      If you have any questions, feel free to contact our support.
+    </p>
+  </div>
+);

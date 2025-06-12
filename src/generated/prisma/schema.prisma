@@ -75,6 +75,7 @@ model UserData {
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   videoGenerationData videoGenerationData[]
+  PurchaseDetails     PurchaseDetails[]
 }
 
 model videoGenerationData {
@@ -118,4 +119,37 @@ model token {
 enum tokenType {
   EMAIL_VERIFICATION
   PASSWORD_RESET
+}
+
+model PackageDetails {
+  id              String            @id @default(cuid())
+  key             String            @unique
+  credit          Int
+  originalPrice   Int
+  sellingPrice    Int
+  createdAt       DateTime          @default(now())
+  PurchaseDetails PurchaseDetails[]
+}
+
+model PurchaseDetails {
+  id               String         @id @default(cuid())
+  order_id         String
+  amount           Int
+  currency         String
+  payment_status   payment_status
+  email            String
+  contact          String?
+  invoice_name     String
+  creditPurchased  Int
+  createdAt        DateTime
+  packageDetailsId String
+  userId           String
+  userLinked       UserData       @relation(fields: [userId], references: [id])
+  packagePurchased PackageDetails @relation(fields: [packageDetailsId], references: [id])
+}
+
+enum payment_status {
+  PENDING
+  CAPTURED
+  FAILED
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import CTASection from "./CTASection";
 import ExamplesSection from "./ExamplesSection";
 import FeaturesSection from "./FeaturesSection";
 import Footer from "./Footer";
 import Header from "./Header";
 import HeroSection from "./HeroSection";
 import HowItWorksSection from "./HowItWorksSection";
+import BuyNowSection from "./BuyNowSection";
 
 const LandingPage = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   return (
@@ -18,7 +18,7 @@ const LandingPage = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           <FeaturesSection />
           <HowItWorksSection />
           <ExamplesSection />
-          <CTASection isLoggedIn={isLoggedIn} />
+          <BuyNowSection />
         </main>
         <Footer />
       </div>

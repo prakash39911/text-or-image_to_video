@@ -52,17 +52,13 @@ export default function VerifySuccessPage() {
   }, [status, session, router]);
 
   return (
-    <div className="flex items-center justify-center py-12">
-      <div className="w-full border rounded-3xl p-8 border-gray-700 max-w-md mx-auto space-y-8 animate-in fade-in duration-500 slide-in-from-bottom-10">
-        <div className="flex flex-col gap-2 items-center justify-center">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-teal-500">
-              {message}
-            </h1>
-          </div>
-          <div>
-            <LoadingSpinner />
-          </div>
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="border rounded-3xl p-8 border-gray-700 max-w-md w-full space-y-8 animate-in fade-in duration-500 slide-in-from-bottom-10">
+        <div className="flex flex-col gap-6 items-center justify-center text-center">
+          <h1 className="text-2xl font-bold tracking-tight text-teal-500">
+            {message}
+          </h1>
+          <LoadingSpinner />
         </div>
       </div>
     </div>

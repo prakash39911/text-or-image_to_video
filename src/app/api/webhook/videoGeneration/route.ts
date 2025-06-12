@@ -140,7 +140,7 @@ const handleCompleted = async (parsedBody: any) => {
 
       await sendMail(
         "TextToVideo@resend.dev",
-        "prakash39911@gmail.com",
+        isSavedFinally.UserData.email,
         "Video Generation Complete",
         VideoNotificationEmail({
           firstName: isSavedFinally.UserData.name,

@@ -12,14 +12,9 @@ export default function LoadingSpinner({
   className,
 }: LoadingSpinnerProps) {
   return (
-    <div
-      className={cn(
-        "flex items-center justify-center vertical-center",
-        className
-      )}
-    >
+    <div className={cn("flex items-center justify-center", className)}>
       <Loader
-        className="animate-spin text-teal-500"
+        className="animate-spin text-red-600"
         size={size}
         strokeWidth={2.5}
       />

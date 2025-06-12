@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.8.2
- * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+ * Prisma Client JS version: 6.9.0
+ * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
  */
 Prisma.prismaVersion = {
-  client: "6.8.2",
-  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  client: "6.9.0",
+  engine: "81e4af48011447c3cc503a190e86995b66d2a28e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -199,6 +199,30 @@ exports.Prisma.TokenScalarFieldEnum = {
   type: 'type'
 };
 
+exports.Prisma.PackageDetailsScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  credit: 'credit',
+  originalPrice: 'originalPrice',
+  sellingPrice: 'sellingPrice',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PurchaseDetailsScalarFieldEnum = {
+  id: 'id',
+  order_id: 'order_id',
+  amount: 'amount',
+  currency: 'currency',
+  payment_status: 'payment_status',
+  email: 'email',
+  contact: 'contact',
+  invoice_name: 'invoice_name',
+  creditPurchased: 'creditPurchased',
+  createdAt: 'createdAt',
+  packageDetailsId: 'packageDetailsId',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -224,6 +248,12 @@ exports.tokenType = exports.$Enums.tokenType = {
   PASSWORD_RESET: 'PASSWORD_RESET'
 };
 
+exports.payment_status = exports.$Enums.payment_status = {
+  PENDING: 'PENDING',
+  CAPTURED: 'CAPTURED',
+  FAILED: 'FAILED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
@@ -231,7 +261,9 @@ exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   UserData: 'UserData',
   videoGenerationData: 'videoGenerationData',
-  token: 'token'
+  token: 'token',
+  PackageDetails: 'PackageDetails',
+  PurchaseDetails: 'PurchaseDetails'
 };
 
 /**

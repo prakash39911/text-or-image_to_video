@@ -1,7 +1,6 @@
 import { pusherClient } from "@/lib/pusher";
 import { Channel } from "pusher-js";
 import { useCallback, useEffect, useRef } from "react";
-import { toast } from "sonner";
 import { videoStore } from "@/lib/store/videoStore";
 import {
   showErrorToast,
@@ -50,6 +49,15 @@ export const useNotificationChannel = (userId: string | null) => {
     [removeVideo]
   );
 
+  const handlePaymentNotification = useCallback(async (data: any) => {
+    console.log("Data received in handlePaymentNotification", data);
+
+    showSuccessToast(
+      "You hava successfully paid the amount",
+      `Paid ${data.amount / 100} Rs.`
+    );
+  }, []);
+
   useEffect(() => {
     if (!userId) return;
 
@@ -64,6 +72,8 @@ export const useNotificationChannel = (userId: string | null) => {
         "videoGeneration:failed",
         handleVideoGenerationFailedNotification
       );
+
+      channelRef.current.bind("payment:successfull", handlePaymentNotification);
     }
 
     return () => {
@@ -80,6 +90,11 @@ export const useNotificationChannel = (userId: string | null) => {
           handleVideoGenerationFailedNotification
         );
 
+        channelRef.current.unbind(
+          "payment:successfull",
+          handlePaymentNotification
+        );
+
         channelRef.current = null;
       }
     };
@@ -87,5 +102,6 @@ export const useNotificationChannel = (userId: string | null) => {
     userId,
     handleVideoGeneratedNotification,
     handleVideoGenerationFailedNotification,
+    handlePaymentNotification,
   ]);
 };
