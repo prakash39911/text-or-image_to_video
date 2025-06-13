@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Coins } from "lucide-react";
+import { creditStore } from "@/lib/store/creditStore";
 
 interface CreditComponentProps {
   credits?: number;
@@ -13,6 +14,12 @@ const CreditWidget: React.FC<CreditComponentProps> = ({
   className = "",
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const setCredit = creditStore((state) => state.setCredit);
+  const globalCredits = creditStore((state) => state.credits);
+
+  useEffect(() => {
+    setCredit(credits);
+  }, [setCredit, credits]);
 
   return (
     <div className={`relative inline-block ${className}`}>
@@ -30,7 +37,9 @@ const CreditWidget: React.FC<CreditComponentProps> = ({
         </div>
 
         {/* Credits Display */}
-        <span className="text-teal-300 font-medium text-sm">{credits}</span>
+        <span className="text-teal-300 font-medium text-sm">
+          {globalCredits}
+        </span>
       </div>
 
       {/* Enhanced Tooltip Below Icon */}
@@ -44,7 +53,7 @@ const CreditWidget: React.FC<CreditComponentProps> = ({
         <div className="flex flex-col space-y-1">
           <div className="flex items-center space-x-2">
             <span className="text-teal-400">Credits:</span>
-            <span className="text-white font-bold">{credits}</span>
+            <span className="text-white font-bold">{globalCredits}</span>
           </div>
         </div>
 

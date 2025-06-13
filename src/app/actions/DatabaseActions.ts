@@ -198,7 +198,7 @@ export const updateCreditsForUser = async (userId: string) => {
 
     const isUpdated = await prisma.userData.update({
       where: {
-        id: userId,
+        id: user.id,
       },
       data: {
         credits: user?.credits - 1,

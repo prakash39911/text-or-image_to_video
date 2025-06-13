@@ -8,23 +8,16 @@ import {
   GenerateImage,
   GenerateImagePrompt,
 } from "@/app/actions/GenerateVideoActions";
-import { useSessionData } from "@/hooks/useSessionData";
 import {
   createVideoFirstEntry,
   storeImageTaskID,
 } from "@/app/actions/DatabaseActions";
 import LoadingSpinner from "./LoadingSpinner";
-import { getUserCredits } from "@/app/actions/authActions";
 import Modal from "./Modal";
 import { Button } from "./ui/button";
+import { getUserCredits } from "@/app/actions/authActions";
 
-export default function ChatWindow({
-  credit,
-}: {
-  credit: number | null | undefined;
-}) {
-  const userId = useSessionData();
-
+export default function ChatWindow() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isError, setIsError] = useState<string | null>(null);
@@ -38,11 +31,6 @@ export default function ChatWindow({
 
   const pathname = usePathname();
   const isTextToVideo = pathname.includes("text");
-
-  if (!userId) {
-    setShowModal(true);
-    return;
-  }
 
   const handleMessageChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setMessage(e.target.value);
@@ -83,6 +71,8 @@ export default function ChatWindow({
   };
 
   const handleSubmit = async () => {
+    const credit = await getUserCredits();
+
     if (!credit) {
       setShowModal(true);
       return;

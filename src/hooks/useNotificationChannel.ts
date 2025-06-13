@@ -6,6 +6,7 @@ import {
   showErrorToast,
   showSuccessToast,
 } from "@/components/toastComponet/toastComponent";
+import { creditStore } from "@/lib/store/creditStore";
 
 type incomingDataPusher = {
   videoObj: EachVideo;
@@ -16,6 +17,7 @@ export const useNotificationChannel = (userId: string | null) => {
   const channelRef = useRef<Channel | null>(null);
   const updateVideoArray = videoStore((state) => state.updateVideoArray);
   const removeVideo = videoStore((state) => state.removeVideo);
+  const removeCredit = creditStore((state) => state.removeCredits);
 
   const handleVideoGeneratedNotification = useCallback(
     async (data: incomingDataPusher) => {
@@ -29,10 +31,11 @@ export const useNotificationChannel = (userId: string | null) => {
         `For the prompt ${data.videoObj.title}`
       );
 
+      removeCredit();
       removeVideo(data.videoObj.id);
       updateVideoArray(data.videoObj);
     },
-    [updateVideoArray, removeVideo]
+    [updateVideoArray, removeVideo, removeCredit]
   );
 
   const handleVideoGenerationFailedNotification = useCallback(

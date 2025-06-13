@@ -163,12 +163,14 @@ const handleCompleted = async (parsedBody: any) => {
         "Video Generation along With Audio is finally Complete",
         response.finalVideoUrl
       );
-    }
 
-    const isCreditUpdated = await updateCreditsForUser(isSaved.userDataId);
+      const isCreditUpdated = await updateCreditsForUser(
+        isSavedFinally.userDataId
+      );
 
-    if (isCreditUpdated) {
-      console.log("Credits Updated for User");
+      if (isCreditUpdated) {
+        console.log("Credits Updated for User");
+      }
     }
 
     return Response.json(
