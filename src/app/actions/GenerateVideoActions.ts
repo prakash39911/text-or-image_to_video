@@ -82,7 +82,7 @@ export async function GenerateImage(imagePrompt: string) {
           prompt: imagePrompt,
           num_images: 1,
           aspect_ratio: "social_story_9_16",
-          webhook_url: `${process.env.DOMAIN_ADD}/api/webhook/imageGeneration`,
+          webhook_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/webhook/imageGeneration`,
         },
         {
           headers: {
@@ -210,7 +210,7 @@ export async function GenerateVideo(videoPrompt: string, ImageUrl: string) {
           negative_prompt: negative_prompt,
           duration: "5",
           cfg_scale: 0.5,
-          webhook_url: `${process.env.DOMAIN_ADD}/api/webhook/videoGeneration`,
+          webhook_url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/webhook/videoGeneration`,
         },
         {
           headers: {
