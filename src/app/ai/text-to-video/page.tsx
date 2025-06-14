@@ -1,4 +1,3 @@
-import { getUserCredits } from "@/app/actions/authActions";
 import ChatWindow from "@/components/ChatWindow";
 
 export default async function Page() {

@@ -1,7 +1,5 @@
 import { GetAllGeneratedVideos } from "@/app/actions/galleryActions";
-import { auth } from "@/app/auth";
 import VideoGallery from "@/components/videoGallery/VideoGallery";
-import { CalcNoOfVideosInProgress } from "@/lib/utilityFunctions";
 import React from "react";
 
 export default async function page() {

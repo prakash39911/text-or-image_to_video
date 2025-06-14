@@ -1,5 +1,4 @@
 import crypto from "crypto";
-import { prisma } from "./PrismaClient";
 
 export function generateSignature(secretKey: string, contentToSign: string) {
   const secretKeyBytes = Buffer.from(secretKey, "utf-8");
