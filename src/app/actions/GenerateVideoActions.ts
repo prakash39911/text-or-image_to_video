@@ -3,7 +3,7 @@
 import { cloudinary } from "@/lib/cloudinary";
 import { geminiAI } from "@/lib/GeminiApi";
 import { pusherServer } from "@/lib/pusher";
-import { getMinutesDifference } from "@/lib/utilityFunctions";
+import { getMinutesDifference, isRetryableError } from "@/lib/utilityFunctions";
 import axios from "axios";
 import { error } from "console";
 
@@ -64,32 +64,68 @@ export async function GenerateImagePrompt(userInput: string) {
     return response.text;
   } catch (error) {
     console.log("Error while generating image prompt", error);
+    throw error;
   }
 }
 
 export async function GenerateImage(imagePrompt: string) {
-  try {
-    const response = await axios.post(
-      `${process.env.FREEPIK_BASE_URL}/v1/ai/text-to-image/imagen3`,
-      {
-        prompt: imagePrompt,
-        num_images: 1,
-        aspect_ratio: "social_story_9_16",
-        webhook_url: `${process.env.DOMAIN_ADD}/api/webhook/imageGeneration`,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-freepik-api-key": `${process.env.FREEPIK_API_KEY}`,
-        },
-      }
-    );
+  const maxTries = 3;
+  const retryDelay = 1000; // delay in milliseconds
 
-    return response.data;
-  } catch (error) {
-    console.log("Unable to Generate Image", error);
-    throw error;
+  let lastError: any;
+
+  for (let attempt = 1; attempt <= maxTries; attempt++) {
+    try {
+      const response = await axios.post(
+        `${process.env.FREEPIK_BASE_URL}/v1/ai/text-to-image/imagen3`,
+        {
+          prompt: imagePrompt,
+          num_images: 1,
+          aspect_ratio: "social_story_9_16",
+          webhook_url: `${process.env.DOMAIN_ADD}/api/webhook/imageGeneration`,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-freepik-api-key": `${process.env.FREEPIK_API_KEY}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error: any) {
+      lastError = error;
+
+      console.error(
+        `Image generation attempt ${attempt} failed:`,
+        error.message
+      );
+
+      const isRetryable = isRetryableError(error);
+
+      if (attempt === maxTries || !isRetryable) {
+        break;
+      }
+
+      //  If an API has a brief outage, many instances of your application might start their retry cycles at the exact same time.
+      // With pure exponential backoff, they will all retry simultaneously (at 1s, then 2s, then 4s, etc.), potentially overwhelming the API as it comes back online. This is known as the "thundering herd" problem.
+      // Solution: Add a small, random amount of time to the delay.
+      //  This "jitter" spreads out the retry attempts from different clients.
+
+      const baseDelay = retryDelay * Math.pow(2, attempt);
+      const jitter = baseDelay * 0.2 * Math.random(); // Add up to 20% jitter
+      const delay = baseDelay + jitter;
+
+      console.log(`Retrying in ${Math.round(delay)}ms...`);
+
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
   }
+
+  // We reach here means, all attempts failed---
+  throw new Error(`Image generation failed after ${maxTries} attempts.`, {
+    cause: lastError,
+  });
 }
 
 export async function GetImageDataForTaskID(taskId: string) {
@@ -158,41 +194,61 @@ export async function GenerateVideoPrompt(base64ImageData: string) {
 }
 
 export async function GenerateVideo(videoPrompt: string, ImageUrl: string) {
+  const maxTries = 3;
+  const delayInMs = 1000;
   const negative_prompt = `low resolution, blurry, dull colors, bad lighting, overexposed, underexposed, unnatural motion, stiff animation, messy composition, jerky camera movements`;
 
-  try {
-    const response = await axios.post(
-      `${process.env.FREEPIK_BASE_URL}/v1/ai/image-to-video/kling-pro`,
-      {
-        prompt: videoPrompt,
-        image: ImageUrl,
-        negative_prompt: negative_prompt,
-        duration: "5",
-        cfg_scale: 0.5,
-        webhook_url: `${process.env.DOMAIN_ADD}/api/webhook/videoGeneration`,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-freepik-api-key": process.env.FREEPIK_API_KEY,
+  let lastError: any;
+
+  for (let attempt = 1; attempt <= maxTries; attempt++) {
+    try {
+      const response = await axios.post(
+        `${process.env.FREEPIK_BASE_URL}/v1/ai/image-to-video/kling-pro`,
+        {
+          prompt: videoPrompt,
+          image: ImageUrl,
+          negative_prompt: negative_prompt,
+          duration: "5",
+          cfg_scale: 0.5,
+          webhook_url: `${process.env.DOMAIN_ADD}/api/webhook/videoGeneration`,
         },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-freepik-api-key": process.env.FREEPIK_API_KEY,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error: any) {
+      lastError = error;
+
+      console.error(
+        `Video generation attempt ${attempt} failed:--`,
+        error.message
+      );
+
+      const isRetryable = isRetryableError(error);
+
+      if (attempt === maxTries || !isRetryable) {
+        break;
       }
-    );
 
-    return response.data;
-  } catch (error: any) {
-    // Log the actual error response for debugging
-    if (error.response) {
-      console.log("API Error Response:", error.response.data);
-      console.log("API Error Status:", error.response.status);
+      const baseDelay = delayInMs * Math.pow(2, attempt);
+      const jitter = baseDelay * 0.2 * Math.random(); // Add up to 20% jitter
+      const delay = baseDelay + jitter;
+
+      console.log(`Retrying in ${Math.round(delay)}ms...`);
+
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
-
-    console.log(
-      "Unable to make successful request for video generation",
-      error.message
-    );
-    throw error;
   }
+
+  // We reach here means, all attempts failed---
+  throw new Error(`Image generation failed after ${maxTries} attempts.`, {
+    cause: lastError,
+  });
 }
 
 export const GetVideoDataForTaskId = async (taskId: string) => {
@@ -282,45 +338,72 @@ export async function GenerateMusicPrompt(
 }
 
 export async function GenerateMusic(musicPrompt: string) {
-  try {
-    console.log("Music Prompt------", musicPrompt);
+  const maxTries = 3;
+  const delayInMS = 1000;
 
-    const response = await axios.post(
-      `${process.env.SEGMIND_BASE_URL}/v1/meta-musicgen-medium`,
-      {
-        prompt: musicPrompt,
-        duration: 6,
-        seed: 42,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-api-key": `${process.env.SEGMIND_API_KEY}`,
+  let lastError: any;
+
+  for (let attempt = 1; attempt <= maxTries; attempt++) {
+    try {
+      const response = await axios.post(
+        `${process.env.SEGMIND_BASE_URL}/v1/meta-musicgen-medium`,
+        {
+          prompt: musicPrompt,
+          duration: 6,
+          seed: 42,
         },
-        responseType: "arraybuffer",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": `${process.env.SEGMIND_API_KEY}`,
+          },
+          responseType: "arraybuffer",
+        }
+      );
+
+      const buffer = Buffer.from(response.data);
+
+      // Convert to base64 data URI
+      const base64Audio = buffer.toString("base64");
+      const dataUri = `data:audio/wav;base64,${base64Audio}`;
+
+      // Upload to Cloudinary
+      const cloudinaryResponse = await cloudinary.uploader.upload(dataUri, {
+        resource_type: "video", // required for audio
+        folder: "text-to-video/audio",
+      });
+
+      return {
+        secure_url: cloudinaryResponse.secure_url,
+        public_id: cloudinaryResponse.public_id,
+      };
+    } catch (error: any) {
+      lastError = error;
+
+      console.error(
+        `Music generation attempt ${attempt} failed:`,
+        error.message
+      );
+
+      const isRetryable = isRetryableError(error);
+
+      if (attempt === maxTries || !isRetryable) {
+        break;
       }
-    );
 
-    const buffer = Buffer.from(response.data);
+      const baseDelay = delayInMS * Math.pow(2, attempt);
+      const jitter = baseDelay * 0.2 * Math.random(); // Add up to 20% jitter
+      const delay = baseDelay + jitter;
 
-    // Convert to base64 data URI
-    const base64Audio = buffer.toString("base64");
-    const dataUri = `data:audio/wav;base64,${base64Audio}`;
+      console.log(`Retrying in ${Math.round(delay)}ms...`);
 
-    // Upload to Cloudinary
-    const cloudinaryResponse = await cloudinary.uploader.upload(dataUri, {
-      resource_type: "video", // required for audio
-      folder: "text-to-video/audio",
-    });
-
-    return {
-      secure_url: cloudinaryResponse.secure_url,
-      public_id: cloudinaryResponse.public_id,
-    };
-  } catch (error) {
-    console.error("Unable to Make api call to generate music", error);
-    throw error;
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
   }
+
+  throw new Error(`Music generation failed after ${maxTries} attempts`, {
+    cause: lastError,
+  });
 }
 
 export async function MergeAudioAndVideo(videoUrl: string, audioUrl: string) {

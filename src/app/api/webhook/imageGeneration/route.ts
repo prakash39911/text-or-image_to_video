@@ -90,7 +90,7 @@ async function handleCompleted(body: any) {
     const generatedVideoPrompt = await GenerateVideoPrompt(base64ImageData);
 
     if (!generatedVideoPrompt) {
-      console.log("Prompt was not generated");
+      console.log("Video Prompt was not generated");
       return;
     }
 

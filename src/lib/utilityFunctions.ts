@@ -67,22 +67,21 @@ export function getMinutesDifference(
   return Math.floor(diffInMinutes);
 }
 
-// export async function waitForImageTaskID(
-//   taskId: string,
-//   retries = 3,
-//   delay = 1000
-// ) {
-//   for (let i = 0; i < retries; i++) {
-//     const record = await prisma.videoGenerationData.findFirst({
-//       where: {
-//         imageTaskId: taskId,
-//       },
-//     });
+export function isRetryableError(error: any): boolean {
+  // Network errors, timeouts, and 5xx server errors are retryable
+  if (
+    error.code === "ECONNRESET" ||
+    error.code === "ETIMEDOUT" ||
+    error.code === "ENOTFOUND"
+  ) {
+    return true;
+  }
 
-//     if (record) return record;
+  if (error.response) {
+    const status = error.response.status;
+    // Retry on 5xx server errors and some 4xx errors
+    return status >= 500 || status === 429 || status === 408;
+  }
 
-//     await new Promise((res) => setTimeout(res, delay));
-//   }
-
-//   throw new Error("imageTaskId not found in DB after multiple retries");
-// }
+  return false;
+}

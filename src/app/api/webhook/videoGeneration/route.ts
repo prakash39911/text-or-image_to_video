@@ -159,11 +159,6 @@ const handleCompleted = async (parsedBody: any) => {
         console.error("Send email got failed in video webhook");
       }
 
-      console.log(
-        "Video Generation along With Audio is finally Complete",
-        response.finalVideoUrl
-      );
-
       const isCreditUpdated = await updateCreditsForUser(
         isSavedFinally.userDataId
       );
@@ -171,6 +166,11 @@ const handleCompleted = async (parsedBody: any) => {
       if (isCreditUpdated) {
         console.log("Credits Updated for User");
       }
+
+      console.log(
+        "Video Generation along With Audio is finally Complete",
+        response.finalVideoUrl
+      );
     }
 
     return Response.json(

@@ -26,6 +26,7 @@ export async function createVideoFirstEntry(userPrompt: string) {
     return isCreated;
   } catch (error) {
     console.error("Unable to create DB entry", error);
+    throw error;
   }
 }
 
