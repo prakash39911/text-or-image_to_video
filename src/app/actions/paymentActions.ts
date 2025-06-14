@@ -103,7 +103,7 @@ export async function SavePaymentDataInDB(paymentData: any) {
       ? user.credits + parseInt(paymentData?.notes?.credit)
       : parseInt(paymentData?.notes?.credit);
 
-    await prisma.userData.update({
+    const updatedUserData = await prisma.userData.update({
       where: {
         id: user.id,
       },
@@ -113,7 +113,7 @@ export async function SavePaymentDataInDB(paymentData: any) {
     });
 
     return {
-      user: user,
+      user: updatedUserData,
       message: "Data Saved Successfully",
       savedData: updatePaymentInfo,
     };

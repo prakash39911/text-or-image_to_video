@@ -81,6 +81,8 @@ export async function POST(request: Request) {
         "payment:successfull",
         {
           amount: isDataSaved.savedData.amount,
+          creditPurchased: isDataSaved.savedData.creditPurchased,
+          totalCredits: isDataSaved.user.credits,
         }
       );
     } catch (pusherError) {

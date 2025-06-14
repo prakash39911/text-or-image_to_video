@@ -18,6 +18,7 @@ export const useNotificationChannel = (userId: string | null) => {
   const updateVideoArray = videoStore((state) => state.updateVideoArray);
   const removeVideo = videoStore((state) => state.removeVideo);
   const removeCredit = creditStore((state) => state.removeCredits);
+  const setCredit = creditStore((state) => state.setCredit);
 
   const handleVideoGeneratedNotification = useCallback(
     async (data: incomingDataPusher) => {
@@ -52,14 +53,19 @@ export const useNotificationChannel = (userId: string | null) => {
     [removeVideo]
   );
 
-  const handlePaymentNotification = useCallback(async (data: any) => {
-    console.log("Data received in handlePaymentNotification", data);
+  const handlePaymentNotification = useCallback(
+    async (data: any) => {
+      console.log("Data received in handlePaymentNotification", data);
 
-    showSuccessToast(
-      "You hava successfully paid the amount",
-      `Paid ${data.amount / 100} Rs.`
-    );
-  }, []);
+      showSuccessToast(
+        "You hava successfully paid the amount",
+        `Paid ${data.amount / 100} Rs.`
+      );
+
+      setCredit(data?.totalCredits);
+    },
+    [setCredit]
+  );
 
   useEffect(() => {
     if (!userId) return;

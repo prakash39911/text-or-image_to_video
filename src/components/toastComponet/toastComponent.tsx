@@ -5,7 +5,7 @@ import { AlertTriangle } from "lucide-react";
 const showEnhancedToast = (content: string, desctiption: string) => {
   toast(`${content}`, {
     description: `${desctiption}`,
-    duration: 5000,
+    duration: 10000,
     className: `
         font-medium text-base
         bg-gradient-to-r from-zinc-900/95 to-zinc-800/95
@@ -29,7 +29,7 @@ const showEnhancedToast = (content: string, desctiption: string) => {
 const showSuccessToast = (content: string, desctiption: string) => {
   toast.success(`${content}`, {
     description: `${desctiption}`,
-    duration: 5000,
+    duration: 10000,
     className: `
         font-medium text-base
         bg-gradient-to-r from-emerald-900/95 to-green-800/95
@@ -47,7 +47,7 @@ const showSuccessToast = (content: string, desctiption: string) => {
 const showErrorToast = (content: string, desctiption: string) => {
   toast.error(`${content}`, {
     description: `${desctiption}`,
-    duration: 5000,
+    duration: 10000,
     className: `
     bg-black
         font-medium text-base
@@ -66,7 +66,7 @@ const showErrorToast = (content: string, desctiption: string) => {
 const showWarningToast = (content: string, desctiption: string) => {
   toast(`${content}`, {
     description: `${desctiption}`,
-    duration: 5000,
+    duration: 10000,
     className: `
         font-medium text-base
         bg-gradient-to-r from-amber-900/95 to-orange-800/95

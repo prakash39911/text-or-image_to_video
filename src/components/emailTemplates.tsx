@@ -196,7 +196,7 @@ export const CreditPurchaseEmail: React.FC<{
         <strong>Credits:</strong> {credits}
       </li>
       <li>
-        <strong>Amount Paid:</strong> ₹{amountPaid}
+        <strong>Amount Paid:</strong> Rs.{amountPaid / 100}
       </li>
     </ul>
     <p style={{ marginBottom: "16px" }}>
