@@ -1,12 +1,10 @@
-// middleware.ts
-
 import { NextResponse } from "next/server";
-import { auth } from "./auth"; // Assuming you move auth.ts to the root
+import { auth } from "./auth";
 import { Session } from "next-auth"; // Import Session type for annotation
 
 const publicRoutes = ["/"];
 const authRoutes = ["/auth"];
-const protectedRoutes = ["/ai/text-to-video", "/ai/image-to-video"];
+const protectedRoutes = ["/ai/text-to-video", "/ai/videogallery"];
 
 // Define a type for the session to avoid `any` and get autocompletion
 interface SessionWithUser extends Session {
