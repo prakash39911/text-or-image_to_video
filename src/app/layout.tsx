@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Provider from "./Provider";
-import { auth } from "./auth";
+import { auth } from "../auth";
 
 export const metadata: Metadata = {
   title: "Text-To-Video",

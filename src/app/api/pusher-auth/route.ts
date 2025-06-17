@@ -1,4 +1,4 @@
-import { auth } from "@/app/auth";
+import { auth } from "@/auth";
 import { pusherServer } from "@/lib/pusher";
 import { NextRequest, NextResponse } from "next/server";
 

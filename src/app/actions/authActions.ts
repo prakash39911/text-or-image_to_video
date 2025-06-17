@@ -3,7 +3,7 @@
 import { SignUpFormSchema, SignUpFormSchemaType } from "@/lib/ZodSchema";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/PrismaClient";
-import { auth, signOut } from "../auth";
+import { auth, signOut } from "../../auth";
 import { generateToken, getTokenByToken } from "./tokenActions";
 import { sendMail } from "./mailAction";
 import { VerifyEmail } from "@/components/emailTemplates";
@@ -173,7 +173,7 @@ export const getUserCredits = async () => {
   const session = await auth();
 
   if (!session?.user.email) {
-    console.error("User is not logged In");
+    console.log("User is not logged In");
     return;
   }
 

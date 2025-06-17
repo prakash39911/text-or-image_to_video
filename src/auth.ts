@@ -2,7 +2,6 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/PrismaClient";
-import bcrypt from "bcrypt";
 
 type customUser = {
   id: string;
@@ -30,6 +29,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
 
       authorize: async (credentials) => {
+        const bcrypt = await import("bcrypt");
+
         if (!credentials.email || !credentials.password) return null;
 
         const isUserExist = await prisma.userData.findFirst({

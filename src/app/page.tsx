@@ -1,6 +1,6 @@
 import LandingPage from "@/components/homepage/LandingPage";
 import React from "react";
-import { auth } from "./auth";
+import { auth } from "../auth";
 
 async function App() {
   const session = await auth();

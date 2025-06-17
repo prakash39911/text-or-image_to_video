@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/PrismaClient";
 import { razorPayInstance } from "@/lib/razorpay";
-import { auth } from "../auth";
+import { auth } from "../../auth";
 import { validatePaymentVerification } from "razorpay/dist/utils/razorpay-utils";
 
 export async function CreateOrder(packageId: string) {

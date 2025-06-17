@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/PrismaClient";
-import { auth } from "../auth";
+import { auth } from "../../auth";
 
 export async function createVideoFirstEntry(userPrompt: string) {
   const session = await auth();

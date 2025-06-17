@@ -11,7 +11,7 @@ import {
   uploadVideoToCloudinary,
 } from "@/app/actions/GenerateVideoActions";
 import { sendMail } from "@/app/actions/mailAction";
-import { auth } from "@/app/auth";
+import { auth } from "@/auth";
 import { VideoNotificationEmail } from "@/components/emailTemplates";
 import { prisma } from "@/lib/PrismaClient";
 import { generateSignature, verifySignature } from "@/lib/utilityFunctions";

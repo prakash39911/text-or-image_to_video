@@ -1,58 +1,82 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+// middleware.ts
 
-const publicRoute = ["/"];
+import { NextResponse } from "next/server";
+import { auth } from "./auth"; // Assuming you move auth.ts to the root
+import { Session } from "next-auth"; // Import Session type for annotation
+
+const publicRoutes = ["/"];
 const authRoutes = ["/auth"];
-const protectedRoute = ["/ai/text-to-video", "/ai/image-to-video"];
+const protectedRoutes = ["/ai/text-to-video", "/ai/image-to-video"];
 
-export default async function middleware(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.AUTH_SECRET });
+// Define a type for the session to avoid `any` and get autocompletion
+interface SessionWithUser extends Session {
+  user: {
+    id: string;
+    emailVerified: Date | null;
+  };
+}
 
-  const isLoggedIn = !!token;
-  const isEmailVerified = token?.emailVerified;
+export default auth((req) => {
+  // auth() is an Edge-compatible helper that returns the session or null
+  // No need for getToken() or process.env.AUTH_SECRET here
+  const session = req.auth as SessionWithUser | null;
   const { pathname } = req.nextUrl;
 
-  if (!isLoggedIn && pathname === "/verify-email-alert") {
-    return NextResponse.redirect(new URL("/auth", req.nextUrl.origin));
-  }
+  const isLoggedIn = !!session?.user;
+
+  console.log("is User Logged IN--", isLoggedIn);
+
+  const isEmailVerified = !!session?.user?.emailVerified;
+
+  console.log("is Email Verified--", isEmailVerified);
+
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+  const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
+
+  // Logic 1: If logged in, but email is not verified, redirect to verification alert
   if (
     isLoggedIn &&
     !isEmailVerified &&
-    !(pathname === "/verify-email" || pathname === "/email-verify-success") &&
-    pathname !== "/verify-email-alert"
+    pathname !== "/verify-email-alert" &&
+    pathname !== "/verify-email" && // Allow access to the page that triggers verification
+    pathname !== "/email-verify-success" // Allow access to the success page
   ) {
     return NextResponse.redirect(
       new URL("/verify-email-alert", req.nextUrl.origin)
     );
   }
 
+  // Logic 2: If logged in AND email is verified, don't let them see verification pages
   if (
     isLoggedIn &&
-    (pathname === "/verify-email" ||
-      pathname === "/email-verify-success" ||
-      pathname === "/verify-email-alert") &&
-    isEmailVerified
+    isEmailVerified &&
+    (pathname === "/verify-email-alert" ||
+      pathname === "/verify-email" ||
+      pathname === "/email-verify-success")
   ) {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 
-  if (publicRoute.includes(pathname)) {
-    return NextResponse.next();
-  }
-
-  if (isLoggedIn && authRoutes.includes(pathname)) {
+  // Logic 3: If logged in, redirect away from auth pages
+  if (isLoggedIn && isAuthRoute) {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
 
-  if (!isLoggedIn && protectedRoute.includes(pathname)) {
+  // Logic 4: If not logged in and trying to access a protected route, redirect to auth
+  if (!isLoggedIn && isProtectedRoute) {
     return NextResponse.redirect(new URL("/auth", req.nextUrl.origin));
   }
 
+  // Allow the request to proceed
   return NextResponse.next();
-}
+});
 
+// Use the matcher to specify which routes the middleware should run on.
 export const config = {
   matcher: [
+    // Exclude static files and API routes, but include everything else
     "/((?!api|_next/static|_next/image|images|favicon.ico|sitemap.xml|robots.txt).*)",
   ],
 };
