@@ -212,3 +212,57 @@ export const updateCreditsForUser = async (userId: string) => {
     throw error;
   }
 };
+
+// PurchaseDetails: {
+//         id: string;
+//         createdAt: Date;
+//         amount: number;
+//         payment_status: $Enums.payment_status;
+//         creditPurchased: number;
+//         packagePurchased: {
+//             id: string;
+//             key: string;
+//         };
+//     }[];
+
+export async function GetBillingInfo(userId: string) {
+  try {
+    const data = await prisma.userData.findFirst({
+      where: {
+        id: userId,
+      },
+      select: {
+        PurchaseDetails: {
+          select: {
+            id: true,
+            amount: true,
+            payment_status: true,
+            creditPurchased: true,
+            createdAt: true,
+            packagePurchased: {
+              select: {
+                id: true,
+                key: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const processedData = data?.PurchaseDetails.map((eachObj) => {
+      return {
+        id: eachObj.id,
+        packageName: eachObj.packagePurchased.key,
+        amount: eachObj.amount / 100,
+        credits: eachObj.creditPurchased,
+        purchaseDate: eachObj.createdAt,
+        status: eachObj.payment_status,
+      };
+    });
+
+    return processedData;
+  } catch (error) {
+    console.error("Unable to get billing info");
+  }
+}

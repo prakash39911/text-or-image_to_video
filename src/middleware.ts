@@ -4,7 +4,11 @@ import { Session } from "next-auth"; // Import Session type for annotation
 
 const publicRoutes = ["/"];
 const authRoutes = ["/auth"];
-const protectedRoutes = ["/ai/text-to-video", "/ai/videogallery"];
+const protectedRoutes = [
+  "/ai/text-to-video",
+  "/ai/videogallery",
+  "/ai/billing",
+];
 
 // Define a type for the session to avoid `any` and get autocompletion
 interface SessionWithUser extends Session {
@@ -21,16 +25,12 @@ export default auth((req) => {
   const { pathname } = req.nextUrl;
 
   const isLoggedIn = !!session?.user;
-
-  console.log("is User Logged IN--", isLoggedIn);
-
   const isEmailVerified = !!session?.user?.emailVerified;
-
-  console.log("is Email Verified--", isEmailVerified);
 
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
+
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
 
   // Logic 1: If logged in, but email is not verified, redirect to verification alert

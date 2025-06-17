@@ -85,7 +85,7 @@ export function NavUser() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/ai/billing")}>
                 <CreditCard />
                 Billing
               </DropdownMenuItem>
