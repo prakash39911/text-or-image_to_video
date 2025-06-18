@@ -2,14 +2,6 @@ import { NextResponse } from "next/server";
 import { auth } from "./auth";
 import { Session } from "next-auth"; // Import Session type for annotation
 
-const publicRoutes = ["/"];
-const authRoutes = ["/auth"];
-const protectedRoutes = [
-  "/ai/text-to-video",
-  "/ai/videogallery",
-  "/ai/billing",
-];
-
 // Define a type for the session to avoid `any` and get autocompletion
 interface SessionWithUser extends Session {
   user: {
@@ -17,6 +9,14 @@ interface SessionWithUser extends Session {
     emailVerified: Date | null;
   };
 }
+
+const publicRoutes = ["/"];
+const authRoutes = ["/auth"];
+const protectedRoutes = [
+  "/ai/text-to-video",
+  "/ai/videogallery",
+  "/ai/billing",
+];
 
 export default auth((req) => {
   // auth() is an Edge-compatible helper that returns the session or null
@@ -34,13 +34,7 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
 
   // Logic 1: If logged in, but email is not verified, redirect to verification alert
-  if (
-    isLoggedIn &&
-    !isEmailVerified &&
-    pathname !== "/verify-email-alert" &&
-    pathname !== "/verify-email" && // Allow access to the page that triggers verification
-    pathname !== "/email-verify-success" // Allow access to the success page
-  ) {
+  if (isLoggedIn && !isEmailVerified && isProtectedRoute) {
     return NextResponse.redirect(
       new URL("/verify-email-alert", req.nextUrl.origin)
     );

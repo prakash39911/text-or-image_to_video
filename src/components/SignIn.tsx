@@ -212,7 +212,11 @@ export default function SignIn({ setIsSignup, AuthError }: any) {
         <div className="grid grid-cols-2 gap-4">
           <Button
             variant="outline"
-            onClick={async () => await signIn("github")}
+            onClick={async () =>
+              await signIn("github", {
+                redirectTo: "/refreshTokenData",
+              })
+            }
             className="w-full cursor-pointer text-gray-400 bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
           >
             <Github className="mr-2 h-4 w-4" />
@@ -220,7 +224,11 @@ export default function SignIn({ setIsSignup, AuthError }: any) {
           </Button>
           <Button
             variant="outline"
-            onClick={async () => await signIn("google")}
+            onClick={async () =>
+              await signIn("google", {
+                redirectTo: "/refreshTokenData",
+              })
+            }
             className="w-full bg-gray-800/50 cursor-pointer text-gray-400 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
           >
             <Mail className="mr-2 h-4 w-4" />

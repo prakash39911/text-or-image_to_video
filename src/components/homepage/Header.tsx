@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { LogoutUser } from "@/app/actions/authActions";
 import { toast } from "sonner";
 import CreditsWidget from "../CreditWidget";
+import { useSession } from "next-auth/react";
 
 const Header = ({
   isLoggedIn,
@@ -17,8 +18,19 @@ const Header = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { status, update, data: session } = useSession();
 
   const router = useRouter();
+
+  useEffect(() => {
+    const updateSessionData = async () => {
+      if (status === "authenticated" && !session.user.emailVerified) {
+        await update({ trigger: "emailVerification" });
+      }
+    };
+
+    updateSessionData();
+  }, [session?.user.emailVerified, status, update]);
 
   useEffect(() => {
     const handleScroll = () => {
