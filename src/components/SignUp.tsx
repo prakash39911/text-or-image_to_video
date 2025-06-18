@@ -63,7 +63,7 @@ export default function SignUp({ setIsSignup }: any) {
       </div>
 
       <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        {/* <div className="grid grid-cols-2 gap-4">
           <Button
             variant="outline"
             className="w-full cursor-pointer text-gray-400 bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
@@ -78,9 +78,9 @@ export default function SignUp({ setIsSignup }: any) {
             <Mail className="mr-2 h-4 w-4" />
             Google
           </Button>
-        </div>
+        </div> */}
 
-        <div className="relative">
+        {/* <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t border-gray-700"></span>
           </div>
@@ -89,7 +89,7 @@ export default function SignUp({ setIsSignup }: any) {
               or continue with
             </span>
           </div>
-        </div>
+        </div> */}
 
         <form onSubmit={handleSubmit(actualSubmit)} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">

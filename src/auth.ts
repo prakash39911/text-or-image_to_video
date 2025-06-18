@@ -2,6 +2,8 @@ import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/PrismaClient";
+import GitHub from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 
 type customUser = {
   id: string;
@@ -22,6 +24,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 
   providers: [
+    Google,
+    GitHub,
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },

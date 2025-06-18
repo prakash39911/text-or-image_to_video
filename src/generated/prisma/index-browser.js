@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.9.0
- * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
+ * Prisma Client JS version: 6.10.0
+ * Query Engine version: aee10d5a411e4360c6d3445ce4810ca65adbf3e8
  */
 Prisma.prismaVersion = {
-  client: "6.9.0",
-  engine: "81e4af48011447c3cc503a190e86995b66d2a28e"
+  client: "6.10.0",
+  engine: "aee10d5a411e4360c6d3445ce4810ca65adbf3e8"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -125,6 +125,8 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   emailVerified: 'emailVerified',
+  password: 'password',
+  credits: 'credits',
   image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -160,17 +162,6 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
   expires: 'expires'
 };
 
-exports.Prisma.UserDataScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  email: 'email',
-  emailVerified: 'emailVerified',
-  password: 'password',
-  credits: 'credits',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.VideoGenerationDataScalarFieldEnum = {
   id: 'id',
   userPrompt: 'userPrompt',
@@ -187,9 +178,9 @@ exports.Prisma.VideoGenerationDataScalarFieldEnum = {
   musicUrl: 'musicUrl',
   finalVideoUrl: 'finalVideoUrl',
   finalVideoPublicId: 'finalVideoPublicId',
+  userId: 'userId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  userDataId: 'userDataId'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.TokenScalarFieldEnum = {
@@ -260,7 +251,6 @@ exports.Prisma.ModelName = {
   Account: 'Account',
   Session: 'Session',
   VerificationToken: 'VerificationToken',
-  UserData: 'UserData',
   videoGenerationData: 'videoGenerationData',
   token: 'token',
   PackageDetails: 'PackageDetails',

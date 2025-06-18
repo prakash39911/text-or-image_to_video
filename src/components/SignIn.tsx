@@ -3,7 +3,6 @@
 import type React from "react";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { ArrowLeft, Eye, EyeOff, Github, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,8 +18,7 @@ import {
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { sendMail, SendPasswordResetLink } from "@/app/actions/mailAction";
-import { PasswordResetEmail } from "./emailTemplates";
+import { SendPasswordResetLink } from "@/app/actions/mailAction";
 
 export default function SignIn({ setIsSignup }: any) {
   const [isLoading, setIsLoading] = useState(false);
@@ -214,6 +212,7 @@ export default function SignIn({ setIsSignup }: any) {
         <div className="grid grid-cols-2 gap-4">
           <Button
             variant="outline"
+            onClick={async () => await signIn("github")}
             className="w-full cursor-pointer text-gray-400 bg-gray-800/50 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
           >
             <Github className="mr-2 h-4 w-4" />
@@ -221,6 +220,7 @@ export default function SignIn({ setIsSignup }: any) {
           </Button>
           <Button
             variant="outline"
+            onClick={async () => await signIn("google")}
             className="w-full bg-gray-800/50 cursor-pointer text-gray-400 border-gray-700 hover:bg-gray-800 hover:text-teal-400 transition-all duration-300"
           >
             <Mail className="mr-2 h-4 w-4" />

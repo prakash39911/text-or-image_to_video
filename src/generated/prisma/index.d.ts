@@ -34,11 +34,6 @@ export type Session = $Result.DefaultSelection<Prisma.$SessionPayload>
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
 /**
- * Model UserData
- * 
- */
-export type UserData = $Result.DefaultSelection<Prisma.$UserDataPayload>
-/**
  * Model videoGenerationData
  * 
  */
@@ -268,16 +263,6 @@ export class PrismaClient<
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.userData`: Exposes CRUD operations for the **UserData** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more UserData
-    * const userData = await prisma.userData.findMany()
-    * ```
-    */
-  get userData(): Prisma.UserDataDelegate<ExtArgs, ClientOptions>;
-
-  /**
    * `prisma.videoGenerationData`: Exposes CRUD operations for the **videoGenerationData** model.
     * Example usage:
     * ```ts
@@ -374,8 +359,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.9.0
-   * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
+   * Prisma Client JS version: 6.10.0
+   * Query Engine version: aee10d5a411e4360c6d3445ce4810ca65adbf3e8
    */
   export type PrismaVersion = {
     client: string
@@ -760,7 +745,6 @@ export namespace Prisma {
     Account: 'Account',
     Session: 'Session',
     VerificationToken: 'VerificationToken',
-    UserData: 'UserData',
     videoGenerationData: 'videoGenerationData',
     token: 'token',
     PackageDetails: 'PackageDetails',
@@ -783,7 +767,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "userData" | "videoGenerationData" | "token" | "packageDetails" | "purchaseDetails"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "videoGenerationData" | "token" | "packageDetails" | "purchaseDetails"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1080,80 +1064,6 @@ export namespace Prisma {
           count: {
             args: Prisma.VerificationTokenCountArgs<ExtArgs>
             result: $Utils.Optional<VerificationTokenCountAggregateOutputType> | number
-          }
-        }
-      }
-      UserData: {
-        payload: Prisma.$UserDataPayload<ExtArgs>
-        fields: Prisma.UserDataFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.UserDataFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.UserDataFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload>
-          }
-          findFirst: {
-            args: Prisma.UserDataFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.UserDataFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload>
-          }
-          findMany: {
-            args: Prisma.UserDataFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload>[]
-          }
-          create: {
-            args: Prisma.UserDataCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload>
-          }
-          createMany: {
-            args: Prisma.UserDataCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.UserDataCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload>[]
-          }
-          delete: {
-            args: Prisma.UserDataDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload>
-          }
-          update: {
-            args: Prisma.UserDataUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload>
-          }
-          deleteMany: {
-            args: Prisma.UserDataDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.UserDataUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateManyAndReturn: {
-            args: Prisma.UserDataUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload>[]
-          }
-          upsert: {
-            args: Prisma.UserDataUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserDataPayload>
-          }
-          aggregate: {
-            args: Prisma.UserDataAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateUserData>
-          }
-          groupBy: {
-            args: Prisma.UserDataGroupByArgs<ExtArgs>
-            result: $Utils.Optional<UserDataGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.UserDataCountArgs<ExtArgs>
-            result: $Utils.Optional<UserDataCountAggregateOutputType> | number
           }
         }
       }
@@ -1541,7 +1451,6 @@ export namespace Prisma {
     account?: AccountOmit
     session?: SessionOmit
     verificationToken?: VerificationTokenOmit
-    userData?: UserDataOmit
     videoGenerationData?: videoGenerationDataOmit
     token?: tokenOmit
     packageDetails?: PackageDetailsOmit
@@ -1642,11 +1551,15 @@ export namespace Prisma {
   export type UserCountOutputType = {
     accounts: number
     sessions: number
+    videoGenerationData: number
+    PurchaseDetails: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    videoGenerationData?: boolean | UserCountOutputTypeCountVideoGenerationDataArgs
+    PurchaseDetails?: boolean | UserCountOutputTypeCountPurchaseDetailsArgs
   }
 
   // Custom InputTypes
@@ -1674,43 +1587,17 @@ export namespace Prisma {
     where?: SessionWhereInput
   }
 
-
   /**
-   * Count Type UserDataCountOutputType
+   * UserCountOutputType without action
    */
-
-  export type UserDataCountOutputType = {
-    videoGenerationData: number
-    PurchaseDetails: number
-  }
-
-  export type UserDataCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    videoGenerationData?: boolean | UserDataCountOutputTypeCountVideoGenerationDataArgs
-    PurchaseDetails?: boolean | UserDataCountOutputTypeCountPurchaseDetailsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * UserDataCountOutputType without action
-   */
-  export type UserDataCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserDataCountOutputType
-     */
-    select?: UserDataCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * UserDataCountOutputType without action
-   */
-  export type UserDataCountOutputTypeCountVideoGenerationDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountVideoGenerationDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: videoGenerationDataWhereInput
   }
 
   /**
-   * UserDataCountOutputType without action
+   * UserCountOutputType without action
    */
-  export type UserDataCountOutputTypeCountPurchaseDetailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountPurchaseDetailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PurchaseDetailsWhereInput
   }
 
@@ -1756,8 +1643,18 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    credits: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    credits: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -1765,6 +1662,8 @@ export namespace Prisma {
     name: string | null
     email: string | null
     emailVerified: Date | null
+    password: string | null
+    credits: number | null
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1775,6 +1674,8 @@ export namespace Prisma {
     name: string | null
     email: string | null
     emailVerified: Date | null
+    password: string | null
+    credits: number | null
     image: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1785,6 +1686,8 @@ export namespace Prisma {
     name: number
     email: number
     emailVerified: number
+    password: number
+    credits: number
     image: number
     createdAt: number
     updatedAt: number
@@ -1792,11 +1695,21 @@ export namespace Prisma {
   }
 
 
+  export type UserAvgAggregateInputType = {
+    credits?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    credits?: true
+  }
+
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
     email?: true
     emailVerified?: true
+    password?: true
+    credits?: true
     image?: true
     createdAt?: true
     updatedAt?: true
@@ -1807,6 +1720,8 @@ export namespace Prisma {
     name?: true
     email?: true
     emailVerified?: true
+    password?: true
+    credits?: true
     image?: true
     createdAt?: true
     updatedAt?: true
@@ -1817,6 +1732,8 @@ export namespace Prisma {
     name?: true
     email?: true
     emailVerified?: true
+    password?: true
+    credits?: true
     image?: true
     createdAt?: true
     updatedAt?: true
@@ -1861,6 +1778,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -1891,6 +1820,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -1900,10 +1831,14 @@ export namespace Prisma {
     name: string | null
     email: string
     emailVerified: Date | null
+    password: string
+    credits: number | null
     image: string | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -1927,11 +1862,15 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    password?: boolean
+    credits?: boolean
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    videoGenerationData?: boolean | User$videoGenerationDataArgs<ExtArgs>
+    PurchaseDetails?: boolean | User$PurchaseDetailsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1940,6 +1879,8 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    password?: boolean
+    credits?: boolean
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1950,6 +1891,8 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    password?: boolean
+    credits?: boolean
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1960,15 +1903,19 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     emailVerified?: boolean
+    password?: boolean
+    credits?: boolean
     image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "credits" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    videoGenerationData?: boolean | User$videoGenerationDataArgs<ExtArgs>
+    PurchaseDetails?: boolean | User$PurchaseDetailsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1979,12 +1926,16 @@ export namespace Prisma {
     objects: {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
+      videoGenerationData: Prisma.$videoGenerationDataPayload<ExtArgs>[]
+      PurchaseDetails: Prisma.$PurchaseDetailsPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string | null
       email: string
       emailVerified: Date | null
+      password: string
+      credits: number | null
       image: string | null
       createdAt: Date
       updatedAt: Date
@@ -2384,6 +2335,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    videoGenerationData<T extends User$videoGenerationDataArgs<ExtArgs> = {}>(args?: Subset<T, User$videoGenerationDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    PurchaseDetails<T extends User$PurchaseDetailsArgs<ExtArgs> = {}>(args?: Subset<T, User$PurchaseDetailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchaseDetailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2417,6 +2370,8 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
+    readonly password: FieldRef<"User", 'String'>
+    readonly credits: FieldRef<"User", 'Int'>
     readonly image: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -2853,6 +2808,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+  }
+
+  /**
+   * User.videoGenerationData
+   */
+  export type User$videoGenerationDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoGenerationData
+     */
+    select?: videoGenerationDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoGenerationData
+     */
+    omit?: videoGenerationDataOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: videoGenerationDataInclude<ExtArgs> | null
+    where?: videoGenerationDataWhereInput
+    orderBy?: videoGenerationDataOrderByWithRelationInput | videoGenerationDataOrderByWithRelationInput[]
+    cursor?: videoGenerationDataWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VideoGenerationDataScalarFieldEnum | VideoGenerationDataScalarFieldEnum[]
+  }
+
+  /**
+   * User.PurchaseDetails
+   */
+  export type User$PurchaseDetailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PurchaseDetails
+     */
+    select?: PurchaseDetailsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PurchaseDetails
+     */
+    omit?: PurchaseDetailsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PurchaseDetailsInclude<ExtArgs> | null
+    where?: PurchaseDetailsWhereInput
+    orderBy?: PurchaseDetailsOrderByWithRelationInput | PurchaseDetailsOrderByWithRelationInput[]
+    cursor?: PurchaseDetailsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PurchaseDetailsScalarFieldEnum | PurchaseDetailsScalarFieldEnum[]
   }
 
   /**
@@ -6098,1177 +6101,6 @@ export namespace Prisma {
 
 
   /**
-   * Model UserData
-   */
-
-  export type AggregateUserData = {
-    _count: UserDataCountAggregateOutputType | null
-    _avg: UserDataAvgAggregateOutputType | null
-    _sum: UserDataSumAggregateOutputType | null
-    _min: UserDataMinAggregateOutputType | null
-    _max: UserDataMaxAggregateOutputType | null
-  }
-
-  export type UserDataAvgAggregateOutputType = {
-    credits: number | null
-  }
-
-  export type UserDataSumAggregateOutputType = {
-    credits: number | null
-  }
-
-  export type UserDataMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    email: string | null
-    emailVerified: Date | null
-    password: string | null
-    credits: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type UserDataMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    email: string | null
-    emailVerified: Date | null
-    password: string | null
-    credits: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type UserDataCountAggregateOutputType = {
-    id: number
-    name: number
-    email: number
-    emailVerified: number
-    password: number
-    credits: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type UserDataAvgAggregateInputType = {
-    credits?: true
-  }
-
-  export type UserDataSumAggregateInputType = {
-    credits?: true
-  }
-
-  export type UserDataMinAggregateInputType = {
-    id?: true
-    name?: true
-    email?: true
-    emailVerified?: true
-    password?: true
-    credits?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type UserDataMaxAggregateInputType = {
-    id?: true
-    name?: true
-    email?: true
-    emailVerified?: true
-    password?: true
-    credits?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type UserDataCountAggregateInputType = {
-    id?: true
-    name?: true
-    email?: true
-    emailVerified?: true
-    password?: true
-    credits?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type UserDataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which UserData to aggregate.
-     */
-    where?: UserDataWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of UserData to fetch.
-     */
-    orderBy?: UserDataOrderByWithRelationInput | UserDataOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: UserDataWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` UserData from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` UserData.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned UserData
-    **/
-    _count?: true | UserDataCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: UserDataAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: UserDataSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: UserDataMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: UserDataMaxAggregateInputType
-  }
-
-  export type GetUserDataAggregateType<T extends UserDataAggregateArgs> = {
-        [P in keyof T & keyof AggregateUserData]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateUserData[P]>
-      : GetScalarType<T[P], AggregateUserData[P]>
-  }
-
-
-
-
-  export type UserDataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: UserDataWhereInput
-    orderBy?: UserDataOrderByWithAggregationInput | UserDataOrderByWithAggregationInput[]
-    by: UserDataScalarFieldEnum[] | UserDataScalarFieldEnum
-    having?: UserDataScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: UserDataCountAggregateInputType | true
-    _avg?: UserDataAvgAggregateInputType
-    _sum?: UserDataSumAggregateInputType
-    _min?: UserDataMinAggregateInputType
-    _max?: UserDataMaxAggregateInputType
-  }
-
-  export type UserDataGroupByOutputType = {
-    id: string
-    name: string
-    email: string
-    emailVerified: Date | null
-    password: string
-    credits: number | null
-    createdAt: Date
-    updatedAt: Date
-    _count: UserDataCountAggregateOutputType | null
-    _avg: UserDataAvgAggregateOutputType | null
-    _sum: UserDataSumAggregateOutputType | null
-    _min: UserDataMinAggregateOutputType | null
-    _max: UserDataMaxAggregateOutputType | null
-  }
-
-  type GetUserDataGroupByPayload<T extends UserDataGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<UserDataGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof UserDataGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], UserDataGroupByOutputType[P]>
-            : GetScalarType<T[P], UserDataGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type UserDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    email?: boolean
-    emailVerified?: boolean
-    password?: boolean
-    credits?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    videoGenerationData?: boolean | UserData$videoGenerationDataArgs<ExtArgs>
-    PurchaseDetails?: boolean | UserData$PurchaseDetailsArgs<ExtArgs>
-    _count?: boolean | UserDataCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["userData"]>
-
-  export type UserDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    email?: boolean
-    emailVerified?: boolean
-    password?: boolean
-    credits?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["userData"]>
-
-  export type UserDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    email?: boolean
-    emailVerified?: boolean
-    password?: boolean
-    credits?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["userData"]>
-
-  export type UserDataSelectScalar = {
-    id?: boolean
-    name?: boolean
-    email?: boolean
-    emailVerified?: boolean
-    password?: boolean
-    credits?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type UserDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "password" | "credits" | "createdAt" | "updatedAt", ExtArgs["result"]["userData"]>
-  export type UserDataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    videoGenerationData?: boolean | UserData$videoGenerationDataArgs<ExtArgs>
-    PurchaseDetails?: boolean | UserData$PurchaseDetailsArgs<ExtArgs>
-    _count?: boolean | UserDataCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type UserDataIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type UserDataIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $UserDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "UserData"
-    objects: {
-      videoGenerationData: Prisma.$videoGenerationDataPayload<ExtArgs>[]
-      PurchaseDetails: Prisma.$PurchaseDetailsPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-      email: string
-      emailVerified: Date | null
-      password: string
-      credits: number | null
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["userData"]>
-    composites: {}
-  }
-
-  type UserDataGetPayload<S extends boolean | null | undefined | UserDataDefaultArgs> = $Result.GetResult<Prisma.$UserDataPayload, S>
-
-  type UserDataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<UserDataFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: UserDataCountAggregateInputType | true
-    }
-
-  export interface UserDataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserData'], meta: { name: 'UserData' } }
-    /**
-     * Find zero or one UserData that matches the filter.
-     * @param {UserDataFindUniqueArgs} args - Arguments to find a UserData
-     * @example
-     * // Get one UserData
-     * const userData = await prisma.userData.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends UserDataFindUniqueArgs>(args: SelectSubset<T, UserDataFindUniqueArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one UserData that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {UserDataFindUniqueOrThrowArgs} args - Arguments to find a UserData
-     * @example
-     * // Get one UserData
-     * const userData = await prisma.userData.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends UserDataFindUniqueOrThrowArgs>(args: SelectSubset<T, UserDataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first UserData that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserDataFindFirstArgs} args - Arguments to find a UserData
-     * @example
-     * // Get one UserData
-     * const userData = await prisma.userData.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends UserDataFindFirstArgs>(args?: SelectSubset<T, UserDataFindFirstArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first UserData that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserDataFindFirstOrThrowArgs} args - Arguments to find a UserData
-     * @example
-     * // Get one UserData
-     * const userData = await prisma.userData.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends UserDataFindFirstOrThrowArgs>(args?: SelectSubset<T, UserDataFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more UserData that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserDataFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all UserData
-     * const userData = await prisma.userData.findMany()
-     * 
-     * // Get first 10 UserData
-     * const userData = await prisma.userData.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const userDataWithIdOnly = await prisma.userData.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends UserDataFindManyArgs>(args?: SelectSubset<T, UserDataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a UserData.
-     * @param {UserDataCreateArgs} args - Arguments to create a UserData.
-     * @example
-     * // Create one UserData
-     * const UserData = await prisma.userData.create({
-     *   data: {
-     *     // ... data to create a UserData
-     *   }
-     * })
-     * 
-     */
-    create<T extends UserDataCreateArgs>(args: SelectSubset<T, UserDataCreateArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many UserData.
-     * @param {UserDataCreateManyArgs} args - Arguments to create many UserData.
-     * @example
-     * // Create many UserData
-     * const userData = await prisma.userData.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends UserDataCreateManyArgs>(args?: SelectSubset<T, UserDataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many UserData and returns the data saved in the database.
-     * @param {UserDataCreateManyAndReturnArgs} args - Arguments to create many UserData.
-     * @example
-     * // Create many UserData
-     * const userData = await prisma.userData.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many UserData and only return the `id`
-     * const userDataWithIdOnly = await prisma.userData.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends UserDataCreateManyAndReturnArgs>(args?: SelectSubset<T, UserDataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a UserData.
-     * @param {UserDataDeleteArgs} args - Arguments to delete one UserData.
-     * @example
-     * // Delete one UserData
-     * const UserData = await prisma.userData.delete({
-     *   where: {
-     *     // ... filter to delete one UserData
-     *   }
-     * })
-     * 
-     */
-    delete<T extends UserDataDeleteArgs>(args: SelectSubset<T, UserDataDeleteArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one UserData.
-     * @param {UserDataUpdateArgs} args - Arguments to update one UserData.
-     * @example
-     * // Update one UserData
-     * const userData = await prisma.userData.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends UserDataUpdateArgs>(args: SelectSubset<T, UserDataUpdateArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more UserData.
-     * @param {UserDataDeleteManyArgs} args - Arguments to filter UserData to delete.
-     * @example
-     * // Delete a few UserData
-     * const { count } = await prisma.userData.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends UserDataDeleteManyArgs>(args?: SelectSubset<T, UserDataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more UserData.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserDataUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many UserData
-     * const userData = await prisma.userData.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends UserDataUpdateManyArgs>(args: SelectSubset<T, UserDataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more UserData and returns the data updated in the database.
-     * @param {UserDataUpdateManyAndReturnArgs} args - Arguments to update many UserData.
-     * @example
-     * // Update many UserData
-     * const userData = await prisma.userData.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more UserData and only return the `id`
-     * const userDataWithIdOnly = await prisma.userData.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends UserDataUpdateManyAndReturnArgs>(args: SelectSubset<T, UserDataUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one UserData.
-     * @param {UserDataUpsertArgs} args - Arguments to update or create a UserData.
-     * @example
-     * // Update or create a UserData
-     * const userData = await prisma.userData.upsert({
-     *   create: {
-     *     // ... data to create a UserData
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the UserData we want to update
-     *   }
-     * })
-     */
-    upsert<T extends UserDataUpsertArgs>(args: SelectSubset<T, UserDataUpsertArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of UserData.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserDataCountArgs} args - Arguments to filter UserData to count.
-     * @example
-     * // Count the number of UserData
-     * const count = await prisma.userData.count({
-     *   where: {
-     *     // ... the filter for the UserData we want to count
-     *   }
-     * })
-    **/
-    count<T extends UserDataCountArgs>(
-      args?: Subset<T, UserDataCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], UserDataCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a UserData.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserDataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends UserDataAggregateArgs>(args: Subset<T, UserDataAggregateArgs>): Prisma.PrismaPromise<GetUserDataAggregateType<T>>
-
-    /**
-     * Group by UserData.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserDataGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends UserDataGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: UserDataGroupByArgs['orderBy'] }
-        : { orderBy?: UserDataGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, UserDataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserDataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the UserData model
-   */
-  readonly fields: UserDataFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for UserData.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__UserDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    videoGenerationData<T extends UserData$videoGenerationDataArgs<ExtArgs> = {}>(args?: Subset<T, UserData$videoGenerationDataArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$videoGenerationDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    PurchaseDetails<T extends UserData$PurchaseDetailsArgs<ExtArgs> = {}>(args?: Subset<T, UserData$PurchaseDetailsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PurchaseDetailsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the UserData model
-   */
-  interface UserDataFieldRefs {
-    readonly id: FieldRef<"UserData", 'String'>
-    readonly name: FieldRef<"UserData", 'String'>
-    readonly email: FieldRef<"UserData", 'String'>
-    readonly emailVerified: FieldRef<"UserData", 'DateTime'>
-    readonly password: FieldRef<"UserData", 'String'>
-    readonly credits: FieldRef<"UserData", 'Int'>
-    readonly createdAt: FieldRef<"UserData", 'DateTime'>
-    readonly updatedAt: FieldRef<"UserData", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * UserData findUnique
-   */
-  export type UserDataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-    /**
-     * Filter, which UserData to fetch.
-     */
-    where: UserDataWhereUniqueInput
-  }
-
-  /**
-   * UserData findUniqueOrThrow
-   */
-  export type UserDataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-    /**
-     * Filter, which UserData to fetch.
-     */
-    where: UserDataWhereUniqueInput
-  }
-
-  /**
-   * UserData findFirst
-   */
-  export type UserDataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-    /**
-     * Filter, which UserData to fetch.
-     */
-    where?: UserDataWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of UserData to fetch.
-     */
-    orderBy?: UserDataOrderByWithRelationInput | UserDataOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for UserData.
-     */
-    cursor?: UserDataWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` UserData from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` UserData.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of UserData.
-     */
-    distinct?: UserDataScalarFieldEnum | UserDataScalarFieldEnum[]
-  }
-
-  /**
-   * UserData findFirstOrThrow
-   */
-  export type UserDataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-    /**
-     * Filter, which UserData to fetch.
-     */
-    where?: UserDataWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of UserData to fetch.
-     */
-    orderBy?: UserDataOrderByWithRelationInput | UserDataOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for UserData.
-     */
-    cursor?: UserDataWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` UserData from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` UserData.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of UserData.
-     */
-    distinct?: UserDataScalarFieldEnum | UserDataScalarFieldEnum[]
-  }
-
-  /**
-   * UserData findMany
-   */
-  export type UserDataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-    /**
-     * Filter, which UserData to fetch.
-     */
-    where?: UserDataWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of UserData to fetch.
-     */
-    orderBy?: UserDataOrderByWithRelationInput | UserDataOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing UserData.
-     */
-    cursor?: UserDataWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` UserData from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` UserData.
-     */
-    skip?: number
-    distinct?: UserDataScalarFieldEnum | UserDataScalarFieldEnum[]
-  }
-
-  /**
-   * UserData create
-   */
-  export type UserDataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-    /**
-     * The data needed to create a UserData.
-     */
-    data: XOR<UserDataCreateInput, UserDataUncheckedCreateInput>
-  }
-
-  /**
-   * UserData createMany
-   */
-  export type UserDataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many UserData.
-     */
-    data: UserDataCreateManyInput | UserDataCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * UserData createManyAndReturn
-   */
-  export type UserDataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * The data used to create many UserData.
-     */
-    data: UserDataCreateManyInput | UserDataCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * UserData update
-   */
-  export type UserDataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-    /**
-     * The data needed to update a UserData.
-     */
-    data: XOR<UserDataUpdateInput, UserDataUncheckedUpdateInput>
-    /**
-     * Choose, which UserData to update.
-     */
-    where: UserDataWhereUniqueInput
-  }
-
-  /**
-   * UserData updateMany
-   */
-  export type UserDataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update UserData.
-     */
-    data: XOR<UserDataUpdateManyMutationInput, UserDataUncheckedUpdateManyInput>
-    /**
-     * Filter which UserData to update
-     */
-    where?: UserDataWhereInput
-    /**
-     * Limit how many UserData to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * UserData updateManyAndReturn
-   */
-  export type UserDataUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * The data used to update UserData.
-     */
-    data: XOR<UserDataUpdateManyMutationInput, UserDataUncheckedUpdateManyInput>
-    /**
-     * Filter which UserData to update
-     */
-    where?: UserDataWhereInput
-    /**
-     * Limit how many UserData to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * UserData upsert
-   */
-  export type UserDataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-    /**
-     * The filter to search for the UserData to update in case it exists.
-     */
-    where: UserDataWhereUniqueInput
-    /**
-     * In case the UserData found by the `where` argument doesn't exist, create a new UserData with this data.
-     */
-    create: XOR<UserDataCreateInput, UserDataUncheckedCreateInput>
-    /**
-     * In case the UserData was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<UserDataUpdateInput, UserDataUncheckedUpdateInput>
-  }
-
-  /**
-   * UserData delete
-   */
-  export type UserDataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-    /**
-     * Filter which UserData to delete.
-     */
-    where: UserDataWhereUniqueInput
-  }
-
-  /**
-   * UserData deleteMany
-   */
-  export type UserDataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which UserData to delete
-     */
-    where?: UserDataWhereInput
-    /**
-     * Limit how many UserData to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * UserData.videoGenerationData
-   */
-  export type UserData$videoGenerationDataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the videoGenerationData
-     */
-    select?: videoGenerationDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the videoGenerationData
-     */
-    omit?: videoGenerationDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: videoGenerationDataInclude<ExtArgs> | null
-    where?: videoGenerationDataWhereInput
-    orderBy?: videoGenerationDataOrderByWithRelationInput | videoGenerationDataOrderByWithRelationInput[]
-    cursor?: videoGenerationDataWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: VideoGenerationDataScalarFieldEnum | VideoGenerationDataScalarFieldEnum[]
-  }
-
-  /**
-   * UserData.PurchaseDetails
-   */
-  export type UserData$PurchaseDetailsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the PurchaseDetails
-     */
-    select?: PurchaseDetailsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the PurchaseDetails
-     */
-    omit?: PurchaseDetailsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PurchaseDetailsInclude<ExtArgs> | null
-    where?: PurchaseDetailsWhereInput
-    orderBy?: PurchaseDetailsOrderByWithRelationInput | PurchaseDetailsOrderByWithRelationInput[]
-    cursor?: PurchaseDetailsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PurchaseDetailsScalarFieldEnum | PurchaseDetailsScalarFieldEnum[]
-  }
-
-  /**
-   * UserData without action
-   */
-  export type UserDataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the UserData
-     */
-    select?: UserDataSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the UserData
-     */
-    omit?: UserDataOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserDataInclude<ExtArgs> | null
-  }
-
-
-  /**
    * Model videoGenerationData
    */
 
@@ -7294,9 +6126,9 @@ export namespace Prisma {
     musicUrl: string | null
     finalVideoUrl: string | null
     finalVideoPublicId: string | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    userDataId: string | null
   }
 
   export type VideoGenerationDataMaxAggregateOutputType = {
@@ -7315,9 +6147,9 @@ export namespace Prisma {
     musicUrl: string | null
     finalVideoUrl: string | null
     finalVideoPublicId: string | null
+    userId: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    userDataId: string | null
   }
 
   export type VideoGenerationDataCountAggregateOutputType = {
@@ -7336,9 +6168,9 @@ export namespace Prisma {
     musicUrl: number
     finalVideoUrl: number
     finalVideoPublicId: number
+    userId: number
     createdAt: number
     updatedAt: number
-    userDataId: number
     _all: number
   }
 
@@ -7359,9 +6191,9 @@ export namespace Prisma {
     musicUrl?: true
     finalVideoUrl?: true
     finalVideoPublicId?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
-    userDataId?: true
   }
 
   export type VideoGenerationDataMaxAggregateInputType = {
@@ -7380,9 +6212,9 @@ export namespace Prisma {
     musicUrl?: true
     finalVideoUrl?: true
     finalVideoPublicId?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
-    userDataId?: true
   }
 
   export type VideoGenerationDataCountAggregateInputType = {
@@ -7401,9 +6233,9 @@ export namespace Prisma {
     musicUrl?: true
     finalVideoUrl?: true
     finalVideoPublicId?: true
+    userId?: true
     createdAt?: true
     updatedAt?: true
-    userDataId?: true
     _all?: true
   }
 
@@ -7495,9 +6327,9 @@ export namespace Prisma {
     musicUrl: string | null
     finalVideoUrl: string | null
     finalVideoPublicId: string | null
+    userId: string | null
     createdAt: Date
     updatedAt: Date
-    userDataId: string
     _count: VideoGenerationDataCountAggregateOutputType | null
     _min: VideoGenerationDataMinAggregateOutputType | null
     _max: VideoGenerationDataMaxAggregateOutputType | null
@@ -7533,10 +6365,10 @@ export namespace Prisma {
     musicUrl?: boolean
     finalVideoUrl?: boolean
     finalVideoPublicId?: boolean
+    userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userDataId?: boolean
-    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
   }, ExtArgs["result"]["videoGenerationData"]>
 
   export type videoGenerationDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7555,10 +6387,10 @@ export namespace Prisma {
     musicUrl?: boolean
     finalVideoUrl?: boolean
     finalVideoPublicId?: boolean
+    userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userDataId?: boolean
-    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
   }, ExtArgs["result"]["videoGenerationData"]>
 
   export type videoGenerationDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7577,10 +6409,10 @@ export namespace Prisma {
     musicUrl?: boolean
     finalVideoUrl?: boolean
     finalVideoPublicId?: boolean
+    userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userDataId?: boolean
-    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
   }, ExtArgs["result"]["videoGenerationData"]>
 
   export type videoGenerationDataSelectScalar = {
@@ -7599,26 +6431,26 @@ export namespace Prisma {
     musicUrl?: boolean
     finalVideoUrl?: boolean
     finalVideoPublicId?: boolean
+    userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    userDataId?: boolean
   }
 
-  export type videoGenerationDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userPrompt" | "status" | "imageTaskId" | "videoTaskId" | "mergeAudioVideoTaskID" | "musicPrompt" | "caption" | "imageUrl" | "videoUrl" | "videoPublicId" | "musicPublicId" | "musicUrl" | "finalVideoUrl" | "finalVideoPublicId" | "createdAt" | "updatedAt" | "userDataId", ExtArgs["result"]["videoGenerationData"]>
+  export type videoGenerationDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userPrompt" | "status" | "imageTaskId" | "videoTaskId" | "mergeAudioVideoTaskID" | "musicPrompt" | "caption" | "imageUrl" | "videoUrl" | "videoPublicId" | "musicPublicId" | "musicUrl" | "finalVideoUrl" | "finalVideoPublicId" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["videoGenerationData"]>
   export type videoGenerationDataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
   }
   export type videoGenerationDataIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
   }
   export type videoGenerationDataIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    UserData?: boolean | UserDataDefaultArgs<ExtArgs>
+    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
   }
 
   export type $videoGenerationDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "videoGenerationData"
     objects: {
-      UserData: Prisma.$UserDataPayload<ExtArgs>
+      User: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -7636,9 +6468,9 @@ export namespace Prisma {
       musicUrl: string | null
       finalVideoUrl: string | null
       finalVideoPublicId: string | null
+      userId: string | null
       createdAt: Date
       updatedAt: Date
-      userDataId: string
     }, ExtArgs["result"]["videoGenerationData"]>
     composites: {}
   }
@@ -8033,7 +6865,7 @@ export namespace Prisma {
    */
   export interface Prisma__videoGenerationDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    UserData<T extends UserDataDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDataDefaultArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    User<T extends videoGenerationData$UserArgs<ExtArgs> = {}>(args?: Subset<T, videoGenerationData$UserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8078,9 +6910,9 @@ export namespace Prisma {
     readonly musicUrl: FieldRef<"videoGenerationData", 'String'>
     readonly finalVideoUrl: FieldRef<"videoGenerationData", 'String'>
     readonly finalVideoPublicId: FieldRef<"videoGenerationData", 'String'>
+    readonly userId: FieldRef<"videoGenerationData", 'String'>
     readonly createdAt: FieldRef<"videoGenerationData", 'DateTime'>
     readonly updatedAt: FieldRef<"videoGenerationData", 'DateTime'>
-    readonly userDataId: FieldRef<"videoGenerationData", 'String'>
   }
     
 
@@ -8474,6 +7306,25 @@ export namespace Prisma {
      * Limit how many videoGenerationData to delete.
      */
     limit?: number
+  }
+
+  /**
+   * videoGenerationData.User
+   */
+  export type videoGenerationData$UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -10873,8 +9724,8 @@ export namespace Prisma {
     createdAt?: boolean
     packageDetailsId?: boolean
     userId?: boolean
-    userLinked?: boolean | UserDataDefaultArgs<ExtArgs>
     packagePurchased?: boolean | PackageDetailsDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["purchaseDetails"]>
 
   export type PurchaseDetailsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10890,8 +9741,8 @@ export namespace Prisma {
     createdAt?: boolean
     packageDetailsId?: boolean
     userId?: boolean
-    userLinked?: boolean | UserDataDefaultArgs<ExtArgs>
     packagePurchased?: boolean | PackageDetailsDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["purchaseDetails"]>
 
   export type PurchaseDetailsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10907,8 +9758,8 @@ export namespace Prisma {
     createdAt?: boolean
     packageDetailsId?: boolean
     userId?: boolean
-    userLinked?: boolean | UserDataDefaultArgs<ExtArgs>
     packagePurchased?: boolean | PackageDetailsDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["purchaseDetails"]>
 
   export type PurchaseDetailsSelectScalar = {
@@ -10928,23 +9779,23 @@ export namespace Prisma {
 
   export type PurchaseDetailsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "order_id" | "amount" | "currency" | "payment_status" | "email" | "contact" | "invoice_name" | "creditPurchased" | "createdAt" | "packageDetailsId" | "userId", ExtArgs["result"]["purchaseDetails"]>
   export type PurchaseDetailsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    userLinked?: boolean | UserDataDefaultArgs<ExtArgs>
     packagePurchased?: boolean | PackageDetailsDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type PurchaseDetailsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    userLinked?: boolean | UserDataDefaultArgs<ExtArgs>
     packagePurchased?: boolean | PackageDetailsDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type PurchaseDetailsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    userLinked?: boolean | UserDataDefaultArgs<ExtArgs>
     packagePurchased?: boolean | PackageDetailsDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $PurchaseDetailsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PurchaseDetails"
     objects: {
-      userLinked: Prisma.$UserDataPayload<ExtArgs>
       packagePurchased: Prisma.$PackageDetailsPayload<ExtArgs>
+      User: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11353,8 +10204,8 @@ export namespace Prisma {
    */
   export interface Prisma__PurchaseDetailsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    userLinked<T extends UserDataDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDataDefaultArgs<ExtArgs>>): Prisma__UserDataClient<$Result.GetResult<Prisma.$UserDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     packagePurchased<T extends PackageDetailsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PackageDetailsDefaultArgs<ExtArgs>>): Prisma__PackageDetailsClient<$Result.GetResult<Prisma.$PackageDetailsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11829,6 +10680,8 @@ export namespace Prisma {
     name: 'name',
     email: 'email',
     emailVerified: 'emailVerified',
+    password: 'password',
+    credits: 'credits',
     image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -11876,20 +10729,6 @@ export namespace Prisma {
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
 
 
-  export const UserDataScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    email: 'email',
-    emailVerified: 'emailVerified',
-    password: 'password',
-    credits: 'credits',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type UserDataScalarFieldEnum = (typeof UserDataScalarFieldEnum)[keyof typeof UserDataScalarFieldEnum]
-
-
   export const VideoGenerationDataScalarFieldEnum: {
     id: 'id',
     userPrompt: 'userPrompt',
@@ -11906,9 +10745,9 @@ export namespace Prisma {
     musicUrl: 'musicUrl',
     finalVideoUrl: 'finalVideoUrl',
     finalVideoPublicId: 'finalVideoPublicId',
+    userId: 'userId',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt',
-    userDataId: 'userDataId'
+    updatedAt: 'updatedAt'
   };
 
   export type VideoGenerationDataScalarFieldEnum = (typeof VideoGenerationDataScalarFieldEnum)[keyof typeof VideoGenerationDataScalarFieldEnum]
@@ -12093,11 +10932,15 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    password?: StringFilter<"User"> | string
+    credits?: IntNullableFilter<"User"> | number | null
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
+    videoGenerationData?: VideoGenerationDataListRelationFilter
+    PurchaseDetails?: PurchaseDetailsListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -12105,11 +10948,15 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
+    password?: SortOrder
+    credits?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
+    videoGenerationData?: videoGenerationDataOrderByRelationAggregateInput
+    PurchaseDetails?: PurchaseDetailsOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -12120,11 +10967,15 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
+    password?: StringFilter<"User"> | string
+    credits?: IntNullableFilter<"User"> | number | null
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
+    videoGenerationData?: VideoGenerationDataListRelationFilter
+    PurchaseDetails?: PurchaseDetailsListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -12132,12 +10983,16 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
+    password?: SortOrder
+    credits?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -12148,6 +11003,8 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    password?: StringWithAggregatesFilter<"User"> | string
+    credits?: IntNullableWithAggregatesFilter<"User"> | number | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -12349,81 +11206,6 @@ export namespace Prisma {
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
   }
 
-  export type UserDataWhereInput = {
-    AND?: UserDataWhereInput | UserDataWhereInput[]
-    OR?: UserDataWhereInput[]
-    NOT?: UserDataWhereInput | UserDataWhereInput[]
-    id?: StringFilter<"UserData"> | string
-    name?: StringFilter<"UserData"> | string
-    email?: StringFilter<"UserData"> | string
-    emailVerified?: DateTimeNullableFilter<"UserData"> | Date | string | null
-    password?: StringFilter<"UserData"> | string
-    credits?: IntNullableFilter<"UserData"> | number | null
-    createdAt?: DateTimeFilter<"UserData"> | Date | string
-    updatedAt?: DateTimeFilter<"UserData"> | Date | string
-    videoGenerationData?: VideoGenerationDataListRelationFilter
-    PurchaseDetails?: PurchaseDetailsListRelationFilter
-  }
-
-  export type UserDataOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    emailVerified?: SortOrderInput | SortOrder
-    password?: SortOrder
-    credits?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    videoGenerationData?: videoGenerationDataOrderByRelationAggregateInput
-    PurchaseDetails?: PurchaseDetailsOrderByRelationAggregateInput
-  }
-
-  export type UserDataWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    email?: string
-    AND?: UserDataWhereInput | UserDataWhereInput[]
-    OR?: UserDataWhereInput[]
-    NOT?: UserDataWhereInput | UserDataWhereInput[]
-    name?: StringFilter<"UserData"> | string
-    emailVerified?: DateTimeNullableFilter<"UserData"> | Date | string | null
-    password?: StringFilter<"UserData"> | string
-    credits?: IntNullableFilter<"UserData"> | number | null
-    createdAt?: DateTimeFilter<"UserData"> | Date | string
-    updatedAt?: DateTimeFilter<"UserData"> | Date | string
-    videoGenerationData?: VideoGenerationDataListRelationFilter
-    PurchaseDetails?: PurchaseDetailsListRelationFilter
-  }, "id" | "email">
-
-  export type UserDataOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    emailVerified?: SortOrderInput | SortOrder
-    password?: SortOrder
-    credits?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: UserDataCountOrderByAggregateInput
-    _avg?: UserDataAvgOrderByAggregateInput
-    _max?: UserDataMaxOrderByAggregateInput
-    _min?: UserDataMinOrderByAggregateInput
-    _sum?: UserDataSumOrderByAggregateInput
-  }
-
-  export type UserDataScalarWhereWithAggregatesInput = {
-    AND?: UserDataScalarWhereWithAggregatesInput | UserDataScalarWhereWithAggregatesInput[]
-    OR?: UserDataScalarWhereWithAggregatesInput[]
-    NOT?: UserDataScalarWhereWithAggregatesInput | UserDataScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"UserData"> | string
-    name?: StringWithAggregatesFilter<"UserData"> | string
-    email?: StringWithAggregatesFilter<"UserData"> | string
-    emailVerified?: DateTimeNullableWithAggregatesFilter<"UserData"> | Date | string | null
-    password?: StringWithAggregatesFilter<"UserData"> | string
-    credits?: IntNullableWithAggregatesFilter<"UserData"> | number | null
-    createdAt?: DateTimeWithAggregatesFilter<"UserData"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"UserData"> | Date | string
-  }
-
   export type videoGenerationDataWhereInput = {
     AND?: videoGenerationDataWhereInput | videoGenerationDataWhereInput[]
     OR?: videoGenerationDataWhereInput[]
@@ -12443,10 +11225,10 @@ export namespace Prisma {
     musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    userId?: StringNullableFilter<"videoGenerationData"> | string | null
     createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
     updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
-    userDataId?: StringFilter<"videoGenerationData"> | string
-    UserData?: XOR<UserDataScalarRelationFilter, UserDataWhereInput>
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type videoGenerationDataOrderByWithRelationInput = {
@@ -12465,10 +11247,10 @@ export namespace Prisma {
     musicUrl?: SortOrderInput | SortOrder
     finalVideoUrl?: SortOrderInput | SortOrder
     finalVideoPublicId?: SortOrderInput | SortOrder
+    userId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userDataId?: SortOrder
-    UserData?: UserDataOrderByWithRelationInput
+    User?: UserOrderByWithRelationInput
   }
 
   export type videoGenerationDataWhereUniqueInput = Prisma.AtLeast<{
@@ -12490,10 +11272,10 @@ export namespace Prisma {
     musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    userId?: StringNullableFilter<"videoGenerationData"> | string | null
     createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
     updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
-    userDataId?: StringFilter<"videoGenerationData"> | string
-    UserData?: XOR<UserDataScalarRelationFilter, UserDataWhereInput>
+    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "imageTaskId" | "videoTaskId" | "mergeAudioVideoTaskID">
 
   export type videoGenerationDataOrderByWithAggregationInput = {
@@ -12512,9 +11294,9 @@ export namespace Prisma {
     musicUrl?: SortOrderInput | SortOrder
     finalVideoUrl?: SortOrderInput | SortOrder
     finalVideoPublicId?: SortOrderInput | SortOrder
+    userId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userDataId?: SortOrder
     _count?: videoGenerationDataCountOrderByAggregateInput
     _max?: videoGenerationDataMaxOrderByAggregateInput
     _min?: videoGenerationDataMinOrderByAggregateInput
@@ -12539,9 +11321,9 @@ export namespace Prisma {
     musicUrl?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
     finalVideoUrl?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
     finalVideoPublicId?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    userId?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"videoGenerationData"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"videoGenerationData"> | Date | string
-    userDataId?: StringWithAggregatesFilter<"videoGenerationData"> | string
   }
 
   export type tokenWhereInput = {
@@ -12675,8 +11457,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PurchaseDetails"> | Date | string
     packageDetailsId?: StringFilter<"PurchaseDetails"> | string
     userId?: StringFilter<"PurchaseDetails"> | string
-    userLinked?: XOR<UserDataScalarRelationFilter, UserDataWhereInput>
     packagePurchased?: XOR<PackageDetailsScalarRelationFilter, PackageDetailsWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type PurchaseDetailsOrderByWithRelationInput = {
@@ -12692,8 +11474,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     packageDetailsId?: SortOrder
     userId?: SortOrder
-    userLinked?: UserDataOrderByWithRelationInput
     packagePurchased?: PackageDetailsOrderByWithRelationInput
+    User?: UserOrderByWithRelationInput
   }
 
   export type PurchaseDetailsWhereUniqueInput = Prisma.AtLeast<{
@@ -12712,8 +11494,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PurchaseDetails"> | Date | string
     packageDetailsId?: StringFilter<"PurchaseDetails"> | string
     userId?: StringFilter<"PurchaseDetails"> | string
-    userLinked?: XOR<UserDataScalarRelationFilter, UserDataWhereInput>
     packagePurchased?: XOR<PackageDetailsScalarRelationFilter, PackageDetailsWhereInput>
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type PurchaseDetailsOrderByWithAggregationInput = {
@@ -12759,11 +11541,15 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
+    password: string
+    credits?: number | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    videoGenerationData?: videoGenerationDataCreateNestedManyWithoutUserInput
+    PurchaseDetails?: PurchaseDetailsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12771,11 +11557,15 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
+    password: string
+    credits?: number | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    videoGenerationData?: videoGenerationDataUncheckedCreateNestedManyWithoutUserInput
+    PurchaseDetails?: PurchaseDetailsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12783,11 +11573,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    videoGenerationData?: videoGenerationDataUpdateManyWithoutUserNestedInput
+    PurchaseDetails?: PurchaseDetailsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12795,11 +11589,15 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    videoGenerationData?: videoGenerationDataUncheckedUpdateManyWithoutUserNestedInput
+    PurchaseDetails?: PurchaseDetailsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12807,6 +11605,8 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
+    password: string
+    credits?: number | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -12817,6 +11617,8 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12827,6 +11629,8 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13040,91 +11844,6 @@ export namespace Prisma {
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type UserDataCreateInput = {
-    id?: string
-    name: string
-    email: string
-    emailVerified?: Date | string | null
-    password: string
-    credits?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    videoGenerationData?: videoGenerationDataCreateNestedManyWithoutUserDataInput
-    PurchaseDetails?: PurchaseDetailsCreateNestedManyWithoutUserLinkedInput
-  }
-
-  export type UserDataUncheckedCreateInput = {
-    id?: string
-    name: string
-    email: string
-    emailVerified?: Date | string | null
-    password: string
-    credits?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    videoGenerationData?: videoGenerationDataUncheckedCreateNestedManyWithoutUserDataInput
-    PurchaseDetails?: PurchaseDetailsUncheckedCreateNestedManyWithoutUserLinkedInput
-  }
-
-  export type UserDataUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
-    credits?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    videoGenerationData?: videoGenerationDataUpdateManyWithoutUserDataNestedInput
-    PurchaseDetails?: PurchaseDetailsUpdateManyWithoutUserLinkedNestedInput
-  }
-
-  export type UserDataUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
-    credits?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    videoGenerationData?: videoGenerationDataUncheckedUpdateManyWithoutUserDataNestedInput
-    PurchaseDetails?: PurchaseDetailsUncheckedUpdateManyWithoutUserLinkedNestedInput
-  }
-
-  export type UserDataCreateManyInput = {
-    id?: string
-    name: string
-    email: string
-    emailVerified?: Date | string | null
-    password: string
-    credits?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type UserDataUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
-    credits?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type UserDataUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
-    credits?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type videoGenerationDataCreateInput = {
     id?: string
     userPrompt: string
@@ -13143,7 +11862,7 @@ export namespace Prisma {
     finalVideoPublicId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    UserData: UserDataCreateNestedOneWithoutVideoGenerationDataInput
+    User?: UserCreateNestedOneWithoutVideoGenerationDataInput
   }
 
   export type videoGenerationDataUncheckedCreateInput = {
@@ -13162,9 +11881,9 @@ export namespace Prisma {
     musicUrl?: string | null
     finalVideoUrl?: string | null
     finalVideoPublicId?: string | null
+    userId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    userDataId: string
   }
 
   export type videoGenerationDataUpdateInput = {
@@ -13185,7 +11904,7 @@ export namespace Prisma {
     finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    UserData?: UserDataUpdateOneRequiredWithoutVideoGenerationDataNestedInput
+    User?: UserUpdateOneWithoutVideoGenerationDataNestedInput
   }
 
   export type videoGenerationDataUncheckedUpdateInput = {
@@ -13204,9 +11923,9 @@ export namespace Prisma {
     musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
     finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userDataId?: StringFieldUpdateOperationsInput | string
   }
 
   export type videoGenerationDataCreateManyInput = {
@@ -13225,9 +11944,9 @@ export namespace Prisma {
     musicUrl?: string | null
     finalVideoUrl?: string | null
     finalVideoPublicId?: string | null
+    userId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    userDataId: string
   }
 
   export type videoGenerationDataUpdateManyMutationInput = {
@@ -13266,9 +11985,9 @@ export namespace Prisma {
     musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
     finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userDataId?: StringFieldUpdateOperationsInput | string
   }
 
   export type tokenCreateInput = {
@@ -13405,8 +12124,8 @@ export namespace Prisma {
     invoice_name: string
     creditPurchased: number
     createdAt: Date | string
-    userLinked: UserDataCreateNestedOneWithoutPurchaseDetailsInput
     packagePurchased: PackageDetailsCreateNestedOneWithoutPurchaseDetailsInput
+    User: UserCreateNestedOneWithoutPurchaseDetailsInput
   }
 
   export type PurchaseDetailsUncheckedCreateInput = {
@@ -13435,8 +12154,8 @@ export namespace Prisma {
     invoice_name?: StringFieldUpdateOperationsInput | string
     creditPurchased?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userLinked?: UserDataUpdateOneRequiredWithoutPurchaseDetailsNestedInput
     packagePurchased?: PackageDetailsUpdateOneRequiredWithoutPurchaseDetailsNestedInput
+    User?: UserUpdateOneRequiredWithoutPurchaseDetailsNestedInput
   }
 
   export type PurchaseDetailsUncheckedUpdateInput = {
@@ -13538,6 +12257,17 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -13561,6 +12291,18 @@ export namespace Prisma {
     none?: SessionWhereInput
   }
 
+  export type VideoGenerationDataListRelationFilter = {
+    every?: videoGenerationDataWhereInput
+    some?: videoGenerationDataWhereInput
+    none?: videoGenerationDataWhereInput
+  }
+
+  export type PurchaseDetailsListRelationFilter = {
+    every?: PurchaseDetailsWhereInput
+    some?: PurchaseDetailsWhereInput
+    none?: PurchaseDetailsWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -13574,14 +12316,28 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type videoGenerationDataOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PurchaseDetailsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    password?: SortOrder
+    credits?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    credits?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -13589,6 +12345,8 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    password?: SortOrder
+    credits?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -13599,9 +12357,15 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
+    password?: SortOrder
+    credits?: SortOrder
     image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    credits?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -13654,6 +12418,22 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -13666,17 +12446,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type UserScalarRelationFilter = {
@@ -13745,22 +12514,6 @@ export namespace Prisma {
     expires_at?: SortOrder
   }
 
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
-  }
-
   export type SessionCountOrderByAggregateInput = {
     sessionToken?: SortOrder
     userId?: SortOrder
@@ -13808,67 +12561,6 @@ export namespace Prisma {
     expires?: SortOrder
   }
 
-  export type VideoGenerationDataListRelationFilter = {
-    every?: videoGenerationDataWhereInput
-    some?: videoGenerationDataWhereInput
-    none?: videoGenerationDataWhereInput
-  }
-
-  export type PurchaseDetailsListRelationFilter = {
-    every?: PurchaseDetailsWhereInput
-    some?: PurchaseDetailsWhereInput
-    none?: PurchaseDetailsWhereInput
-  }
-
-  export type videoGenerationDataOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type PurchaseDetailsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type UserDataCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    emailVerified?: SortOrder
-    password?: SortOrder
-    credits?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UserDataAvgOrderByAggregateInput = {
-    credits?: SortOrder
-  }
-
-  export type UserDataMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    emailVerified?: SortOrder
-    password?: SortOrder
-    credits?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UserDataMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    email?: SortOrder
-    emailVerified?: SortOrder
-    password?: SortOrder
-    credits?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type UserDataSumOrderByAggregateInput = {
-    credits?: SortOrder
-  }
-
   export type EnumvideoGenerationStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.videoGenerationStatus | EnumvideoGenerationStatusFieldRefInput<$PrismaModel>
     in?: $Enums.videoGenerationStatus[] | ListEnumvideoGenerationStatusFieldRefInput<$PrismaModel>
@@ -13876,9 +12568,9 @@ export namespace Prisma {
     not?: NestedEnumvideoGenerationStatusFilter<$PrismaModel> | $Enums.videoGenerationStatus
   }
 
-  export type UserDataScalarRelationFilter = {
-    is?: UserDataWhereInput
-    isNot?: UserDataWhereInput
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
   }
 
   export type videoGenerationDataCountOrderByAggregateInput = {
@@ -13897,9 +12589,9 @@ export namespace Prisma {
     musicUrl?: SortOrder
     finalVideoUrl?: SortOrder
     finalVideoPublicId?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userDataId?: SortOrder
   }
 
   export type videoGenerationDataMaxOrderByAggregateInput = {
@@ -13918,9 +12610,9 @@ export namespace Prisma {
     musicUrl?: SortOrder
     finalVideoUrl?: SortOrder
     finalVideoPublicId?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userDataId?: SortOrder
   }
 
   export type videoGenerationDataMinOrderByAggregateInput = {
@@ -13939,9 +12631,9 @@ export namespace Prisma {
     musicUrl?: SortOrder
     finalVideoUrl?: SortOrder
     finalVideoPublicId?: SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    userDataId?: SortOrder
   }
 
   export type EnumvideoGenerationStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -14157,6 +12849,20 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
+  export type videoGenerationDataCreateNestedManyWithoutUserInput = {
+    create?: XOR<videoGenerationDataCreateWithoutUserInput, videoGenerationDataUncheckedCreateWithoutUserInput> | videoGenerationDataCreateWithoutUserInput[] | videoGenerationDataUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserInput | videoGenerationDataCreateOrConnectWithoutUserInput[]
+    createMany?: videoGenerationDataCreateManyUserInputEnvelope
+    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+  }
+
+  export type PurchaseDetailsCreateNestedManyWithoutUserInput = {
+    create?: XOR<PurchaseDetailsCreateWithoutUserInput, PurchaseDetailsUncheckedCreateWithoutUserInput> | PurchaseDetailsCreateWithoutUserInput[] | PurchaseDetailsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PurchaseDetailsCreateOrConnectWithoutUserInput | PurchaseDetailsCreateOrConnectWithoutUserInput[]
+    createMany?: PurchaseDetailsCreateManyUserInputEnvelope
+    connect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -14171,6 +12877,20 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
+  export type videoGenerationDataUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<videoGenerationDataCreateWithoutUserInput, videoGenerationDataUncheckedCreateWithoutUserInput> | videoGenerationDataCreateWithoutUserInput[] | videoGenerationDataUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserInput | videoGenerationDataCreateOrConnectWithoutUserInput[]
+    createMany?: videoGenerationDataCreateManyUserInputEnvelope
+    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+  }
+
+  export type PurchaseDetailsUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PurchaseDetailsCreateWithoutUserInput, PurchaseDetailsUncheckedCreateWithoutUserInput> | PurchaseDetailsCreateWithoutUserInput[] | PurchaseDetailsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PurchaseDetailsCreateOrConnectWithoutUserInput | PurchaseDetailsCreateOrConnectWithoutUserInput[]
+    createMany?: PurchaseDetailsCreateManyUserInputEnvelope
+    connect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -14181,6 +12901,14 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -14215,6 +12943,34 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
+  export type videoGenerationDataUpdateManyWithoutUserNestedInput = {
+    create?: XOR<videoGenerationDataCreateWithoutUserInput, videoGenerationDataUncheckedCreateWithoutUserInput> | videoGenerationDataCreateWithoutUserInput[] | videoGenerationDataUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserInput | videoGenerationDataCreateOrConnectWithoutUserInput[]
+    upsert?: videoGenerationDataUpsertWithWhereUniqueWithoutUserInput | videoGenerationDataUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: videoGenerationDataCreateManyUserInputEnvelope
+    set?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    disconnect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    delete?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    update?: videoGenerationDataUpdateWithWhereUniqueWithoutUserInput | videoGenerationDataUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: videoGenerationDataUpdateManyWithWhereWithoutUserInput | videoGenerationDataUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
+  }
+
+  export type PurchaseDetailsUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PurchaseDetailsCreateWithoutUserInput, PurchaseDetailsUncheckedCreateWithoutUserInput> | PurchaseDetailsCreateWithoutUserInput[] | PurchaseDetailsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PurchaseDetailsCreateOrConnectWithoutUserInput | PurchaseDetailsCreateOrConnectWithoutUserInput[]
+    upsert?: PurchaseDetailsUpsertWithWhereUniqueWithoutUserInput | PurchaseDetailsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PurchaseDetailsCreateManyUserInputEnvelope
+    set?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+    disconnect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+    delete?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+    connect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+    update?: PurchaseDetailsUpdateWithWhereUniqueWithoutUserInput | PurchaseDetailsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PurchaseDetailsUpdateManyWithWhereWithoutUserInput | PurchaseDetailsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PurchaseDetailsScalarWhereInput | PurchaseDetailsScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -14243,18 +12999,38 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
+  export type videoGenerationDataUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<videoGenerationDataCreateWithoutUserInput, videoGenerationDataUncheckedCreateWithoutUserInput> | videoGenerationDataCreateWithoutUserInput[] | videoGenerationDataUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserInput | videoGenerationDataCreateOrConnectWithoutUserInput[]
+    upsert?: videoGenerationDataUpsertWithWhereUniqueWithoutUserInput | videoGenerationDataUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: videoGenerationDataCreateManyUserInputEnvelope
+    set?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    disconnect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    delete?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
+    update?: videoGenerationDataUpdateWithWhereUniqueWithoutUserInput | videoGenerationDataUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: videoGenerationDataUpdateManyWithWhereWithoutUserInput | videoGenerationDataUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
+  }
+
+  export type PurchaseDetailsUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PurchaseDetailsCreateWithoutUserInput, PurchaseDetailsUncheckedCreateWithoutUserInput> | PurchaseDetailsCreateWithoutUserInput[] | PurchaseDetailsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PurchaseDetailsCreateOrConnectWithoutUserInput | PurchaseDetailsCreateOrConnectWithoutUserInput[]
+    upsert?: PurchaseDetailsUpsertWithWhereUniqueWithoutUserInput | PurchaseDetailsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PurchaseDetailsCreateManyUserInputEnvelope
+    set?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+    disconnect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+    delete?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+    connect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
+    update?: PurchaseDetailsUpdateWithWhereUniqueWithoutUserInput | PurchaseDetailsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PurchaseDetailsUpdateManyWithWhereWithoutUserInput | PurchaseDetailsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PurchaseDetailsScalarWhereInput | PurchaseDetailsScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutAccountsInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
@@ -14279,106 +13055,24 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSessionsInput, UserUpdateWithoutSessionsInput>, UserUncheckedUpdateWithoutSessionsInput>
   }
 
-  export type videoGenerationDataCreateNestedManyWithoutUserDataInput = {
-    create?: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput> | videoGenerationDataCreateWithoutUserDataInput[] | videoGenerationDataUncheckedCreateWithoutUserDataInput[]
-    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserDataInput | videoGenerationDataCreateOrConnectWithoutUserDataInput[]
-    createMany?: videoGenerationDataCreateManyUserDataInputEnvelope
-    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-  }
-
-  export type PurchaseDetailsCreateNestedManyWithoutUserLinkedInput = {
-    create?: XOR<PurchaseDetailsCreateWithoutUserLinkedInput, PurchaseDetailsUncheckedCreateWithoutUserLinkedInput> | PurchaseDetailsCreateWithoutUserLinkedInput[] | PurchaseDetailsUncheckedCreateWithoutUserLinkedInput[]
-    connectOrCreate?: PurchaseDetailsCreateOrConnectWithoutUserLinkedInput | PurchaseDetailsCreateOrConnectWithoutUserLinkedInput[]
-    createMany?: PurchaseDetailsCreateManyUserLinkedInputEnvelope
-    connect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-  }
-
-  export type videoGenerationDataUncheckedCreateNestedManyWithoutUserDataInput = {
-    create?: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput> | videoGenerationDataCreateWithoutUserDataInput[] | videoGenerationDataUncheckedCreateWithoutUserDataInput[]
-    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserDataInput | videoGenerationDataCreateOrConnectWithoutUserDataInput[]
-    createMany?: videoGenerationDataCreateManyUserDataInputEnvelope
-    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-  }
-
-  export type PurchaseDetailsUncheckedCreateNestedManyWithoutUserLinkedInput = {
-    create?: XOR<PurchaseDetailsCreateWithoutUserLinkedInput, PurchaseDetailsUncheckedCreateWithoutUserLinkedInput> | PurchaseDetailsCreateWithoutUserLinkedInput[] | PurchaseDetailsUncheckedCreateWithoutUserLinkedInput[]
-    connectOrCreate?: PurchaseDetailsCreateOrConnectWithoutUserLinkedInput | PurchaseDetailsCreateOrConnectWithoutUserLinkedInput[]
-    createMany?: PurchaseDetailsCreateManyUserLinkedInputEnvelope
-    connect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-  }
-
-  export type videoGenerationDataUpdateManyWithoutUserDataNestedInput = {
-    create?: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput> | videoGenerationDataCreateWithoutUserDataInput[] | videoGenerationDataUncheckedCreateWithoutUserDataInput[]
-    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserDataInput | videoGenerationDataCreateOrConnectWithoutUserDataInput[]
-    upsert?: videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput | videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput[]
-    createMany?: videoGenerationDataCreateManyUserDataInputEnvelope
-    set?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-    disconnect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-    delete?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-    update?: videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput | videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput[]
-    updateMany?: videoGenerationDataUpdateManyWithWhereWithoutUserDataInput | videoGenerationDataUpdateManyWithWhereWithoutUserDataInput[]
-    deleteMany?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
-  }
-
-  export type PurchaseDetailsUpdateManyWithoutUserLinkedNestedInput = {
-    create?: XOR<PurchaseDetailsCreateWithoutUserLinkedInput, PurchaseDetailsUncheckedCreateWithoutUserLinkedInput> | PurchaseDetailsCreateWithoutUserLinkedInput[] | PurchaseDetailsUncheckedCreateWithoutUserLinkedInput[]
-    connectOrCreate?: PurchaseDetailsCreateOrConnectWithoutUserLinkedInput | PurchaseDetailsCreateOrConnectWithoutUserLinkedInput[]
-    upsert?: PurchaseDetailsUpsertWithWhereUniqueWithoutUserLinkedInput | PurchaseDetailsUpsertWithWhereUniqueWithoutUserLinkedInput[]
-    createMany?: PurchaseDetailsCreateManyUserLinkedInputEnvelope
-    set?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-    disconnect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-    delete?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-    connect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-    update?: PurchaseDetailsUpdateWithWhereUniqueWithoutUserLinkedInput | PurchaseDetailsUpdateWithWhereUniqueWithoutUserLinkedInput[]
-    updateMany?: PurchaseDetailsUpdateManyWithWhereWithoutUserLinkedInput | PurchaseDetailsUpdateManyWithWhereWithoutUserLinkedInput[]
-    deleteMany?: PurchaseDetailsScalarWhereInput | PurchaseDetailsScalarWhereInput[]
-  }
-
-  export type videoGenerationDataUncheckedUpdateManyWithoutUserDataNestedInput = {
-    create?: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput> | videoGenerationDataCreateWithoutUserDataInput[] | videoGenerationDataUncheckedCreateWithoutUserDataInput[]
-    connectOrCreate?: videoGenerationDataCreateOrConnectWithoutUserDataInput | videoGenerationDataCreateOrConnectWithoutUserDataInput[]
-    upsert?: videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput | videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput[]
-    createMany?: videoGenerationDataCreateManyUserDataInputEnvelope
-    set?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-    disconnect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-    delete?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-    connect?: videoGenerationDataWhereUniqueInput | videoGenerationDataWhereUniqueInput[]
-    update?: videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput | videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput[]
-    updateMany?: videoGenerationDataUpdateManyWithWhereWithoutUserDataInput | videoGenerationDataUpdateManyWithWhereWithoutUserDataInput[]
-    deleteMany?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
-  }
-
-  export type PurchaseDetailsUncheckedUpdateManyWithoutUserLinkedNestedInput = {
-    create?: XOR<PurchaseDetailsCreateWithoutUserLinkedInput, PurchaseDetailsUncheckedCreateWithoutUserLinkedInput> | PurchaseDetailsCreateWithoutUserLinkedInput[] | PurchaseDetailsUncheckedCreateWithoutUserLinkedInput[]
-    connectOrCreate?: PurchaseDetailsCreateOrConnectWithoutUserLinkedInput | PurchaseDetailsCreateOrConnectWithoutUserLinkedInput[]
-    upsert?: PurchaseDetailsUpsertWithWhereUniqueWithoutUserLinkedInput | PurchaseDetailsUpsertWithWhereUniqueWithoutUserLinkedInput[]
-    createMany?: PurchaseDetailsCreateManyUserLinkedInputEnvelope
-    set?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-    disconnect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-    delete?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-    connect?: PurchaseDetailsWhereUniqueInput | PurchaseDetailsWhereUniqueInput[]
-    update?: PurchaseDetailsUpdateWithWhereUniqueWithoutUserLinkedInput | PurchaseDetailsUpdateWithWhereUniqueWithoutUserLinkedInput[]
-    updateMany?: PurchaseDetailsUpdateManyWithWhereWithoutUserLinkedInput | PurchaseDetailsUpdateManyWithWhereWithoutUserLinkedInput[]
-    deleteMany?: PurchaseDetailsScalarWhereInput | PurchaseDetailsScalarWhereInput[]
-  }
-
-  export type UserDataCreateNestedOneWithoutVideoGenerationDataInput = {
-    create?: XOR<UserDataCreateWithoutVideoGenerationDataInput, UserDataUncheckedCreateWithoutVideoGenerationDataInput>
-    connectOrCreate?: UserDataCreateOrConnectWithoutVideoGenerationDataInput
-    connect?: UserDataWhereUniqueInput
+  export type UserCreateNestedOneWithoutVideoGenerationDataInput = {
+    create?: XOR<UserCreateWithoutVideoGenerationDataInput, UserUncheckedCreateWithoutVideoGenerationDataInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVideoGenerationDataInput
+    connect?: UserWhereUniqueInput
   }
 
   export type EnumvideoGenerationStatusFieldUpdateOperationsInput = {
     set?: $Enums.videoGenerationStatus
   }
 
-  export type UserDataUpdateOneRequiredWithoutVideoGenerationDataNestedInput = {
-    create?: XOR<UserDataCreateWithoutVideoGenerationDataInput, UserDataUncheckedCreateWithoutVideoGenerationDataInput>
-    connectOrCreate?: UserDataCreateOrConnectWithoutVideoGenerationDataInput
-    upsert?: UserDataUpsertWithoutVideoGenerationDataInput
-    connect?: UserDataWhereUniqueInput
-    update?: XOR<XOR<UserDataUpdateToOneWithWhereWithoutVideoGenerationDataInput, UserDataUpdateWithoutVideoGenerationDataInput>, UserDataUncheckedUpdateWithoutVideoGenerationDataInput>
+  export type UserUpdateOneWithoutVideoGenerationDataNestedInput = {
+    create?: XOR<UserCreateWithoutVideoGenerationDataInput, UserUncheckedCreateWithoutVideoGenerationDataInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVideoGenerationDataInput
+    upsert?: UserUpsertWithoutVideoGenerationDataInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVideoGenerationDataInput, UserUpdateWithoutVideoGenerationDataInput>, UserUncheckedUpdateWithoutVideoGenerationDataInput>
   }
 
   export type EnumtokenTypeFieldUpdateOperationsInput = {
@@ -14435,28 +13129,20 @@ export namespace Prisma {
     deleteMany?: PurchaseDetailsScalarWhereInput | PurchaseDetailsScalarWhereInput[]
   }
 
-  export type UserDataCreateNestedOneWithoutPurchaseDetailsInput = {
-    create?: XOR<UserDataCreateWithoutPurchaseDetailsInput, UserDataUncheckedCreateWithoutPurchaseDetailsInput>
-    connectOrCreate?: UserDataCreateOrConnectWithoutPurchaseDetailsInput
-    connect?: UserDataWhereUniqueInput
-  }
-
   export type PackageDetailsCreateNestedOneWithoutPurchaseDetailsInput = {
     create?: XOR<PackageDetailsCreateWithoutPurchaseDetailsInput, PackageDetailsUncheckedCreateWithoutPurchaseDetailsInput>
     connectOrCreate?: PackageDetailsCreateOrConnectWithoutPurchaseDetailsInput
     connect?: PackageDetailsWhereUniqueInput
   }
 
-  export type Enumpayment_statusFieldUpdateOperationsInput = {
-    set?: $Enums.payment_status
+  export type UserCreateNestedOneWithoutPurchaseDetailsInput = {
+    create?: XOR<UserCreateWithoutPurchaseDetailsInput, UserUncheckedCreateWithoutPurchaseDetailsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPurchaseDetailsInput
+    connect?: UserWhereUniqueInput
   }
 
-  export type UserDataUpdateOneRequiredWithoutPurchaseDetailsNestedInput = {
-    create?: XOR<UserDataCreateWithoutPurchaseDetailsInput, UserDataUncheckedCreateWithoutPurchaseDetailsInput>
-    connectOrCreate?: UserDataCreateOrConnectWithoutPurchaseDetailsInput
-    upsert?: UserDataUpsertWithoutPurchaseDetailsInput
-    connect?: UserDataWhereUniqueInput
-    update?: XOR<XOR<UserDataUpdateToOneWithWhereWithoutPurchaseDetailsInput, UserDataUpdateWithoutPurchaseDetailsInput>, UserDataUncheckedUpdateWithoutPurchaseDetailsInput>
+  export type Enumpayment_statusFieldUpdateOperationsInput = {
+    set?: $Enums.payment_status
   }
 
   export type PackageDetailsUpdateOneRequiredWithoutPurchaseDetailsNestedInput = {
@@ -14465,6 +13151,14 @@ export namespace Prisma {
     upsert?: PackageDetailsUpsertWithoutPurchaseDetailsInput
     connect?: PackageDetailsWhereUniqueInput
     update?: XOR<XOR<PackageDetailsUpdateToOneWithWhereWithoutPurchaseDetailsInput, PackageDetailsUpdateWithoutPurchaseDetailsInput>, PackageDetailsUncheckedUpdateWithoutPurchaseDetailsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPurchaseDetailsNestedInput = {
+    create?: XOR<UserCreateWithoutPurchaseDetailsInput, UserUncheckedCreateWithoutPurchaseDetailsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPurchaseDetailsInput
+    upsert?: UserUpsertWithoutPurchaseDetailsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPurchaseDetailsInput, UserUpdateWithoutPurchaseDetailsInput>, UserUncheckedUpdateWithoutPurchaseDetailsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -14504,6 +13198,17 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -14562,17 +13267,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -14585,20 +13279,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -14626,6 +13306,20 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedEnumvideoGenerationStatusFilter<$PrismaModel = never> = {
@@ -14770,6 +13464,94 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type videoGenerationDataCreateWithoutUserInput = {
+    id?: string
+    userPrompt: string
+    status?: $Enums.videoGenerationStatus
+    imageTaskId?: string | null
+    videoTaskId?: string | null
+    mergeAudioVideoTaskID?: string | null
+    musicPrompt?: string | null
+    caption?: string | null
+    imageUrl?: string | null
+    videoUrl?: string | null
+    videoPublicId?: string | null
+    musicPublicId?: string | null
+    musicUrl?: string | null
+    finalVideoUrl?: string | null
+    finalVideoPublicId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type videoGenerationDataUncheckedCreateWithoutUserInput = {
+    id?: string
+    userPrompt: string
+    status?: $Enums.videoGenerationStatus
+    imageTaskId?: string | null
+    videoTaskId?: string | null
+    mergeAudioVideoTaskID?: string | null
+    musicPrompt?: string | null
+    caption?: string | null
+    imageUrl?: string | null
+    videoUrl?: string | null
+    videoPublicId?: string | null
+    musicPublicId?: string | null
+    musicUrl?: string | null
+    finalVideoUrl?: string | null
+    finalVideoPublicId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type videoGenerationDataCreateOrConnectWithoutUserInput = {
+    where: videoGenerationDataWhereUniqueInput
+    create: XOR<videoGenerationDataCreateWithoutUserInput, videoGenerationDataUncheckedCreateWithoutUserInput>
+  }
+
+  export type videoGenerationDataCreateManyUserInputEnvelope = {
+    data: videoGenerationDataCreateManyUserInput | videoGenerationDataCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PurchaseDetailsCreateWithoutUserInput = {
+    id?: string
+    order_id: string
+    amount: number
+    currency: string
+    payment_status: $Enums.payment_status
+    email: string
+    contact?: string | null
+    invoice_name: string
+    creditPurchased: number
+    createdAt: Date | string
+    packagePurchased: PackageDetailsCreateNestedOneWithoutPurchaseDetailsInput
+  }
+
+  export type PurchaseDetailsUncheckedCreateWithoutUserInput = {
+    id?: string
+    order_id: string
+    amount: number
+    currency: string
+    payment_status: $Enums.payment_status
+    email: string
+    contact?: string | null
+    invoice_name: string
+    creditPurchased: number
+    createdAt: Date | string
+    packageDetailsId: string
+  }
+
+  export type PurchaseDetailsCreateOrConnectWithoutUserInput = {
+    where: PurchaseDetailsWhereUniqueInput
+    create: XOR<PurchaseDetailsCreateWithoutUserInput, PurchaseDetailsUncheckedCreateWithoutUserInput>
+  }
+
+  export type PurchaseDetailsCreateManyUserInputEnvelope = {
+    data: PurchaseDetailsCreateManyUserInput | PurchaseDetailsCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -14832,15 +13614,93 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Session"> | Date | string
   }
 
+  export type videoGenerationDataUpsertWithWhereUniqueWithoutUserInput = {
+    where: videoGenerationDataWhereUniqueInput
+    update: XOR<videoGenerationDataUpdateWithoutUserInput, videoGenerationDataUncheckedUpdateWithoutUserInput>
+    create: XOR<videoGenerationDataCreateWithoutUserInput, videoGenerationDataUncheckedCreateWithoutUserInput>
+  }
+
+  export type videoGenerationDataUpdateWithWhereUniqueWithoutUserInput = {
+    where: videoGenerationDataWhereUniqueInput
+    data: XOR<videoGenerationDataUpdateWithoutUserInput, videoGenerationDataUncheckedUpdateWithoutUserInput>
+  }
+
+  export type videoGenerationDataUpdateManyWithWhereWithoutUserInput = {
+    where: videoGenerationDataScalarWhereInput
+    data: XOR<videoGenerationDataUpdateManyMutationInput, videoGenerationDataUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type videoGenerationDataScalarWhereInput = {
+    AND?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
+    OR?: videoGenerationDataScalarWhereInput[]
+    NOT?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
+    id?: StringFilter<"videoGenerationData"> | string
+    userPrompt?: StringFilter<"videoGenerationData"> | string
+    status?: EnumvideoGenerationStatusFilter<"videoGenerationData"> | $Enums.videoGenerationStatus
+    imageTaskId?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoTaskId?: StringNullableFilter<"videoGenerationData"> | string | null
+    mergeAudioVideoTaskID?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicPrompt?: StringNullableFilter<"videoGenerationData"> | string | null
+    caption?: StringNullableFilter<"videoGenerationData"> | string | null
+    imageUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    videoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
+    finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
+    userId?: StringNullableFilter<"videoGenerationData"> | string | null
+    createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
+    updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
+  }
+
+  export type PurchaseDetailsUpsertWithWhereUniqueWithoutUserInput = {
+    where: PurchaseDetailsWhereUniqueInput
+    update: XOR<PurchaseDetailsUpdateWithoutUserInput, PurchaseDetailsUncheckedUpdateWithoutUserInput>
+    create: XOR<PurchaseDetailsCreateWithoutUserInput, PurchaseDetailsUncheckedCreateWithoutUserInput>
+  }
+
+  export type PurchaseDetailsUpdateWithWhereUniqueWithoutUserInput = {
+    where: PurchaseDetailsWhereUniqueInput
+    data: XOR<PurchaseDetailsUpdateWithoutUserInput, PurchaseDetailsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PurchaseDetailsUpdateManyWithWhereWithoutUserInput = {
+    where: PurchaseDetailsScalarWhereInput
+    data: XOR<PurchaseDetailsUpdateManyMutationInput, PurchaseDetailsUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PurchaseDetailsScalarWhereInput = {
+    AND?: PurchaseDetailsScalarWhereInput | PurchaseDetailsScalarWhereInput[]
+    OR?: PurchaseDetailsScalarWhereInput[]
+    NOT?: PurchaseDetailsScalarWhereInput | PurchaseDetailsScalarWhereInput[]
+    id?: StringFilter<"PurchaseDetails"> | string
+    order_id?: StringFilter<"PurchaseDetails"> | string
+    amount?: IntFilter<"PurchaseDetails"> | number
+    currency?: StringFilter<"PurchaseDetails"> | string
+    payment_status?: Enumpayment_statusFilter<"PurchaseDetails"> | $Enums.payment_status
+    email?: StringFilter<"PurchaseDetails"> | string
+    contact?: StringNullableFilter<"PurchaseDetails"> | string | null
+    invoice_name?: StringFilter<"PurchaseDetails"> | string
+    creditPurchased?: IntFilter<"PurchaseDetails"> | number
+    createdAt?: DateTimeFilter<"PurchaseDetails"> | Date | string
+    packageDetailsId?: StringFilter<"PurchaseDetails"> | string
+    userId?: StringFilter<"PurchaseDetails"> | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
     email: string
     emailVerified?: Date | string | null
+    password: string
+    credits?: number | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
+    videoGenerationData?: videoGenerationDataCreateNestedManyWithoutUserInput
+    PurchaseDetails?: PurchaseDetailsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -14848,10 +13708,14 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
+    password: string
+    credits?: number | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    videoGenerationData?: videoGenerationDataUncheckedCreateNestedManyWithoutUserInput
+    PurchaseDetails?: PurchaseDetailsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -14875,10 +13739,14 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    videoGenerationData?: videoGenerationDataUpdateManyWithoutUserNestedInput
+    PurchaseDetails?: PurchaseDetailsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -14886,10 +13754,14 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    videoGenerationData?: videoGenerationDataUncheckedUpdateManyWithoutUserNestedInput
+    PurchaseDetails?: PurchaseDetailsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -14897,10 +13769,14 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
+    password: string
+    credits?: number | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
+    videoGenerationData?: videoGenerationDataCreateNestedManyWithoutUserInput
+    PurchaseDetails?: PurchaseDetailsCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -14908,10 +13784,14 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
+    password: string
+    credits?: number | null
     image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    videoGenerationData?: videoGenerationDataUncheckedCreateNestedManyWithoutUserInput
+    PurchaseDetails?: PurchaseDetailsUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -14935,10 +13815,14 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    videoGenerationData?: videoGenerationDataUpdateManyWithoutUserNestedInput
+    PurchaseDetails?: PurchaseDetailsUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -14946,236 +13830,90 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    videoGenerationData?: videoGenerationDataUncheckedUpdateManyWithoutUserNestedInput
+    PurchaseDetails?: PurchaseDetailsUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type videoGenerationDataCreateWithoutUserDataInput = {
+  export type UserCreateWithoutVideoGenerationDataInput = {
     id?: string
-    userPrompt: string
-    status?: $Enums.videoGenerationStatus
-    imageTaskId?: string | null
-    videoTaskId?: string | null
-    mergeAudioVideoTaskID?: string | null
-    musicPrompt?: string | null
-    caption?: string | null
-    imageUrl?: string | null
-    videoUrl?: string | null
-    videoPublicId?: string | null
-    musicPublicId?: string | null
-    musicUrl?: string | null
-    finalVideoUrl?: string | null
-    finalVideoPublicId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type videoGenerationDataUncheckedCreateWithoutUserDataInput = {
-    id?: string
-    userPrompt: string
-    status?: $Enums.videoGenerationStatus
-    imageTaskId?: string | null
-    videoTaskId?: string | null
-    mergeAudioVideoTaskID?: string | null
-    musicPrompt?: string | null
-    caption?: string | null
-    imageUrl?: string | null
-    videoUrl?: string | null
-    videoPublicId?: string | null
-    musicPublicId?: string | null
-    musicUrl?: string | null
-    finalVideoUrl?: string | null
-    finalVideoPublicId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type videoGenerationDataCreateOrConnectWithoutUserDataInput = {
-    where: videoGenerationDataWhereUniqueInput
-    create: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput>
-  }
-
-  export type videoGenerationDataCreateManyUserDataInputEnvelope = {
-    data: videoGenerationDataCreateManyUserDataInput | videoGenerationDataCreateManyUserDataInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type PurchaseDetailsCreateWithoutUserLinkedInput = {
-    id?: string
-    order_id: string
-    amount: number
-    currency: string
-    payment_status: $Enums.payment_status
-    email: string
-    contact?: string | null
-    invoice_name: string
-    creditPurchased: number
-    createdAt: Date | string
-    packagePurchased: PackageDetailsCreateNestedOneWithoutPurchaseDetailsInput
-  }
-
-  export type PurchaseDetailsUncheckedCreateWithoutUserLinkedInput = {
-    id?: string
-    order_id: string
-    amount: number
-    currency: string
-    payment_status: $Enums.payment_status
-    email: string
-    contact?: string | null
-    invoice_name: string
-    creditPurchased: number
-    createdAt: Date | string
-    packageDetailsId: string
-  }
-
-  export type PurchaseDetailsCreateOrConnectWithoutUserLinkedInput = {
-    where: PurchaseDetailsWhereUniqueInput
-    create: XOR<PurchaseDetailsCreateWithoutUserLinkedInput, PurchaseDetailsUncheckedCreateWithoutUserLinkedInput>
-  }
-
-  export type PurchaseDetailsCreateManyUserLinkedInputEnvelope = {
-    data: PurchaseDetailsCreateManyUserLinkedInput | PurchaseDetailsCreateManyUserLinkedInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type videoGenerationDataUpsertWithWhereUniqueWithoutUserDataInput = {
-    where: videoGenerationDataWhereUniqueInput
-    update: XOR<videoGenerationDataUpdateWithoutUserDataInput, videoGenerationDataUncheckedUpdateWithoutUserDataInput>
-    create: XOR<videoGenerationDataCreateWithoutUserDataInput, videoGenerationDataUncheckedCreateWithoutUserDataInput>
-  }
-
-  export type videoGenerationDataUpdateWithWhereUniqueWithoutUserDataInput = {
-    where: videoGenerationDataWhereUniqueInput
-    data: XOR<videoGenerationDataUpdateWithoutUserDataInput, videoGenerationDataUncheckedUpdateWithoutUserDataInput>
-  }
-
-  export type videoGenerationDataUpdateManyWithWhereWithoutUserDataInput = {
-    where: videoGenerationDataScalarWhereInput
-    data: XOR<videoGenerationDataUpdateManyMutationInput, videoGenerationDataUncheckedUpdateManyWithoutUserDataInput>
-  }
-
-  export type videoGenerationDataScalarWhereInput = {
-    AND?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
-    OR?: videoGenerationDataScalarWhereInput[]
-    NOT?: videoGenerationDataScalarWhereInput | videoGenerationDataScalarWhereInput[]
-    id?: StringFilter<"videoGenerationData"> | string
-    userPrompt?: StringFilter<"videoGenerationData"> | string
-    status?: EnumvideoGenerationStatusFilter<"videoGenerationData"> | $Enums.videoGenerationStatus
-    imageTaskId?: StringNullableFilter<"videoGenerationData"> | string | null
-    videoTaskId?: StringNullableFilter<"videoGenerationData"> | string | null
-    mergeAudioVideoTaskID?: StringNullableFilter<"videoGenerationData"> | string | null
-    musicPrompt?: StringNullableFilter<"videoGenerationData"> | string | null
-    caption?: StringNullableFilter<"videoGenerationData"> | string | null
-    imageUrl?: StringNullableFilter<"videoGenerationData"> | string | null
-    videoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
-    videoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
-    musicPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
-    musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
-    finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
-    finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
-    createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
-    updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
-    userDataId?: StringFilter<"videoGenerationData"> | string
-  }
-
-  export type PurchaseDetailsUpsertWithWhereUniqueWithoutUserLinkedInput = {
-    where: PurchaseDetailsWhereUniqueInput
-    update: XOR<PurchaseDetailsUpdateWithoutUserLinkedInput, PurchaseDetailsUncheckedUpdateWithoutUserLinkedInput>
-    create: XOR<PurchaseDetailsCreateWithoutUserLinkedInput, PurchaseDetailsUncheckedCreateWithoutUserLinkedInput>
-  }
-
-  export type PurchaseDetailsUpdateWithWhereUniqueWithoutUserLinkedInput = {
-    where: PurchaseDetailsWhereUniqueInput
-    data: XOR<PurchaseDetailsUpdateWithoutUserLinkedInput, PurchaseDetailsUncheckedUpdateWithoutUserLinkedInput>
-  }
-
-  export type PurchaseDetailsUpdateManyWithWhereWithoutUserLinkedInput = {
-    where: PurchaseDetailsScalarWhereInput
-    data: XOR<PurchaseDetailsUpdateManyMutationInput, PurchaseDetailsUncheckedUpdateManyWithoutUserLinkedInput>
-  }
-
-  export type PurchaseDetailsScalarWhereInput = {
-    AND?: PurchaseDetailsScalarWhereInput | PurchaseDetailsScalarWhereInput[]
-    OR?: PurchaseDetailsScalarWhereInput[]
-    NOT?: PurchaseDetailsScalarWhereInput | PurchaseDetailsScalarWhereInput[]
-    id?: StringFilter<"PurchaseDetails"> | string
-    order_id?: StringFilter<"PurchaseDetails"> | string
-    amount?: IntFilter<"PurchaseDetails"> | number
-    currency?: StringFilter<"PurchaseDetails"> | string
-    payment_status?: Enumpayment_statusFilter<"PurchaseDetails"> | $Enums.payment_status
-    email?: StringFilter<"PurchaseDetails"> | string
-    contact?: StringNullableFilter<"PurchaseDetails"> | string | null
-    invoice_name?: StringFilter<"PurchaseDetails"> | string
-    creditPurchased?: IntFilter<"PurchaseDetails"> | number
-    createdAt?: DateTimeFilter<"PurchaseDetails"> | Date | string
-    packageDetailsId?: StringFilter<"PurchaseDetails"> | string
-    userId?: StringFilter<"PurchaseDetails"> | string
-  }
-
-  export type UserDataCreateWithoutVideoGenerationDataInput = {
-    id?: string
-    name: string
+    name?: string | null
     email: string
     emailVerified?: Date | string | null
     password: string
     credits?: number | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    PurchaseDetails?: PurchaseDetailsCreateNestedManyWithoutUserLinkedInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    PurchaseDetails?: PurchaseDetailsCreateNestedManyWithoutUserInput
   }
 
-  export type UserDataUncheckedCreateWithoutVideoGenerationDataInput = {
+  export type UserUncheckedCreateWithoutVideoGenerationDataInput = {
     id?: string
-    name: string
+    name?: string | null
     email: string
     emailVerified?: Date | string | null
     password: string
     credits?: number | null
+    image?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    PurchaseDetails?: PurchaseDetailsUncheckedCreateNestedManyWithoutUserLinkedInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    PurchaseDetails?: PurchaseDetailsUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserDataCreateOrConnectWithoutVideoGenerationDataInput = {
-    where: UserDataWhereUniqueInput
-    create: XOR<UserDataCreateWithoutVideoGenerationDataInput, UserDataUncheckedCreateWithoutVideoGenerationDataInput>
+  export type UserCreateOrConnectWithoutVideoGenerationDataInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutVideoGenerationDataInput, UserUncheckedCreateWithoutVideoGenerationDataInput>
   }
 
-  export type UserDataUpsertWithoutVideoGenerationDataInput = {
-    update: XOR<UserDataUpdateWithoutVideoGenerationDataInput, UserDataUncheckedUpdateWithoutVideoGenerationDataInput>
-    create: XOR<UserDataCreateWithoutVideoGenerationDataInput, UserDataUncheckedCreateWithoutVideoGenerationDataInput>
-    where?: UserDataWhereInput
+  export type UserUpsertWithoutVideoGenerationDataInput = {
+    update: XOR<UserUpdateWithoutVideoGenerationDataInput, UserUncheckedUpdateWithoutVideoGenerationDataInput>
+    create: XOR<UserCreateWithoutVideoGenerationDataInput, UserUncheckedCreateWithoutVideoGenerationDataInput>
+    where?: UserWhereInput
   }
 
-  export type UserDataUpdateToOneWithWhereWithoutVideoGenerationDataInput = {
-    where?: UserDataWhereInput
-    data: XOR<UserDataUpdateWithoutVideoGenerationDataInput, UserDataUncheckedUpdateWithoutVideoGenerationDataInput>
+  export type UserUpdateToOneWithWhereWithoutVideoGenerationDataInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVideoGenerationDataInput, UserUncheckedUpdateWithoutVideoGenerationDataInput>
   }
 
-  export type UserDataUpdateWithoutVideoGenerationDataInput = {
+  export type UserUpdateWithoutVideoGenerationDataInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     credits?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    PurchaseDetails?: PurchaseDetailsUpdateManyWithoutUserLinkedNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    PurchaseDetails?: PurchaseDetailsUpdateManyWithoutUserNestedInput
   }
 
-  export type UserDataUncheckedUpdateWithoutVideoGenerationDataInput = {
+  export type UserUncheckedUpdateWithoutVideoGenerationDataInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     password?: StringFieldUpdateOperationsInput | string
     credits?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    PurchaseDetails?: PurchaseDetailsUncheckedUpdateManyWithoutUserLinkedNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    PurchaseDetails?: PurchaseDetailsUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PurchaseDetailsCreateWithoutPackagePurchasedInput = {
@@ -15189,7 +13927,7 @@ export namespace Prisma {
     invoice_name: string
     creditPurchased: number
     createdAt: Date | string
-    userLinked: UserDataCreateNestedOneWithoutPurchaseDetailsInput
+    User: UserCreateNestedOneWithoutPurchaseDetailsInput
   }
 
   export type PurchaseDetailsUncheckedCreateWithoutPackagePurchasedInput = {
@@ -15232,35 +13970,6 @@ export namespace Prisma {
     data: XOR<PurchaseDetailsUpdateManyMutationInput, PurchaseDetailsUncheckedUpdateManyWithoutPackagePurchasedInput>
   }
 
-  export type UserDataCreateWithoutPurchaseDetailsInput = {
-    id?: string
-    name: string
-    email: string
-    emailVerified?: Date | string | null
-    password: string
-    credits?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    videoGenerationData?: videoGenerationDataCreateNestedManyWithoutUserDataInput
-  }
-
-  export type UserDataUncheckedCreateWithoutPurchaseDetailsInput = {
-    id?: string
-    name: string
-    email: string
-    emailVerified?: Date | string | null
-    password: string
-    credits?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    videoGenerationData?: videoGenerationDataUncheckedCreateNestedManyWithoutUserDataInput
-  }
-
-  export type UserDataCreateOrConnectWithoutPurchaseDetailsInput = {
-    where: UserDataWhereUniqueInput
-    create: XOR<UserDataCreateWithoutPurchaseDetailsInput, UserDataUncheckedCreateWithoutPurchaseDetailsInput>
-  }
-
   export type PackageDetailsCreateWithoutPurchaseDetailsInput = {
     id?: string
     key: string
@@ -15284,39 +13993,39 @@ export namespace Prisma {
     create: XOR<PackageDetailsCreateWithoutPurchaseDetailsInput, PackageDetailsUncheckedCreateWithoutPurchaseDetailsInput>
   }
 
-  export type UserDataUpsertWithoutPurchaseDetailsInput = {
-    update: XOR<UserDataUpdateWithoutPurchaseDetailsInput, UserDataUncheckedUpdateWithoutPurchaseDetailsInput>
-    create: XOR<UserDataCreateWithoutPurchaseDetailsInput, UserDataUncheckedCreateWithoutPurchaseDetailsInput>
-    where?: UserDataWhereInput
+  export type UserCreateWithoutPurchaseDetailsInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    password: string
+    credits?: number | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    videoGenerationData?: videoGenerationDataCreateNestedManyWithoutUserInput
   }
 
-  export type UserDataUpdateToOneWithWhereWithoutPurchaseDetailsInput = {
-    where?: UserDataWhereInput
-    data: XOR<UserDataUpdateWithoutPurchaseDetailsInput, UserDataUncheckedUpdateWithoutPurchaseDetailsInput>
+  export type UserUncheckedCreateWithoutPurchaseDetailsInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    password: string
+    credits?: number | null
+    image?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    videoGenerationData?: videoGenerationDataUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserDataUpdateWithoutPurchaseDetailsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
-    credits?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    videoGenerationData?: videoGenerationDataUpdateManyWithoutUserDataNestedInput
-  }
-
-  export type UserDataUncheckedUpdateWithoutPurchaseDetailsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
-    credits?: NullableIntFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    videoGenerationData?: videoGenerationDataUncheckedUpdateManyWithoutUserDataNestedInput
+  export type UserCreateOrConnectWithoutPurchaseDetailsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPurchaseDetailsInput, UserUncheckedCreateWithoutPurchaseDetailsInput>
   }
 
   export type PackageDetailsUpsertWithoutPurchaseDetailsInput = {
@@ -15348,6 +14057,47 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserUpsertWithoutPurchaseDetailsInput = {
+    update: XOR<UserUpdateWithoutPurchaseDetailsInput, UserUncheckedUpdateWithoutPurchaseDetailsInput>
+    create: XOR<UserCreateWithoutPurchaseDetailsInput, UserUncheckedCreateWithoutPurchaseDetailsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPurchaseDetailsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPurchaseDetailsInput, UserUncheckedUpdateWithoutPurchaseDetailsInput>
+  }
+
+  export type UserUpdateWithoutPurchaseDetailsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    videoGenerationData?: videoGenerationDataUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPurchaseDetailsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    password?: StringFieldUpdateOperationsInput | string
+    credits?: NullableIntFieldUpdateOperationsInput | number | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    videoGenerationData?: videoGenerationDataUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type AccountCreateManyUserInput = {
     type: string
     provider: string
@@ -15368,6 +14118,40 @@ export namespace Prisma {
     expires: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type videoGenerationDataCreateManyUserInput = {
+    id?: string
+    userPrompt: string
+    status?: $Enums.videoGenerationStatus
+    imageTaskId?: string | null
+    videoTaskId?: string | null
+    mergeAudioVideoTaskID?: string | null
+    musicPrompt?: string | null
+    caption?: string | null
+    imageUrl?: string | null
+    videoUrl?: string | null
+    videoPublicId?: string | null
+    musicPublicId?: string | null
+    musicUrl?: string | null
+    finalVideoUrl?: string | null
+    finalVideoPublicId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PurchaseDetailsCreateManyUserInput = {
+    id?: string
+    order_id: string
+    amount: number
+    currency: string
+    payment_status: $Enums.payment_status
+    email: string
+    contact?: string | null
+    invoice_name: string
+    creditPurchased: number
+    createdAt: Date | string
+    packageDetailsId: string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -15436,41 +14220,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type videoGenerationDataCreateManyUserDataInput = {
-    id?: string
-    userPrompt: string
-    status?: $Enums.videoGenerationStatus
-    imageTaskId?: string | null
-    videoTaskId?: string | null
-    mergeAudioVideoTaskID?: string | null
-    musicPrompt?: string | null
-    caption?: string | null
-    imageUrl?: string | null
-    videoUrl?: string | null
-    videoPublicId?: string | null
-    musicPublicId?: string | null
-    musicUrl?: string | null
-    finalVideoUrl?: string | null
-    finalVideoPublicId?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PurchaseDetailsCreateManyUserLinkedInput = {
-    id?: string
-    order_id: string
-    amount: number
-    currency: string
-    payment_status: $Enums.payment_status
-    email: string
-    contact?: string | null
-    invoice_name: string
-    creditPurchased: number
-    createdAt: Date | string
-    packageDetailsId: string
-  }
-
-  export type videoGenerationDataUpdateWithoutUserDataInput = {
+  export type videoGenerationDataUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     userPrompt?: StringFieldUpdateOperationsInput | string
     status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
@@ -15490,7 +14240,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type videoGenerationDataUncheckedUpdateWithoutUserDataInput = {
+  export type videoGenerationDataUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     userPrompt?: StringFieldUpdateOperationsInput | string
     status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
@@ -15510,7 +14260,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type videoGenerationDataUncheckedUpdateManyWithoutUserDataInput = {
+  export type videoGenerationDataUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     userPrompt?: StringFieldUpdateOperationsInput | string
     status?: EnumvideoGenerationStatusFieldUpdateOperationsInput | $Enums.videoGenerationStatus
@@ -15530,7 +14280,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type PurchaseDetailsUpdateWithoutUserLinkedInput = {
+  export type PurchaseDetailsUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     order_id?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
@@ -15544,7 +14294,7 @@ export namespace Prisma {
     packagePurchased?: PackageDetailsUpdateOneRequiredWithoutPurchaseDetailsNestedInput
   }
 
-  export type PurchaseDetailsUncheckedUpdateWithoutUserLinkedInput = {
+  export type PurchaseDetailsUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     order_id?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
@@ -15558,7 +14308,7 @@ export namespace Prisma {
     packageDetailsId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type PurchaseDetailsUncheckedUpdateManyWithoutUserLinkedInput = {
+  export type PurchaseDetailsUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     order_id?: StringFieldUpdateOperationsInput | string
     amount?: IntFieldUpdateOperationsInput | number
@@ -15597,7 +14347,7 @@ export namespace Prisma {
     invoice_name?: StringFieldUpdateOperationsInput | string
     creditPurchased?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userLinked?: UserDataUpdateOneRequiredWithoutPurchaseDetailsNestedInput
+    User?: UserUpdateOneRequiredWithoutPurchaseDetailsNestedInput
   }
 
   export type PurchaseDetailsUncheckedUpdateWithoutPackagePurchasedInput = {

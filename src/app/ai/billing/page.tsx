@@ -13,7 +13,7 @@ export default async function Page() {
   const billingData = await GetBillingInfo(session?.user.id);
 
   return (
-    <div className="vertical-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+    <div className="vertical-center bg-zinc-900">
       <div className="container mx-auto">
         {billingData ? (
           <BillingTable billingData={billingData} />
