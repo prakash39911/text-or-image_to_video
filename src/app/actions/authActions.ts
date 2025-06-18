@@ -30,6 +30,23 @@ export async function RegisterUser(data: SignUpFormSchemaType) {
 
     const { firstName, lastName, email, password } = validate.data;
 
+    const isUserExists = await prisma.user.findFirst({
+      where: {
+        email,
+      },
+      select: {
+        accounts: true,
+      },
+    });
+
+    if (isUserExists) {
+      return {
+        status: false,
+        message: "Account Already Exists with the givne email.",
+        data: null,
+      };
+    }
+
     const fullName = firstName + " " + lastName;
 
     const hashedPassword = await bcrypt.hash(password, 10);

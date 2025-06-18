@@ -6,7 +6,7 @@ import { CldImage } from "next-cloudinary";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-export default function AuthComponent() {
+export default function AuthComponent({ AuthError }: { AuthError: string }) {
   const [isSignup, setIsSignup] = useState(false);
 
   const imagePublicID = "8751584_qratne";
@@ -141,7 +141,7 @@ export default function AuthComponent() {
       {/* Auth form section */}
       <div className="md:col-span-3 flex items-center justify-center p-4 bg-slate-900">
         {!isSignup ? (
-          <SignIn setIsSignup={setIsSignup} />
+          <SignIn setIsSignup={setIsSignup} AuthError={AuthError} />
         ) : (
           <SignUp setIsSignup={setIsSignup} />
         )}

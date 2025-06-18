@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { SendPasswordResetLink } from "@/app/actions/mailAction";
 
-export default function SignIn({ setIsSignup }: any) {
+export default function SignIn({ setIsSignup, AuthError }: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -314,6 +314,16 @@ export default function SignIn({ setIsSignup }: any) {
           {loginError && <div className="text-red-700">{loginError}</div>}
         </form>
       </div>
+
+      {AuthError && AuthError.length > 0 && (
+        <div className="text-red-700">
+          {AuthError === "OAuthAccountExists" &&
+            "Please login using Google or Github"}
+
+          {AuthError === "CredentialsAccountExists" &&
+            "Please use Email ID and password to login"}
+        </div>
+      )}
 
       <div className="text-center">
         <p className="text-sm text-gray-400">

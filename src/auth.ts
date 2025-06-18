@@ -114,6 +114,36 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       return session;
     },
+
+    async signIn({ user, account }) {
+      if (account?.provider !== "credentials") {
+        const existingUser = await prisma.user.findUnique({
+          where: {
+            email: user.email!,
+          },
+        });
+
+        if (existingUser && existingUser.password) {
+          return "/auth?error=CredentialsAccountExists";
+        }
+      }
+
+      if (account?.provider === "credentials") {
+        const userExists = await prisma.user.findUnique({
+          where: { email: user.email! },
+          include: { accounts: true },
+        });
+
+        if (
+          userExists &&
+          userExists.accounts.some((acc) => acc.type === "oauth")
+        ) {
+          return "/auth?error=OAuthAccountExists";
+        }
+      }
+
+      return true;
+    },
   },
   secret: process.env.AUTH_SECRET,
 });

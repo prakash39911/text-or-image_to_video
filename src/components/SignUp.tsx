@@ -18,6 +18,7 @@ export default function SignUp({ setIsSignup }: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isSignupDone, setIsSignUpDone] = useState(false);
+  const [error, seterror] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -28,6 +29,7 @@ export default function SignUp({ setIsSignup }: any) {
     reset,
   } = useForm<SignUpFormSchemaType>({
     resolver: zodResolver(SignUpFormSchema),
+    mode: "onChange",
   });
 
   async function actualSubmit(data: SignUpFormSchemaType) {
@@ -37,6 +39,12 @@ export default function SignUp({ setIsSignup }: any) {
 
       if (!result) {
         throw new Error("Something went wrong");
+      }
+
+      if (!result.status) {
+        seterror(result.message!);
+        toast(result.message);
+        return;
       }
 
       setIsSignUpDone(true);
@@ -91,7 +99,11 @@ export default function SignUp({ setIsSignup }: any) {
           </div>
         </div> */}
 
-        <form onSubmit={handleSubmit(actualSubmit)} className="space-y-4">
+        <form
+          onSubmit={handleSubmit(actualSubmit)}
+          className="space-y-4"
+          onChange={() => seterror(null)}
+        >
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="first-name" className="text-gray-300">
@@ -195,6 +207,8 @@ export default function SignUp({ setIsSignup }: any) {
       <div className="text-center mt-[-10px]">
         {isSignupDone && <p className="text-red-600">Verify Your Email</p>}
       </div>
+
+      <div className="text-center text-red-600">{error && error}</div>
 
       <div className="text-center">
         <p className="text-sm text-gray-400">
