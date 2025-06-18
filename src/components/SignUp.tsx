@@ -12,7 +12,7 @@ import { SignUpFormSchema, SignUpFormSchemaType } from "@/lib/ZodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RegisterUser } from "@/app/actions/authActions";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 export default function SignUp({ setIsSignup }: any) {
   const [isLoading, setIsLoading] = useState(false);

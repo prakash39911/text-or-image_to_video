@@ -42,7 +42,7 @@ export async function RegisterUser(data: SignUpFormSchemaType) {
     if (isUserExists) {
       return {
         status: false,
-        message: "Account Already Exists with the givne email.",
+        message: "Account already exists with the given email.",
         data: null,
       };
     }
@@ -72,7 +72,7 @@ export async function RegisterUser(data: SignUpFormSchemaType) {
       "Verify Your email",
       VerifyEmail({
         firstName: fullName,
-        verificationUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${tokenData.token}`,
+        verificationUrl: `${process.env.BASE_URL}/verify-email?token=${tokenData.token}`,
       })
     );
 

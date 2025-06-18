@@ -77,7 +77,7 @@ export async function SendPasswordResetLink(email: string) {
       "Reset Passowrd",
       PasswordResetEmail({
         firstName: existingUser.name ? existingUser.name : "User",
-        resetUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password?token=${isTokenGenerated.token}`,
+        resetUrl: `${process.env.BASE_URL}/reset-password?token=${isTokenGenerated.token}`,
       })
     );
 

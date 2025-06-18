@@ -317,11 +317,12 @@ export default function SignIn({ setIsSignup, AuthError }: any) {
 
       {AuthError && AuthError.length > 0 && (
         <div className="text-red-700">
-          {AuthError === "OAuthAccountExists" &&
-            "Please login using Google or Github"}
-
-          {AuthError === "CredentialsAccountExists" &&
-            "Please use Email ID and password to login"}
+          {(AuthError === "OAuthAccountExists" &&
+            "You already have an account ! Please login using Google or Github") ||
+            (AuthError === "CredentialsAccountExists" &&
+              "You already have acoount ! Please use Email ID and password to login") ||
+            `Please try Another Method of login
+            Error - ${AuthError}`}
         </div>
       )}
 

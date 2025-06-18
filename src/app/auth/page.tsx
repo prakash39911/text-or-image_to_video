@@ -8,8 +8,6 @@ export default async function page({
 }) {
   const { error } = await searchParams;
 
-  console.log("Search params in Auth Page---", error);
-
   return (
     <div>
       <AuthComponent AuthError={error ? error : ""} />

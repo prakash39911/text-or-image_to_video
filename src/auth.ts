@@ -126,6 +126,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (existingUser && existingUser.password) {
           return "/auth?error=CredentialsAccountExists";
         }
+
+        if (!existingUser) {
+          return true;
+        } else if (existingUser && !existingUser.emailVerified) {
+          await prisma.user.update({
+            where: {
+              email: user.email!,
+            },
+            data: {
+              emailVerified: new Date(),
+            },
+          });
+        }
       }
 
       if (account?.provider === "credentials") {
@@ -136,7 +149,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (
           userExists &&
-          userExists.accounts.some((acc) => acc.type === "oauth")
+          userExists.accounts.some((acc) => acc.type === "oidc")
         ) {
           return "/auth?error=OAuthAccountExists";
         }
@@ -145,5 +158,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
   },
+
+  events: {
+    async createUser({ user }) {
+      if (user.email) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            emailVerified: new Date(),
+          },
+        });
+      }
+    },
+  },
+
   secret: process.env.AUTH_SECRET,
 });
