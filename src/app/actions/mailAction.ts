@@ -49,7 +49,7 @@ export async function sendMail(
 
 export async function SendPasswordResetLink(email: string) {
   try {
-    const existingUser = await prisma.userData.findFirst({
+    const existingUser = await prisma.user.findFirst({
       where: {
         email,
       },
@@ -76,7 +76,7 @@ export async function SendPasswordResetLink(email: string) {
       email,
       "Reset Passowrd",
       PasswordResetEmail({
-        firstName: existingUser.name,
+        firstName: existingUser.name ? existingUser.name : "User",
         resetUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/reset-password?token=${isTokenGenerated.token}`,
       })
     );

@@ -98,7 +98,7 @@ const handleCompleted = async (parsedBody: any) => {
 
     const isSaved = await prisma.videoGenerationData.update({
       where: {
-        userDataId: userId,
+        userId,
         videoTaskId: parsedBody.task_id,
       },
       data: {
@@ -136,7 +136,7 @@ const handleCompleted = async (parsedBody: any) => {
 
       try {
         const isSent = await SendRealTimeDataToClient(
-          isSavedFinally.userDataId,
+          isSavedFinally.userId,
           isSavedFinally
         );
       } catch (error) {
@@ -146,10 +146,12 @@ const handleCompleted = async (parsedBody: any) => {
       try {
         await sendMail(
           "TextToVideo@resend.dev",
-          isSavedFinally.UserData.email,
+          isSavedFinally.User.email,
           "Video Generation Complete",
           VideoNotificationEmail({
-            firstName: isSavedFinally.UserData.name,
+            firstName: isSavedFinally.User.name
+              ? isSavedFinally.User.name
+              : "User",
             prompt: isSavedFinally.userPrompt,
             thumbnailUrl: isSavedFinally.imageUrl!,
             videoUrl: isSavedFinally.finalVideoUrl!,
@@ -159,9 +161,7 @@ const handleCompleted = async (parsedBody: any) => {
         console.error("Send email got failed in video webhook");
       }
 
-      const isCreditUpdated = await updateCreditsForUser(
-        isSavedFinally.userDataId
-      );
+      const isCreditUpdated = await updateCreditsForUser(isSavedFinally.userId);
 
       if (isCreditUpdated) {
         console.log("Credits Updated for User");

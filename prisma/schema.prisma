@@ -19,7 +19,7 @@ model User {
   name                String?
   email               String                @unique
   emailVerified       DateTime?
-  password            String
+  password            String?
   credits             Int?
   image               String?
   accounts            Account[]
@@ -86,8 +86,8 @@ model videoGenerationData {
   musicUrl              String?
   finalVideoUrl         String?
   finalVideoPublicId    String?
-  User                  User?                 @relation(fields: [userId], references: [id])
-  userId                String?
+  User                  User                  @relation(fields: [userId], references: [id])
+  userId                String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

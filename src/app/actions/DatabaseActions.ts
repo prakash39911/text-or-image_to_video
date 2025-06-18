@@ -14,12 +14,12 @@ export async function createVideoFirstEntry(userPrompt: string) {
   try {
     const isCreated = await prisma.videoGenerationData.create({
       data: {
-        userDataId: session?.user?.id,
+        userId: session?.user?.id,
         userPrompt: userPrompt,
       },
       select: {
         id: true,
-        userDataId: true,
+        userId: true,
       },
     });
 
@@ -141,8 +141,8 @@ export async function SaveFinalVideo(
         userPrompt: true,
         imageUrl: true,
         status: true,
-        userDataId: true,
-        UserData: {
+        userId: true,
+        User: {
           select: {
             email: true,
             name: true,
@@ -173,7 +173,7 @@ export async function saveFailedStatus(videoTaskId: string) {
         id: true,
         videoTaskId: true,
         userPrompt: true,
-        userDataId: true,
+        userId: true,
       },
     });
 
@@ -186,18 +186,18 @@ export async function saveFailedStatus(videoTaskId: string) {
 
 export const updateCreditsForUser = async (userId: string) => {
   try {
-    const user = await prisma.userData.findFirst({
+    const user = await prisma.user.findFirst({
       where: {
         id: userId,
       },
     });
 
     if (!user || !user.credits) {
-      console.error("User and credit not found");
+      console.error("User and credit data not found");
       return;
     }
 
-    const isUpdated = await prisma.userData.update({
+    const isUpdated = await prisma.user.update({
       where: {
         id: user.id,
       },
@@ -227,7 +227,7 @@ export const updateCreditsForUser = async (userId: string) => {
 
 export async function GetBillingInfo(userId: string) {
   try {
-    const data = await prisma.userData.findFirst({
+    const data = await prisma.user.findFirst({
       where: {
         id: userId,
       },

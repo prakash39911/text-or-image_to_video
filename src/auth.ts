@@ -37,7 +37,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!credentials.email || !credentials.password) return null;
 
-        const isUserExist = await prisma.userData.findFirst({
+        const isUserExist = await prisma.user.findFirst({
           where: {
             email: credentials.email,
           },
@@ -54,14 +54,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         const isPasswordCorrect = await bcrypt.compare(
           credentials.password as string,
-          isUserExist.password
+          isUserExist.password || ""
         );
 
         if (!isPasswordCorrect) return null;
 
         return {
           id: isUserExist.id,
-          name: isUserExist.name,
+          name: isUserExist.name || "",
           email: isUserExist.email,
           emailVerified: isUserExist.emailVerified,
         } satisfies customUser;
@@ -84,7 +84,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.log("Update trigger detected, fetching fresh data from DB");
 
         // Re-fetch the user from the database
-        const dbUser = await prisma.userData.findUnique({
+        const dbUser = await prisma.user.findUnique({
           where: { id: token.id as string },
           select: {
             id: true,

@@ -1831,7 +1831,7 @@ export namespace Prisma {
     name: string | null
     email: string
     emailVerified: Date | null
-    password: string
+    password: string | null
     credits: number | null
     image: string | null
     createdAt: Date
@@ -1934,7 +1934,7 @@ export namespace Prisma {
       name: string | null
       email: string
       emailVerified: Date | null
-      password: string
+      password: string | null
       credits: number | null
       image: string | null
       createdAt: Date
@@ -6327,7 +6327,7 @@ export namespace Prisma {
     musicUrl: string | null
     finalVideoUrl: string | null
     finalVideoPublicId: string | null
-    userId: string | null
+    userId: string
     createdAt: Date
     updatedAt: Date
     _count: VideoGenerationDataCountAggregateOutputType | null
@@ -6368,7 +6368,7 @@ export namespace Prisma {
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["videoGenerationData"]>
 
   export type videoGenerationDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6390,7 +6390,7 @@ export namespace Prisma {
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["videoGenerationData"]>
 
   export type videoGenerationDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6412,7 +6412,7 @@ export namespace Prisma {
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["videoGenerationData"]>
 
   export type videoGenerationDataSelectScalar = {
@@ -6438,19 +6438,19 @@ export namespace Prisma {
 
   export type videoGenerationDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userPrompt" | "status" | "imageTaskId" | "videoTaskId" | "mergeAudioVideoTaskID" | "musicPrompt" | "caption" | "imageUrl" | "videoUrl" | "videoPublicId" | "musicPublicId" | "musicUrl" | "finalVideoUrl" | "finalVideoPublicId" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["videoGenerationData"]>
   export type videoGenerationDataInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type videoGenerationDataIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type videoGenerationDataIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    User?: boolean | videoGenerationData$UserArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $videoGenerationDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "videoGenerationData"
     objects: {
-      User: Prisma.$UserPayload<ExtArgs> | null
+      User: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6468,7 +6468,7 @@ export namespace Prisma {
       musicUrl: string | null
       finalVideoUrl: string | null
       finalVideoPublicId: string | null
-      userId: string | null
+      userId: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["videoGenerationData"]>
@@ -6865,7 +6865,7 @@ export namespace Prisma {
    */
   export interface Prisma__videoGenerationDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    User<T extends videoGenerationData$UserArgs<ExtArgs> = {}>(args?: Subset<T, videoGenerationData$UserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7306,25 +7306,6 @@ export namespace Prisma {
      * Limit how many videoGenerationData to delete.
      */
     limit?: number
-  }
-
-  /**
-   * videoGenerationData.User
-   */
-  export type videoGenerationData$UserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
   }
 
   /**
@@ -10932,7 +10913,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
-    password?: StringFilter<"User"> | string
+    password?: StringNullableFilter<"User"> | string | null
     credits?: IntNullableFilter<"User"> | number | null
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -10948,7 +10929,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
-    password?: SortOrder
+    password?: SortOrderInput | SortOrder
     credits?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -10967,7 +10948,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
-    password?: StringFilter<"User"> | string
+    password?: StringNullableFilter<"User"> | string | null
     credits?: IntNullableFilter<"User"> | number | null
     image?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -10983,7 +10964,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     email?: SortOrder
     emailVerified?: SortOrderInput | SortOrder
-    password?: SortOrder
+    password?: SortOrderInput | SortOrder
     credits?: SortOrderInput | SortOrder
     image?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -11003,7 +10984,7 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
-    password?: StringWithAggregatesFilter<"User"> | string
+    password?: StringNullableWithAggregatesFilter<"User"> | string | null
     credits?: IntNullableWithAggregatesFilter<"User"> | number | null
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -11225,10 +11206,10 @@ export namespace Prisma {
     musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
-    userId?: StringNullableFilter<"videoGenerationData"> | string | null
+    userId?: StringFilter<"videoGenerationData"> | string
     createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
     updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
-    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type videoGenerationDataOrderByWithRelationInput = {
@@ -11247,7 +11228,7 @@ export namespace Prisma {
     musicUrl?: SortOrderInput | SortOrder
     finalVideoUrl?: SortOrderInput | SortOrder
     finalVideoPublicId?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     User?: UserOrderByWithRelationInput
@@ -11272,10 +11253,10 @@ export namespace Prisma {
     musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
-    userId?: StringNullableFilter<"videoGenerationData"> | string | null
+    userId?: StringFilter<"videoGenerationData"> | string
     createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
     updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
-    User?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    User?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id" | "imageTaskId" | "videoTaskId" | "mergeAudioVideoTaskID">
 
   export type videoGenerationDataOrderByWithAggregationInput = {
@@ -11294,7 +11275,7 @@ export namespace Prisma {
     musicUrl?: SortOrderInput | SortOrder
     finalVideoUrl?: SortOrderInput | SortOrder
     finalVideoPublicId?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
+    userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: videoGenerationDataCountOrderByAggregateInput
@@ -11321,7 +11302,7 @@ export namespace Prisma {
     musicUrl?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
     finalVideoUrl?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
     finalVideoPublicId?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
-    userId?: StringNullableWithAggregatesFilter<"videoGenerationData"> | string | null
+    userId?: StringWithAggregatesFilter<"videoGenerationData"> | string
     createdAt?: DateTimeWithAggregatesFilter<"videoGenerationData"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"videoGenerationData"> | Date | string
   }
@@ -11541,7 +11522,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -11557,7 +11538,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -11573,7 +11554,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11589,7 +11570,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11605,7 +11586,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -11617,7 +11598,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11629,7 +11610,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11862,7 +11843,7 @@ export namespace Prisma {
     finalVideoPublicId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    User?: UserCreateNestedOneWithoutVideoGenerationDataInput
+    User: UserCreateNestedOneWithoutVideoGenerationDataInput
   }
 
   export type videoGenerationDataUncheckedCreateInput = {
@@ -11881,7 +11862,7 @@ export namespace Prisma {
     musicUrl?: string | null
     finalVideoUrl?: string | null
     finalVideoPublicId?: string | null
-    userId?: string | null
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11904,7 +11885,7 @@ export namespace Prisma {
     finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    User?: UserUpdateOneWithoutVideoGenerationDataNestedInput
+    User?: UserUpdateOneRequiredWithoutVideoGenerationDataNestedInput
   }
 
   export type videoGenerationDataUncheckedUpdateInput = {
@@ -11923,7 +11904,7 @@ export namespace Prisma {
     musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
     finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11944,7 +11925,7 @@ export namespace Prisma {
     musicUrl?: string | null
     finalVideoUrl?: string | null
     finalVideoPublicId?: string | null
-    userId?: string | null
+    userId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11985,7 +11966,7 @@ export namespace Prisma {
     musicUrl?: NullableStringFieldUpdateOperationsInput | string | null
     finalVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     finalVideoPublicId?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12568,11 +12549,6 @@ export namespace Prisma {
     not?: NestedEnumvideoGenerationStatusFilter<$PrismaModel> | $Enums.videoGenerationStatus
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
   export type videoGenerationDataCountOrderByAggregateInput = {
     id?: SortOrder
     userPrompt?: SortOrder
@@ -13065,12 +13041,10 @@ export namespace Prisma {
     set?: $Enums.videoGenerationStatus
   }
 
-  export type UserUpdateOneWithoutVideoGenerationDataNestedInput = {
+  export type UserUpdateOneRequiredWithoutVideoGenerationDataNestedInput = {
     create?: XOR<UserCreateWithoutVideoGenerationDataInput, UserUncheckedCreateWithoutVideoGenerationDataInput>
     connectOrCreate?: UserCreateOrConnectWithoutVideoGenerationDataInput
     upsert?: UserUpsertWithoutVideoGenerationDataInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVideoGenerationDataInput, UserUpdateWithoutVideoGenerationDataInput>, UserUncheckedUpdateWithoutVideoGenerationDataInput>
   }
@@ -13649,7 +13623,7 @@ export namespace Prisma {
     musicUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoUrl?: StringNullableFilter<"videoGenerationData"> | string | null
     finalVideoPublicId?: StringNullableFilter<"videoGenerationData"> | string | null
-    userId?: StringNullableFilter<"videoGenerationData"> | string | null
+    userId?: StringFilter<"videoGenerationData"> | string
     createdAt?: DateTimeFilter<"videoGenerationData"> | Date | string
     updatedAt?: DateTimeFilter<"videoGenerationData"> | Date | string
   }
@@ -13693,7 +13667,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -13708,7 +13682,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -13739,7 +13713,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13754,7 +13728,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13769,7 +13743,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -13784,7 +13758,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -13815,7 +13789,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13830,7 +13804,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13845,7 +13819,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -13860,7 +13834,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -13891,7 +13865,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13906,7 +13880,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -13998,7 +13972,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -14013,7 +13987,7 @@ export namespace Prisma {
     name?: string | null
     email: string
     emailVerified?: Date | string | null
-    password: string
+    password?: string | null
     credits?: number | null
     image?: string | null
     createdAt?: Date | string
@@ -14073,7 +14047,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14088,7 +14062,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     credits?: NullableIntFieldUpdateOperationsInput | number | null
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

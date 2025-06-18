@@ -72,7 +72,7 @@ export async function VerifyPaymentSignature(
 
 export async function SavePaymentDataInDB(paymentData: any) {
   try {
-    const user = await prisma.userData.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email: paymentData.notes.email,
       },
@@ -103,7 +103,7 @@ export async function SavePaymentDataInDB(paymentData: any) {
       ? user.credits + parseInt(paymentData?.notes?.credit)
       : parseInt(paymentData?.notes?.credit);
 
-    const updatedUserData = await prisma.userData.update({
+    const updatedUserData = await prisma.user.update({
       where: {
         id: user.id,
       },

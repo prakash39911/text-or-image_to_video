@@ -34,7 +34,7 @@ export async function RegisterUser(data: SignUpFormSchemaType) {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const createdUser = await prisma.userData.create({
+    const createdUser = await prisma.user.create({
       data: {
         name: fullName,
         email,
@@ -93,7 +93,7 @@ export const verifyEmail = async (token: string) => {
       return { status: "error", error: "Token has expired" };
     }
 
-    const existingUser = await prisma.userData.findFirst({
+    const existingUser = await prisma.user.findFirst({
       where: {
         email: existingToken.email,
       },
@@ -103,7 +103,7 @@ export const verifyEmail = async (token: string) => {
       return { status: "error", error: "User not found" };
     }
 
-    await prisma.userData.update({
+    await prisma.user.update({
       where: {
         id: existingUser.id,
       },
@@ -135,7 +135,7 @@ export const ResetUserPassword = async (token: string, password: string) => {
       return { status: "error", error: "Token has expired" };
     }
 
-    const existingUser = await prisma.userData.findFirst({
+    const existingUser = await prisma.user.findFirst({
       where: {
         email: tokenData.data?.email,
       },
@@ -147,7 +147,7 @@ export const ResetUserPassword = async (token: string, password: string) => {
 
     const hashPass = await bcrypt.hash(password, 10);
 
-    const isSaved = await prisma.userData.update({
+    const isSaved = await prisma.user.update({
       where: {
         id: existingUser.id,
       },
@@ -178,7 +178,7 @@ export const getUserCredits = async () => {
   }
 
   try {
-    const creditData = await prisma.userData.findFirst({
+    const creditData = await prisma.user.findFirst({
       where: {
         email: session?.user?.email,
       },

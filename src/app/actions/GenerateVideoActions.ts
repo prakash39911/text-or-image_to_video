@@ -468,11 +468,11 @@ export async function sendNotificationToClient(data: {
   id: string;
   userPrompt: string;
   videoTaskId: string | null;
-  userDataId: string;
+  userId: string;
 }) {
   try {
     await pusherServer.trigger(
-      `private-${data.userDataId}`,
+      `private-${data.userId}`,
       "videoGeneration:failed",
       { id: data.id, status: "Failed", prompt: data.userPrompt }
     );

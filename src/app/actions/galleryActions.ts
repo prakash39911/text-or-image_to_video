@@ -9,7 +9,7 @@ export async function GetAllGeneratedVideos() {
   try {
     const data = await prisma.videoGenerationData.findMany({
       where: {
-        userDataId: session?.user?.id,
+        userId: session?.user?.id,
       },
       select: {
         id: true,
