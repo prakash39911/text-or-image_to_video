@@ -18,6 +18,10 @@ interface VideoNotificationProps {
   videoUrl: string;
 }
 
+interface PromotionalEmailProps {
+  purchaseUrl: string;
+}
+
 export const VerifyEmail: React.FC<Readonly<VerifyEmailProps>> = ({
   firstName,
   verificationUrl,
@@ -204,6 +208,65 @@ export const CreditPurchaseEmail: React.FC<{
     </p>
     <p style={{ fontSize: "12px", color: "#888", marginTop: "24px" }}>
       If you have any questions, feel free to contact our support.
+    </p>
+  </div>
+);
+
+export const PromotionalCreditEmail: React.FC<
+  Readonly<PromotionalEmailProps>
+> = ({ purchaseUrl }) => (
+  <div
+    style={{
+      backgroundColor: "#ffffff",
+      padding: "24px",
+      borderRadius: "8px",
+      fontFamily: "sans-serif",
+      color: "#333",
+    }}
+  >
+    <h2 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "16px" }}>
+      ⚡ Limited-Time Offer: Get More Video Credits Today!
+    </h2>
+    <p style={{ marginBottom: "8px" }}>Hi,</p>
+    <p style={{ marginBottom: "16px" }}>
+      We&apos;re offering an <strong>exclusive discount</strong> on video
+      generation credits — but only for <strong>today</strong>!
+    </p>
+    <p style={{ marginBottom: "16px" }}>
+      Whether you&apos;re creating content, marketing, or just having fun — top
+      up your credits now and save big.
+    </p>
+    <div
+      style={{
+        backgroundColor: "#fef9c3",
+        borderLeft: "4px solid #facc15",
+        padding: "16px",
+        borderRadius: "6px",
+        marginBottom: "24px",
+        fontWeight: "500",
+      }}
+    >
+      🎁 <strong>Today only:</strong> Get up to{" "}
+      <strong>30% extra credits</strong> with every purchase!
+    </div>
+    <a
+      href={purchaseUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "inline-block",
+        backgroundColor: "#3b82f6",
+        color: "#ffffff",
+        padding: "12px 24px",
+        borderRadius: "6px",
+        textDecoration: "none",
+        fontWeight: "bold",
+      }}
+    >
+      Buy Credits Now
+    </a>
+    <p style={{ fontSize: "12px", color: "#888", marginTop: "24px" }}>
+      Offer valid until midnight today. Don&apos;t miss out!
     </p>
   </div>
 );
