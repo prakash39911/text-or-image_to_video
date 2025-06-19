@@ -2,7 +2,7 @@ import { sendMail } from "@/app/actions/mailAction";
 import { PromotionalCreditEmail } from "@/components/emailTemplates";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   try {
     if (
       req.headers.get("Authorization") !== `Bearer ${process.env.CRON_SECRET}`
