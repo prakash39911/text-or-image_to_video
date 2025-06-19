@@ -62,7 +62,7 @@ export async function storeImageTaskID(
       error.code,
       error.meta
     );
-    return null;
+    throw error;
   }
 }
 
@@ -160,24 +160,48 @@ export async function SaveFinalVideo(
   }
 }
 
-export async function saveFailedStatus(videoTaskId: string) {
+export async function saveFailedStatus(
+  videoTaskId: string | null,
+  imageTaskId: string | null
+) {
   try {
-    const isUpdated = await prisma.videoGenerationData.update({
-      where: {
-        videoTaskId,
-      },
-      data: {
-        status: "Failed",
-      },
-      select: {
-        id: true,
-        videoTaskId: true,
-        userPrompt: true,
-        userId: true,
-      },
-    });
+    if (videoTaskId) {
+      const isUpdated = await prisma.videoGenerationData.update({
+        where: {
+          videoTaskId,
+        },
+        data: {
+          status: "Failed",
+        },
+        select: {
+          id: true,
+          videoTaskId: true,
+          userPrompt: true,
+          userId: true,
+        },
+      });
 
-    return isUpdated;
+      return isUpdated;
+    } else if (imageTaskId) {
+      const isUpdated = await prisma.videoGenerationData.update({
+        where: {
+          imageTaskId,
+        },
+        data: {
+          status: "Failed",
+        },
+        select: {
+          id: true,
+          videoTaskId: true,
+          userPrompt: true,
+          userId: true,
+        },
+      });
+
+      return isUpdated;
+    }
+
+    return undefined;
   } catch (error) {
     console.log("Unable to save Failed Status", error);
     throw error;
@@ -266,3 +290,19 @@ export async function GetBillingInfo(userId: string) {
     console.error("Unable to get billing info");
   }
 }
+
+export const updateVideoGenerationStatusToFailed = async (id: string) => {
+  try {
+    await prisma.videoGenerationData.update({
+      where: {
+        id,
+      },
+      data: {
+        status: "Failed",
+      },
+    });
+  } catch (error) {
+    console.error("Unable to update video generation failed status");
+    throw error;
+  }
+};

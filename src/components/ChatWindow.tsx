@@ -11,6 +11,7 @@ import {
 import {
   createVideoFirstEntry,
   storeImageTaskID,
+  updateVideoGenerationStatusToFailed,
 } from "@/app/actions/DatabaseActions";
 import LoadingSpinner from "./LoadingSpinner";
 import Modal from "./Modal";
@@ -28,6 +29,10 @@ export default function ChatWindow() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [
+    currentlyProcessedVideoGenerationId,
+    setcurrentlyProcessedVideoGenerationId,
+  ] = useState<string | null>(null);
 
   const pathname = usePathname();
   const isTextToVideo = pathname.includes("text");
@@ -90,6 +95,8 @@ export default function ChatWindow() {
         return;
       }
 
+      setcurrentlyProcessedVideoGenerationId(dbEntry.id);
+
       const imagePrompt = await GenerateImagePrompt(message);
 
       console.log("Response Received from GEMINI-API call--:", imagePrompt);
@@ -121,6 +128,12 @@ export default function ChatWindow() {
 
       router.push("/ai/videogallery");
     } catch (error) {
+      if (currentlyProcessedVideoGenerationId) {
+        await updateVideoGenerationStatusToFailed(
+          currentlyProcessedVideoGenerationId
+        );
+      }
+
       setIsSubmitting(false);
       setIsError("Something went wrong. Please Try Again..");
     }
@@ -137,13 +150,11 @@ export default function ChatWindow() {
 
   if (isSubmitting) {
     return (
-      <div className="flex flex-col gap-3 vertical-center w-full">
+      <div className="flex flex-col justify-center gap-3 vertical-center mx-auto">
         <div>
           <LoadingSpinner />
         </div>
-        <div className="text-teal-500 text-xl my-[-430px] text-center">
-          Generating...
-        </div>
+        <div className="text-teal-500 text-xl">Generating...</div>
       </div>
     );
   }

@@ -5,6 +5,7 @@ import {
   GenerateVideo,
   GenerateVideoPrompt,
   GetImageDataForTaskID,
+  saveFailedStatusAndSendNotification,
   uploadImageToCloudinary,
 } from "@/app/actions/GenerateVideoActions";
 import { generateSignature, verifySignature } from "@/lib/utilityFunctions";
@@ -148,6 +149,13 @@ async function handleCompleted(body: any) {
       `Error processing webhook completed status for task ${body.task_id}:`,
       error
     );
+
+    try {
+      await saveFailedStatusAndSendNotification(false, body.task_id);
+    } catch (error) {
+      console.log("Unable to save failed status and send notification");
+    }
+
     return Response.json(
       { error: "Error processing completed task" },
       { status: 500 }
@@ -158,15 +166,11 @@ async function handleCompleted(body: any) {
 async function handleFailed(body: any) {
   console.log(`Image Generation Task with Task ID ${body.task_id} failed:`);
 
-  // Optional: Update database with failed status
-  // await updateTaskStatus(body.task_id, 'FAILED', { error: body.error_message });
-
-  // You might want to:
-  // 1. Log the error for debugging
-  // 2. Refund user credits if applicable
-  // 3. Send notification to user about failure
-  // 4. Retry the task automatically (with limits)
-  // 5. Alert your monitoring system
+  try {
+    await saveFailedStatusAndSendNotification(false, body.task_id);
+  } catch (error) {
+    console.log("Unable to save failed status and send notification");
+  }
 
   return Response.json({
     message: "Task failure recorded",

@@ -6,6 +6,7 @@ import { pusherServer } from "@/lib/pusher";
 import { getMinutesDifference, isRetryableError } from "@/lib/utilityFunctions";
 import axios from "axios";
 import { error } from "console";
+import { saveFailedStatus } from "./DatabaseActions";
 
 export async function uploadImageToCloudinary(imageUrl: string) {
   try {
@@ -246,7 +247,7 @@ export async function GenerateVideo(videoPrompt: string, ImageUrl: string) {
   }
 
   // We reach here means, all attempts failed---
-  throw new Error(`Image generation failed after ${maxTries} attempts.`, {
+  throw new Error(`Video generation failed after ${maxTries} attempts.`, {
     cause: lastError,
   });
 }
@@ -464,7 +465,7 @@ export async function SendRealTimeDataToClient(
   }
 }
 
-export async function sendNotificationToClient(data: {
+export async function sendFailedNotificationToClient(data: {
   id: string;
   userPrompt: string;
   videoTaskId: string | null;
@@ -478,6 +479,30 @@ export async function sendNotificationToClient(data: {
     );
   } catch (error) {
     console.error("Unable to send failed status update to client", error);
+    throw error;
+  }
+}
+
+export async function saveFailedStatusAndSendNotification(
+  isVideo: boolean,
+  taskId: string
+) {
+  try {
+    if (isVideo) {
+      const isStatusSaved = await saveFailedStatus(taskId, null);
+
+      if (isStatusSaved) {
+        await sendFailedNotificationToClient(isStatusSaved);
+      }
+    } else {
+      const isStatusSaved = await saveFailedStatus(null, taskId);
+
+      if (isStatusSaved) {
+        await sendFailedNotificationToClient(isStatusSaved);
+      }
+    }
+  } catch (error) {
+    console.error("Unable to save Failed Status in DB", error);
     throw error;
   }
 }

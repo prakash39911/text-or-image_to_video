@@ -190,7 +190,6 @@ export const getUserCredits = async () => {
   const session = await auth();
 
   if (!session?.user.email) {
-    console.log("User is not logged In");
     return;
   }
 

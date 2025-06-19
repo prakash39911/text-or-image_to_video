@@ -1,12 +1,11 @@
 import {
   GetVideoAudioUrl,
-  saveFailedStatus,
   SaveFinalVideo,
   updateCreditsForUser,
 } from "@/app/actions/DatabaseActions";
 import {
   MergeAudioAndVideo,
-  sendNotificationToClient,
+  saveFailedStatusAndSendNotification,
   SendRealTimeDataToClient,
   uploadVideoToCloudinary,
 } from "@/app/actions/GenerateVideoActions";
@@ -179,6 +178,13 @@ const handleCompleted = async (parsedBody: any) => {
     );
   } catch (error) {
     console.log(`Error processing completed task ${parsedBody.task_id}`, error);
+
+    try {
+      await saveFailedStatusAndSendNotification(true, parsedBody.task_id);
+    } catch (error) {
+      console.log("Unable to save failed status and send notification");
+    }
+
     return Response.json(
       { error: "Error processing completed task" },
       { status: 500 }
@@ -192,10 +198,10 @@ const handleFailed = async (parsedBody: any) => {
     parsedBody
   );
 
-  const isSuccess = await saveFailedStatus(parsedBody.task_id);
-
-  if (isSuccess) {
-    await sendNotificationToClient(isSuccess);
+  try {
+    await saveFailedStatusAndSendNotification(true, parsedBody.task_id);
+  } catch (error) {
+    console.log("Unable to save failed status and send notification");
   }
 
   return Response.json({
