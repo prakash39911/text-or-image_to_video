@@ -17,6 +17,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import Modal from "./Modal";
 import { Button } from "./ui/button";
 import { getUserCredits } from "@/app/actions/authActions";
+import { inngest } from "@/lib/inngestClient";
 
 export default function ChatWindow() {
   const router = useRouter();
@@ -86,7 +87,7 @@ export default function ChatWindow() {
     setIsSubmitting(true);
 
     try {
-      console.log("Submitting:", { message, image });
+      console.log("Submitting:", { message });
 
       const dbEntry = await createVideoFirstEntry(message);
 
@@ -95,25 +96,12 @@ export default function ChatWindow() {
         return;
       }
 
+      await inngest.send({
+        name: "generate-image-save-image-id-to-DB",
+        data: { dbEntry, message },
+      });
+
       setcurrentlyProcessedVideoGenerationId(dbEntry.id);
-
-      const imagePrompt = await GenerateImagePrompt(message);
-
-      console.log("Response Received from GEMINI-API call--:", imagePrompt);
-
-      if (!imagePrompt) {
-        console.log("Image prompt creation failed");
-        return;
-      }
-
-      const generatedImageData = await GenerateImage(imagePrompt);
-
-      console.log("Generated Image Data---", generatedImageData);
-
-      const storeResult = await storeImageTaskID(
-        generatedImageData.data.task_id,
-        dbEntry?.id
-      );
 
       // Reset form after submission
       setMessage("");

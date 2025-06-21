@@ -484,21 +484,28 @@ export async function sendFailedNotificationToClient(data: {
 }
 
 export async function saveFailedStatusAndSendNotification(
+  isImageGeneration: boolean,
   isVideo: boolean,
   taskId: string
 ) {
   try {
     if (isVideo) {
-      const isStatusSaved = await saveFailedStatus(taskId, null);
+      const isStatusSaved = await saveFailedStatus(null, taskId, null);
 
       if (isStatusSaved) {
         await sendFailedNotificationToClient(isStatusSaved);
       }
-    } else {
-      const isStatusSaved = await saveFailedStatus(null, taskId);
+    } else if (!isVideo) {
+      const isStatusSaved = await saveFailedStatus(null, null, taskId);
 
       if (isStatusSaved) {
         await sendFailedNotificationToClient(isStatusSaved);
+      }
+    } else if (isImageGeneration) {
+      const isSaved = await saveFailedStatus(taskId, null, null);
+
+      if (isSaved) {
+        await sendFailedNotificationToClient(isSaved);
       }
     }
   } catch (error) {

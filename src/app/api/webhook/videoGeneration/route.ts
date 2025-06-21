@@ -12,6 +12,7 @@ import {
 import { sendMail } from "@/app/actions/mailAction";
 import { auth } from "@/auth";
 import { VideoNotificationEmail } from "@/components/emailTemplates";
+import { inngest } from "@/lib/inngestClient";
 import { prisma } from "@/lib/PrismaClient";
 import { generateSignature, verifySignature } from "@/lib/utilityFunctions";
 
@@ -76,9 +77,6 @@ export async function POST(request: Request) {
 }
 
 const handleCompleted = async (parsedBody: any) => {
-  const session = await auth();
-  const userId = session?.user?.id;
-
   console.log(
     `Video Generation Task ${parsedBody.task_id} completed successfully`
   );
@@ -89,98 +87,27 @@ const handleCompleted = async (parsedBody: any) => {
       parsedBody.generated[0]
     );
 
-    console.log("Video Generated Parsed Body--", parsedBody);
-
-    const videoUploadResult = await uploadVideoToCloudinary(
-      parsedBody.generated[0]
-    );
-
-    const isSaved = await prisma.videoGenerationData.update({
-      where: {
-        userId,
-        videoTaskId: parsedBody.task_id,
-      },
-      data: {
-        videoUrl: videoUploadResult.secure_url,
-        videoPublicId: videoUploadResult.public_id,
-      },
+    await inngest.send({
+      name: "video-generation-success-merge-audio-video-save-to-db",
+      data: parsedBody,
     });
-
-    if (isSaved) {
-      console.log("Video Url Successfully Saved in the DATABASE");
-      console.log("Audio Video Merge Starts---");
-
-      const { videoUrl, musicUrl } = await GetVideoAudioUrl(parsedBody.task_id);
-
-      if (!videoUrl || !musicUrl) {
-        console.log("Unable to get audio and video Url");
-        return;
-      }
-
-      const response = await MergeAudioAndVideo(videoUrl, musicUrl);
-
-      const isSavedFinally = await SaveFinalVideo(
-        response.finalVideoUrl,
-        response.finalVideoPublicId,
-        parsedBody.task_id
-      );
-
-      const dataToSendUsingPusher = {
-        id: isSavedFinally.id,
-        url: isSavedFinally.finalVideoUrl,
-        title: isSavedFinally.userPrompt,
-        thumbnail: isSavedFinally.imageUrl,
-        status: isSavedFinally.status,
-      };
-
-      try {
-        const isSent = await SendRealTimeDataToClient(
-          isSavedFinally.userId,
-          isSavedFinally
-        );
-      } catch (error) {
-        console.error("Pusher error in video webhook");
-      }
-
-      try {
-        await sendMail(
-          "TextToVideo@resend.dev",
-          isSavedFinally.User.email,
-          "Video Generation Complete",
-          VideoNotificationEmail({
-            firstName: isSavedFinally.User.name
-              ? isSavedFinally.User.name
-              : "User",
-            prompt: isSavedFinally.userPrompt,
-            thumbnailUrl: isSavedFinally.imageUrl!,
-            videoUrl: isSavedFinally.finalVideoUrl!,
-          })
-        );
-      } catch (error) {
-        console.error("Send email got failed in video webhook");
-      }
-
-      const isCreditUpdated = await updateCreditsForUser(isSavedFinally.userId);
-
-      if (isCreditUpdated) {
-        console.log("Credits Updated for User");
-      }
-
-      console.log(
-        "Video Generation along With Audio is finally Complete",
-        response.finalVideoUrl
-      );
-    }
 
     return Response.json(
       { message: "Webhook captured successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.log(`Error processing completed task ${parsedBody.task_id}`, error);
+    console.log(
+      `Error processing video completed task ${parsedBody.task_id}`,
+      error
+    );
 
     try {
-      await saveFailedStatusAndSendNotification(true, parsedBody.task_id);
+      await saveFailedStatusAndSendNotification(
+        false,
+        true,
+        parsedBody.task_id
+      );
     } catch (error) {
       console.log("Unable to save failed status and send notification");
     }
@@ -199,7 +126,7 @@ const handleFailed = async (parsedBody: any) => {
   );
 
   try {
-    await saveFailedStatusAndSendNotification(true, parsedBody.task_id);
+    await saveFailedStatusAndSendNotification(false, true, parsedBody.task_id);
   } catch (error) {
     console.log("Unable to save failed status and send notification");
   }

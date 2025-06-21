@@ -1,13 +1,5 @@
-import { SaveVideotaskIDAndMusicPrompt } from "@/app/actions/DatabaseActions";
-import {
-  GenerateMusic,
-  GenerateMusicPrompt,
-  GenerateVideo,
-  GenerateVideoPrompt,
-  GetImageDataForTaskID,
-  saveFailedStatusAndSendNotification,
-  uploadImageToCloudinary,
-} from "@/app/actions/GenerateVideoActions";
+import { saveFailedStatusAndSendNotification } from "@/app/actions/GenerateVideoActions";
+import { inngest } from "@/lib/inngestClient";
 import { generateSignature, verifySignature } from "@/lib/utilityFunctions";
 
 export async function POST(request: Request) {
@@ -77,67 +69,10 @@ async function handleCompleted(body: any) {
   console.log(`Image Generation Task ${body.task_id} completed successfully`);
 
   try {
-    // Get the generated image data
-    const url = await GetImageDataForTaskID(body.task_id);
-
-    console.log("Generated Image URL got for the particular Task ID", url);
-
-    const result = await uploadImageToCloudinary(url);
-
-    const response = await fetch(result.url);
-    const imageArrayBuffer = await response.arrayBuffer();
-    const base64ImageData = Buffer.from(imageArrayBuffer).toString("base64");
-
-    const generatedVideoPrompt = await GenerateVideoPrompt(base64ImageData);
-
-    if (!generatedVideoPrompt) {
-      console.log("Video Prompt was not generated");
-      return;
-    }
-
-    console.log("Generated Video Prompt--", generatedVideoPrompt);
-
-    const generatedVideoData = await GenerateVideo(
-      generatedVideoPrompt,
-      result.secure_url
-    );
-
-    console.log("Video Generation Started--", generatedVideoData);
-
-    const musicPromptAndCaption = await GenerateMusicPrompt(
-      generatedVideoPrompt,
-      base64ImageData
-    );
-
-    if (!musicPromptAndCaption) {
-      console.log("Music Prompt Generation was failed");
-      return;
-    }
-
-    console.log("Music Prompt and Caption generated--", musicPromptAndCaption);
-
-    const generatedMusicData = await GenerateMusic(
-      musicPromptAndCaption.music_prompt
-    );
-
-    console.log(
-      "Music Generated and uploaded having URL--",
-      generatedMusicData
-    );
-
-    const isSaved = await SaveVideotaskIDAndMusicPrompt(
-      body.task_id,
-      generatedVideoData.data.task_id,
-      musicPromptAndCaption.music_prompt,
-      musicPromptAndCaption.caption,
-      result.secure_url,
-      generatedMusicData.secure_url,
-      generatedMusicData.public_id
-    );
-
-    if (isSaved) {
-      console.log("Video Task ID and Music URL Successfully saved in DB");
-    }
+    await inngest.send({
+      name: "start.generating.video.save.to.database",
+      data: body,
+    });
 
     return Response.json({
       message: "Task completed successfully",
@@ -150,12 +85,6 @@ async function handleCompleted(body: any) {
       error
     );
 
-    try {
-      await saveFailedStatusAndSendNotification(false, body.task_id);
-    } catch (error) {
-      console.log("Unable to save failed status and send notification");
-    }
-
     return Response.json(
       { error: "Error processing completed task" },
       { status: 500 }
@@ -167,7 +96,7 @@ async function handleFailed(body: any) {
   console.log(`Image Generation Task with Task ID ${body.task_id} failed:`);
 
   try {
-    await saveFailedStatusAndSendNotification(false, body.task_id);
+    await saveFailedStatusAndSendNotification(false, false, body.task_id);
   } catch (error) {
     console.log("Unable to save failed status and send notification");
   }

@@ -161,6 +161,7 @@ export async function SaveFinalVideo(
 }
 
 export async function saveFailedStatus(
+  id: string | null,
   videoTaskId: string | null,
   imageTaskId: string | null
 ) {
@@ -186,6 +187,23 @@ export async function saveFailedStatus(
       const isUpdated = await prisma.videoGenerationData.update({
         where: {
           imageTaskId,
+        },
+        data: {
+          status: "Failed",
+        },
+        select: {
+          id: true,
+          videoTaskId: true,
+          userPrompt: true,
+          userId: true,
+        },
+      });
+
+      return isUpdated;
+    } else if (id) {
+      const isUpdated = await prisma.videoGenerationData.update({
+        where: {
+          id,
         },
         data: {
           status: "Failed",
@@ -303,6 +321,27 @@ export const updateVideoGenerationStatusToFailed = async (id: string) => {
     });
   } catch (error) {
     console.error("Unable to update video generation failed status");
+    throw error;
+  }
+};
+
+export const SaveVideoDataToDB = async (
+  taskId: string,
+  videoUrl: string,
+  videoPublicId: string
+) => {
+  try {
+    return await prisma.videoGenerationData.update({
+      where: {
+        videoTaskId: taskId,
+      },
+      data: {
+        videoUrl,
+        videoPublicId,
+      },
+    });
+  } catch (error) {
+    console.error("Unable to save video data to DB", error);
     throw error;
   }
 };
