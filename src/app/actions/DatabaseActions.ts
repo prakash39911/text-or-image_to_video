@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/PrismaClient";
 import { auth } from "../../auth";
+import { inngest } from "@/lib/inngestClient";
 
 export async function createVideoFirstEntry(userPrompt: string) {
   const session = await auth();
@@ -12,7 +13,7 @@ export async function createVideoFirstEntry(userPrompt: string) {
   }
 
   try {
-    const isCreated = await prisma.videoGenerationData.create({
+    const dbEntry = await prisma.videoGenerationData.create({
       data: {
         userId: session?.user?.id,
         userPrompt: userPrompt,
@@ -23,7 +24,12 @@ export async function createVideoFirstEntry(userPrompt: string) {
       },
     });
 
-    return isCreated;
+    await inngest.send({
+      name: "generate-image-save-image-id-to-DB",
+      data: { dbEntry, message: userPrompt },
+    });
+
+    return dbEntry;
   } catch (error) {
     console.error("Unable to create DB entry", error);
     throw error;

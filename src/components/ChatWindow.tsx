@@ -96,11 +96,6 @@ export default function ChatWindow() {
         return;
       }
 
-      await inngest.send({
-        name: "generate-image-save-image-id-to-DB",
-        data: { dbEntry, message },
-      });
-
       setcurrentlyProcessedVideoGenerationId(dbEntry.id);
 
       // Reset form after submission
