@@ -78,16 +78,16 @@ export const processImageAndStartVideoGeneration = inngest.createFunction(
   { id: "process-image" },
   { event: "start.generating.video.save.to.database" },
   async ({ event, step }) => {
-    const incomingBodyData = event.data;
+    const incomingBodyTaskId = event.data;
 
     console.log(
-      `[Inngest] starting processing image webhook data for task--(Triggered from imageWebhook): ${incomingBodyData.task_id}`
+      `[Inngest] starting processing image webhook data for task--(Triggered from imageWebhook): ${incomingBodyTaskId}`
     );
 
     try {
       // Step 1: Get the generated image data
       const imageUrl = await step.run("get-image-data", async () => {
-        return await GetImageDataForTaskID(incomingBodyData.task_id);
+        return await GetImageDataForTaskID(incomingBodyTaskId);
       });
       console.log(`[Inngest] Step 1 Complete: Got image URL: ${imageUrl}`);
 
@@ -148,7 +148,7 @@ export const processImageAndStartVideoGeneration = inngest.createFunction(
       // Step 8: Save all data to the database
       const isSaved = await step.run("save-results-to-db", async () => {
         return await SaveVideotaskIDAndMusicPrompt(
-          incomingBodyData.task_id,
+          incomingBodyTaskId,
           videoData.data.task_id,
           musicPromptAndCaption.music_prompt,
           musicPromptAndCaption.caption,
@@ -163,11 +163,11 @@ export const processImageAndStartVideoGeneration = inngest.createFunction(
 
       return {
         success: true,
-        message: `Successfully processed task ${incomingBodyData.task_id}`,
+        message: `Successfully processed task ${incomingBodyTaskId}`,
       };
     } catch (error) {
       console.error(
-        `[Inngest] FAILED processing image task ID ${incomingBodyData.task_id}:`,
+        `[Inngest] FAILED processing image task ID ${incomingBodyTaskId}:`,
         error
       );
       // If any step fails, run a final step to record the failure
@@ -175,7 +175,7 @@ export const processImageAndStartVideoGeneration = inngest.createFunction(
         await saveFailedStatusAndSendNotification(
           false,
           false,
-          incomingBodyData.task_id
+          incomingBodyTaskId
         );
       });
       // Re-throw the error to ensure the Inngest run is marked as failed
@@ -192,26 +192,24 @@ export const processVideoMergeWithAudio = inngest.createFunction(
     event: "video-generation-success-merge-audio-video-save-to-db",
   },
   async ({ event, step }) => {
-    const incominBodyDataFromWebhook = event.data;
+    const { taskId, freepikVideoUrl } = event.data;
 
     console.log(
-      `[Inngest] started processing video webhook data for task ID: ${incominBodyDataFromWebhook.task_id}`
+      `[Inngest] started processing video webhook data for task ID: ${taskId}}`
     );
 
     try {
       const videoUploadResult = await step.run(
         "upload-video-to-cloudinary",
         async () => {
-          return await uploadVideoToCloudinary(
-            incominBodyDataFromWebhook.generated[0]
-          );
+          return await uploadVideoToCloudinary(freepikVideoUrl);
         }
       );
       console.log(`[Inngest] Step 1 Complete: Uploaded to Cloudinary.`);
 
       const isSaved = await step.run("save-video-data", async () => {
         return await SaveVideoDataToDB(
-          incominBodyDataFromWebhook.task_id,
+          taskId,
           videoUploadResult.secure_url,
           videoUploadResult.public_id
         );
@@ -222,7 +220,7 @@ export const processVideoMergeWithAudio = inngest.createFunction(
         const { videoUrl, musicUrl } = await step.run(
           "get-video-audio-url",
           async () => {
-            return await GetVideoAudioUrl(incominBodyDataFromWebhook.task_id);
+            return await GetVideoAudioUrl(taskId);
           }
         );
         console.log(
@@ -248,7 +246,7 @@ export const processVideoMergeWithAudio = inngest.createFunction(
             return await SaveFinalVideo(
               response.finalVideoUrl,
               response.finalVideoPublicId,
-              incominBodyDataFromWebhook.task_id
+              taskId
             );
           }
         );
@@ -289,19 +287,15 @@ export const processVideoMergeWithAudio = inngest.createFunction(
 
       return {
         success: true,
-        message: `Successfully processed video task ID ${incominBodyDataFromWebhook.task_id}`,
+        message: `Successfully processed video task ID ${taskId}`,
       };
     } catch (error) {
       console.error(
-        `[Inngest] FAILED processing video task ID ${incominBodyDataFromWebhook.task_id}:`,
+        `[Inngest] FAILED processing video task ID ${taskId}:`,
         error
       );
       await step.run("handle-processing-failure", async () => {
-        await saveFailedStatusAndSendNotification(
-          false,
-          true,
-          incominBodyDataFromWebhook.task_id
-        );
+        await saveFailedStatusAndSendNotification(false, true, taskId);
       });
       throw error;
     }

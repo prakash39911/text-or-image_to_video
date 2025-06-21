@@ -89,7 +89,10 @@ const handleCompleted = async (parsedBody: any) => {
 
     await inngest.send({
       name: "video-generation-success-merge-audio-video-save-to-db",
-      data: parsedBody,
+      data: {
+        taskId: parsedBody.task_id,
+        freepikVideoUrl: parsedBody.generated[0],
+      },
     });
 
     return Response.json(

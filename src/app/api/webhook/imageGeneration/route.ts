@@ -71,7 +71,7 @@ async function handleCompleted(body: any) {
   try {
     await inngest.send({
       name: "start.generating.video.save.to.database",
-      data: body,
+      data: body.task_id,
     });
 
     return Response.json({
