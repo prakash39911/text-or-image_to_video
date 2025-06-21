@@ -1,19 +1,5 @@
-import {
-  GetVideoAudioUrl,
-  SaveFinalVideo,
-  updateCreditsForUser,
-} from "@/app/actions/DatabaseActions";
-import {
-  MergeAudioAndVideo,
-  saveFailedStatusAndSendNotification,
-  SendRealTimeDataToClient,
-  uploadVideoToCloudinary,
-} from "@/app/actions/GenerateVideoActions";
-import { sendMail } from "@/app/actions/mailAction";
-import { auth } from "@/auth";
-import { VideoNotificationEmail } from "@/components/emailTemplates";
+import { saveFailedStatusAndSendNotification } from "@/app/actions/GenerateVideoActions";
 import { inngest } from "@/lib/inngestClient";
-import { prisma } from "@/lib/PrismaClient";
 import { generateSignature, verifySignature } from "@/lib/utilityFunctions";
 
 export async function POST(request: Request) {

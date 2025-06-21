@@ -18,6 +18,7 @@ import Modal from "./Modal";
 import { Button } from "./ui/button";
 import { getUserCredits } from "@/app/actions/authActions";
 import { inngest } from "@/lib/inngestClient";
+import { toast } from "sonner";
 
 export default function ChatWindow() {
   const router = useRouter();

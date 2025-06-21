@@ -78,16 +78,16 @@ export const processImageAndStartVideoGeneration = inngest.createFunction(
   { id: "process-image" },
   { event: "start.generating.video.save.to.database" },
   async ({ event, step }) => {
-    const incomingBodyTaskId = event.data;
+    const { taskId } = event.data;
 
     console.log(
-      `[Inngest] starting processing image webhook data for task--(Triggered from imageWebhook): ${incomingBodyTaskId}`
+      `[Inngest] starting processing image webhook data for task--(Triggered from imageWebhook): ${taskId}`
     );
 
     try {
       // Step 1: Get the generated image data
       const imageUrl = await step.run("get-image-data", async () => {
-        return await GetImageDataForTaskID(incomingBodyTaskId);
+        return await GetImageDataForTaskID(taskId);
       });
       console.log(`[Inngest] Step 1 Complete: Got image URL: ${imageUrl}`);
 
@@ -148,7 +148,7 @@ export const processImageAndStartVideoGeneration = inngest.createFunction(
       // Step 8: Save all data to the database
       const isSaved = await step.run("save-results-to-db", async () => {
         return await SaveVideotaskIDAndMusicPrompt(
-          incomingBodyTaskId,
+          taskId,
           videoData.data.task_id,
           musicPromptAndCaption.music_prompt,
           musicPromptAndCaption.caption,
@@ -163,20 +163,16 @@ export const processImageAndStartVideoGeneration = inngest.createFunction(
 
       return {
         success: true,
-        message: `Successfully processed task ${incomingBodyTaskId}`,
+        message: `Successfully processed task ${taskId}`,
       };
     } catch (error) {
       console.error(
-        `[Inngest] FAILED processing image task ID ${incomingBodyTaskId}:`,
+        `[Inngest] FAILED processing image task ID ${taskId}:`,
         error
       );
       // If any step fails, run a final step to record the failure
       await step.run("handle-processing-failure", async () => {
-        await saveFailedStatusAndSendNotification(
-          false,
-          false,
-          incomingBodyTaskId
-        );
+        await saveFailedStatusAndSendNotification(false, false, taskId);
       });
       // Re-throw the error to ensure the Inngest run is marked as failed
       throw error;
