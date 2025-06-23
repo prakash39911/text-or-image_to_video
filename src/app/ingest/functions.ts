@@ -137,7 +137,7 @@ export const processImageAndStartVideoGeneration = inngest.createFunction(
       if (!musicPromptAndCaption)
         throw new Error("Music Prompt/Caption was not generated");
 
-      console.log(`[Inngest] Step 6 Complete: Generated music prompt.`);
+      console.log(`[Inngest] Step 6 Complete: Music prompt generated`);
 
       // Step 7: Generate music
       const musicData = await step.run("generate-music", async () => {

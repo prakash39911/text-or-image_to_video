@@ -12,6 +12,7 @@ import {
 import { toast } from "sonner";
 import { useState } from "react";
 import LoadingSpinner from "../LoadingSpinner";
+import { Session } from "next-auth";
 
 interface PricingTier {
   id: string;
@@ -73,8 +74,11 @@ const loadRazorpayScript = () => {
   });
 };
 
-export default function BuyNowSection() {
-  const { data: sessionData, status } = useSession();
+export default function BuyNowSection({
+  session,
+}: {
+  session: Session | null;
+}) {
   const [isLoading, setIsLoading] = useState<{
     loading: boolean;
     key: string | null;
@@ -88,7 +92,7 @@ export default function BuyNowSection() {
     setIsLoading({ loading: true, key: tierId });
 
     try {
-      if (!sessionData?.user.email) {
+      if (!session?.user?.email) {
         router.push("/auth");
         toast("Please Login first");
         setIsLoading({ loading: true, key: null });
@@ -119,8 +123,8 @@ export default function BuyNowSection() {
         description: `Payment for Purchasing package ${tierId}`,
         order_id: isOrderCreated?.data?.id,
         prefill: {
-          name: sessionData.user.name || "",
-          email: sessionData.user.email || "",
+          name: session?.user.name || "",
+          email: session?.user.email || "",
         },
 
         handler: async function (response: any) {

@@ -28,7 +28,7 @@ export default async function AiLayout({
                 speed="slow"
                 className="w-1/2"
               />
-              <div className="ml-30">
+              <div className="ml-15 md:ml-36">
                 <CreditsWidget credits={credit ? credit : 0} />
               </div>
             </div>

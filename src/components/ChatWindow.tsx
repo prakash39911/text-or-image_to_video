@@ -155,7 +155,7 @@ export default function ChatWindow() {
       >
         <Button
           variant="ghost"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/buy-now")}
           className="border border-teal-700 cursor-pointer bg-teal-700"
         >
           Buy Now

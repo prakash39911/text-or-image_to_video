@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { VideoIcon, Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LogoutUser } from "@/app/actions/authActions";
 import { toast } from "sonner";
 import CreditsWidget from "../CreditWidget";
@@ -20,6 +20,7 @@ const Header = ({
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { status, update, data: session } = useSession();
 
+  const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
@@ -72,7 +73,10 @@ const Header = ({
     >
       <div className="container mx-auto">
         <nav className="flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2 text-2xl font-bold">
+          <a
+            className="flex items-center gap-2 text-2xl font-bold cursor-pointer"
+            onClick={() => router.push("/")}
+          >
             <VideoIcon className="h-8 w-8 text-teal-400" />
             <span className="bg-gradient-to-r from-teal-400 to-sky-500 bg-clip-text text-transparent">
               VideoAI
@@ -81,20 +85,31 @@ const Header = ({
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
-            <NavLinks scrollToSection={scrollToSection} />
+            {pathname !== "/buy-now" && (
+              <div className="hidden md:flex items-center gap-6">
+                <NavLinks scrollToSection={scrollToSection} />
+                <Button
+                  onClick={() => router.push("/buy-now")}
+                  variant="ghost"
+                  className=" text-teal-500 font-bold cursor-pointer border-teal-800 border"
+                >
+                  Purchase Credits
+                </Button>
+              </div>
+            )}
 
             {isLoggedIn ? (
               <div className="flex gap-2">
                 <CreditsWidget credits={credit} />
                 <Button
                   variant="ghost"
-                  className="border border-teal-400 cursor-pointer"
+                  className="border border-teal-400 text-gray-200 cursor-pointer"
                   onClick={() => router.push("/ai/text-to-video")}
                 >
                   Create Video
                 </Button>
                 <Button
-                  className="border border-red-600 cursor-pointer hover:border-red-400"
+                  className="border border-red-600 cursor-pointer text-gray-200 hover:border-red-400"
                   variant="ghost"
                   onClick={async () => {
                     await LogoutUser();
@@ -135,7 +150,18 @@ const Header = ({
         {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-gray-900/95 backdrop-blur-md p-6 shadow-lg border-t border-gray-800 animate-fadeIn">
             <div className="flex flex-col gap-4">
-              <NavLinks scrollToSection={scrollToSection} isMobile={true} />
+              {pathname !== "/buy-now" && (
+                <div className="flex flex-col items-center gap-6">
+                  <NavLinks scrollToSection={scrollToSection} isMobile={true} />
+                  <Button
+                    onClick={() => router.push("/buy-now")}
+                    variant="ghost"
+                    className=" text-teal-500 font-bold cursor-pointer border-teal-800 border"
+                  >
+                    Purchase Credits
+                  </Button>
+                </div>
+              )}
               {isLoggedIn ? (
                 <div className="flex gap-2">
                   <Button
@@ -196,7 +222,6 @@ const NavLinks: React.FC<NavLinksProps> = ({
     { label: "Features", href: "#features" },
     { label: "How it Works", href: "#how-it-works" },
     { label: "Examples", href: "#examples" },
-    { label: "Pricing", href: "#pricing" },
   ];
 
   return (
