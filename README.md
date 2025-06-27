@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+````markdown
+# AI Text-To-Video Generator
 
-## Getting Started
+**Live Demo:** [https://text-or-image-to-video.vercel.app/](https://text-or-image-to-video.vercel.app/)
 
-First, run the development server:
+**Express Backend Repository:** [https://github.com/prakash39911/text-to-video-express-backend](https://github.com/prakash39911/text-to-video-express-backend)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Overview
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+_Text-To-Video_ is an AI-powered web application that transforms a simple prompt into a short, engaging video with music. Users can purchase credits, generate videos, receive live notifications, and download their creations. The app leverages modern technologies and a robust microservices-style architecture to handle each step reliably and at scale.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend:** Next.js, React, Zustand, React Hook Form, Zod
+- **Backend:** Express.js (deployed on Render)
+- **Database:** PostgreSQL + Prisma ORM
+- **Authentication:** Auth.js (credentials & OAuth via Google, GitHub)
+- **Payment & Credits:** Razorpay
+- **Real-time Notifications:** Pusher
+- **Workflow & Serverless Functions:** Inngest
+- **Video/Audio Processing:** FFmpeg (on Express server)
+- **Email Service:** Resend
+- **Hosting & Deployment:** Vercel (frontend), Render (Express backend)
+- **Development Tools:** Ngrok (webhook testing)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## ✨ Key Features
 
-## Deploy on Vercel
+1. **Credit Purchase Flow**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   - Integrated Razorpay for purchasing credit packages
+   - Three credit packages preloaded in database by Seeding the data into DB.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **AI-Powered Generation**
+
+   - Enter a topic to generate an image prompt
+   - Image generation via AI
+   - Video prompt created from generated image
+   - Music prompt derived from image & video context
+   - AI-driven video & music generation
+   - FFmpeg merges audio & video streams
+
+3. **User Authentication & Security**
+
+   - Auth.js for secure credential-based login and OAuth (Google, GitHub)
+   - Email verification & password reset via Resend
+   - Route protection middleware for secure endpoints
+
+4. **Live & Email Notifications**
+
+   - Webhook-based events trigger Inngest functions
+   - Users receive live in-app notifications via Pusher
+   - Email confirmations upon video completion
+   - Retry mechanisms in Inngest for robust error handling
+
+5. **Video Management**
+
+   - Stream and download generated videos
+   - Cloud uploads for persistent storage
+
+6. **Scalable Workflow with Inngest**
+
+   - Structured, step-by-step functions for each task
+   - Precise control and retry logic for external API calls
+
+7. **Form Handling & Validation**
+   - React Hook Form for user inputs
+   - Zod schemas for type-safe validation
+
+---
+
+## 📦 Architecture & Workflow
+
+1. **User Prompt**: User submits a topic via the frontend
+2. **Image Prompt Generation**: Backend transforms topic into an image prompt
+3. **Image Generation**: AI service returns images
+4. **Video Prompt Generation**: Next, a video prompt is derived from the image context
+5. **Music Prompt Generation**: Music prompt is created using image & video prompts
+6. **Video & Music Creation**: Separate AI calls for video and music
+7. **Merge & Upload**: FFmpeg merges outputs; the combined file is uploaded to cloud storage
+8. **Notifications**: Inngest triggers and retries events; Pusher and Resend notify the user
+
+---
+
+## 📄 Documentation & Links
+
+- **Backend Repo:** [https://github.com/prakash39911/text-to-video-express-backend](https://github.com/prakash39911/text-to-video-express-backend)
+- **Live App:** [https://text-or-image-to-video.vercel.app/](https://text-or-image-to-video.vercel.app/)
+
+---
+
+## 🚀 Getting Started
+
+1. **Frontend**
+   ```bash
+   git clone <https://github.com/prakash39911/text-or-image_to_video>
+   cd text-or-image_to_video
+   npm install
+   npm run dev
+   ```
+````
+
+2. **Backend**
+
+   ```bash
+   git clone https://github.com/prakash39911/text-to-video-express-backend
+   cd text-to-video-express-backend
+   npm install
+   npm run dev
+   ```
+
+Ensure you set up environment variables for database connection, Razorpay keys, Auth.js secrets, Inngest webhooks, Pusher credentials, and Resend API key.
