@@ -1,15 +1,14 @@
-````markdown
 # AI Text-To-Video Generator
 
-**Live Demo:** [https://text-or-image-to-video.vercel.app/](https://text-or-image-to-video.vercel.app/)
+- **Live Demo:** [https://text-or-image-to-video.vercel.app/](https://text-or-image-to-video.vercel.app/)
 
-**Express Backend Repository:** [https://github.com/prakash39911/text-to-video-express-backend](https://github.com/prakash39911/text-to-video-express-backend)
+- **Express Backend Repository:** [https://github.com/prakash39911/text-to-video-express-backend](https://github.com/prakash39911/text-to-video-express-backend)
 
 ---
 
 ## 🚀 Overview
 
-_Text-To-Video_ is an AI-powered web application that transforms a simple prompt into a short, engaging video with music. Users can purchase credits, generate videos, receive live notifications, and download their creations. The app leverages modern technologies and a robust microservices-style architecture to handle each step reliably and at scale.
+> Text-To-Video is an AI-powered web application that transforms a simple prompt into a short, engaging video with music. Users can purchase credits, generate videos, receive live notifications, and download their creations. The app leverages modern technologies and a robust microservices-style architecture to handle each step reliably and at scale.
 
 ---
 
@@ -103,6 +102,7 @@ _Text-To-Video_ is an AI-powered web application that transforms a simple prompt
    npm install
    npm run dev
    ```
+
 ````
 
 2. **Backend**
@@ -115,3 +115,4 @@ _Text-To-Video_ is an AI-powered web application that transforms a simple prompt
    ```
 
 Ensure you set up environment variables for database connection, Razorpay keys, Auth.js secrets, Inngest webhooks, Pusher credentials, and Resend API key.
+````
