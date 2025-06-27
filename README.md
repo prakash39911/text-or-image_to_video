@@ -8,15 +8,15 @@
 
 ## 🚀 Project Links
 
-- **Live Demo:** [https://text-or-image-to-video.vercel.app/](https://text-or-image-to-video.vercel.app/)
+- **Live Demo:** [Live Link](https://text-or-image-to-video.vercel.app/)
 
-- **Express Backend Repository:** [https://github.com/prakash39911/text-to-video-express-backend](https://github.com/prakash39911/text-to-video-express-backend)
+- **Express Backend Repository:** [Backend Repo](https://github.com/prakash39911/text-to-video-express-backend)
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** Next.js, React, Zustand, React Hook Form, Zod
+- **Frontend:** Next.js, Zustand, React Hook Form, Zod
 - **Backend:** Express.js (deployed on Render)
 - **Database:** PostgreSQL + Prisma ORM
 - **Authentication:** Auth.js (credentials & OAuth via Google, GitHub)
@@ -88,24 +88,16 @@
 
 ---
 
-## 📄 Documentation & Links
-
-- **Backend Repo:** [https://github.com/prakash39911/text-to-video-express-backend](https://github.com/prakash39911/text-to-video-express-backend)
-- **Live App:** [https://text-or-image-to-video.vercel.app/](https://text-or-image-to-video.vercel.app/)
-
----
-
 ## 🚀 Getting Started
 
 1. **Frontend**
+
    ```bash
-   git clone <https://github.com/prakash39911/text-or-image_to_video>
+   git clone https://github.com/prakash39911/text-or-image_to_video
    cd text-or-image_to_video
    npm install
    npm run dev
    ```
-
-````
 
 2. **Backend**
 
@@ -117,4 +109,3 @@
    ```
 
 Ensure you set up environment variables for database connection, Razorpay keys, Auth.js secrets, Inngest webhooks, Pusher credentials, and Resend API key.
-````
