@@ -139,7 +139,7 @@ export default function AuthComponent({ AuthError }: { AuthError: string }) {
       </div>
 
       {/* Auth form section */}
-      <div className="md:col-span-3 flex items-center justify-center p-14 bg-slate-900">
+      <div className="md:col-span-3 flex items-center justify-center p-18 bg-slate-900">
         {!isSignup ? (
           <SignIn setIsSignup={setIsSignup} AuthError={AuthError} />
         ) : (

@@ -39,9 +39,35 @@ const VideoGallery = ({ videos }: VideoGalleryProps) => {
   };
 
   const handleDownload = (video: EachVideo) => {
+    // 1. Create a helper function to generate the download URL
+    const createDownloadUrl = (originalUrl: string, title: string) => {
+      // Sanitize the title to be URL-friendly for the filename
+      const safeTitle = title.replace(/[^a-zA-Z0-9_.-]/g, "_");
+      const parts = originalUrl.split("/upload/");
+
+      // Check if the URL structure is as expected
+      if (parts.length !== 2) {
+        console.error("Unexpected Cloudinary URL format.");
+        return originalUrl; // Fallback to original URL
+      }
+
+      // Construct the new URL with the fl_attachment flag
+      // e.g., fl_attachment:my_video_title
+      const downloadFlag = `fl_attachment:${safeTitle}`;
+      return `${parts[0]}/upload/${downloadFlag}/${parts[1]}`;
+    };
+
+    const downloadUrl = createDownloadUrl(video.url, video.title);
+
+    // 2. Use the new URL to create the link
     const link = document.createElement("a");
-    link.href = video.url;
+    link.href = downloadUrl;
+
+    // The 'download' attribute is now a fallback, but the URL flag does the main work.
+    // The filename in the URL takes precedence.
     link.download = `${video.title}.mp4`;
+
+    // 3. Trigger the download (no changes here)
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

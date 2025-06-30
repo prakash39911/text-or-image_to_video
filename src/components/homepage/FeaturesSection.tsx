@@ -13,11 +13,6 @@ const FeaturesSection: React.FC = () => {
     },
     {
       icon: Image,
-      title: "Image To Video",
-      description: "Seamlessly convert your images into Proper Short Video",
-    },
-    {
-      icon: Image,
       title: "Text To Video",
       description: "Seamlessly convert your Text or prompt to Short Video",
     },

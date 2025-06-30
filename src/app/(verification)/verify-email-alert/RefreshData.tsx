@@ -3,12 +3,18 @@
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function RefreshData() {
   const { update, data: session } = useSession();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (session?.user?.emailVerified) {
+      router.push("/");
+    }
+  }, [session?.user?.emailVerified, router]);
 
   const handleRefresh = async () => {
     try {
@@ -18,11 +24,10 @@ export default function RefreshData() {
       const updatedSession = await update({ trigger: "emailVerification" });
 
       // Small delay to ensure middleware gets the updated token
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Now navigate
       router.push("/");
-      router.refresh();
     } catch (error) {
       console.error("Error updating session:", error);
     } finally {

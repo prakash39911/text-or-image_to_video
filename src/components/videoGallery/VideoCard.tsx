@@ -101,7 +101,7 @@ const VideoCard: React.FC<VideoCardProps> = ({
         {isHovered && (
           <button
             onClick={handleDownload}
-            className="absolute top-3 right-3 bg-teal-500 hover:bg-teal-600 text-white p-2 rounded-full shadow-lg transform transition-all duration-200 hover:scale-110 animate-fade-in z-10"
+            className="absolute top-3 cursor-pointer right-3 bg-teal-500 hover:bg-teal-600 text-white p-2 rounded-full shadow-lg transform transition-all duration-200 hover:scale-110 animate-fade-in z-10"
           >
             <Download size={16} />
           </button>

@@ -1,5 +1,4 @@
 import React from "react";
-import ExamplesSection from "./ExamplesSection";
 import FeaturesSection from "./FeaturesSection";
 import Footer from "./Footer";
 import Header from "./Header";
@@ -19,7 +18,6 @@ const LandingPage = async ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           <HeroSection />
           <FeaturesSection />
           <HowItWorksSection />
-          <ExamplesSection />
         </main>
         <Footer />
       </div>

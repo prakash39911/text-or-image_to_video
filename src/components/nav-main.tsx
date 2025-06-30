@@ -11,7 +11,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import clsx from "clsx";
-import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 type currentlyActiveType = {

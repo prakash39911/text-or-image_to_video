@@ -10,7 +10,7 @@ export default async function page() {
             Verify Your Email
           </h1>
           <p className="text-sm text-gray-400">
-            Refresh to Check if Email if Verified
+            Refresh to Check if Email is Verified
           </p>
           <RefreshData />
         </div>

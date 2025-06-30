@@ -16,7 +16,7 @@ const HowItWorksSection: React.FC = () => {
   const steps: Step[] = [
     {
       icon: Type,
-      title: "Add Prompt or Images",
+      title: "Add Prompt or Keyword",
       description:
         "Write or paste your script, captions, or text content that you want to convert into video.",
       imageSrc:
@@ -87,7 +87,7 @@ const HowItWorksSection: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Create Amazing Videos in{" "}
             <span className="bg-gradient-to-r from-teal-400 to-sky-500 bg-clip-text text-transparent">
-              Just Four Steps
+              Just Two Steps
             </span>
           </h2>
           <p className="text-lg text-gray-300">

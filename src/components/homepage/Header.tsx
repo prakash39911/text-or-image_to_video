@@ -221,7 +221,6 @@ const NavLinks: React.FC<NavLinksProps> = ({
   const navItems = [
     { label: "Features", href: "#features" },
     { label: "How it Works", href: "#how-it-works" },
-    { label: "Examples", href: "#examples" },
   ];
 
   return (

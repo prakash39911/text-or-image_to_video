@@ -33,6 +33,10 @@ export default auth((req) => {
 
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route));
 
+  if (publicRoutes.includes(pathname)) {
+    return NextResponse.next();
+  }
+
   // Logic 1: If logged in, but email is not verified, redirect to verification alert
   if (isLoggedIn && !isEmailVerified && isProtectedRoute) {
     return NextResponse.redirect(
