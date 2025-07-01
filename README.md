@@ -14,6 +14,10 @@
 
 ---
 
+[![Watch the video](https://res.cloudinary.com/prakashcloud/image/upload/v1751171432/Screenshot_from_2025-06-29_09-44-06_sjda4k.png)](https://res.cloudinary.com/prakashcloud/video/upload/v1751347623/Text_To_Video_Demo_1_eir682.mp4)
+
+---
+
 ## 🛠️ Tech Stack
 
 - **Frontend:** Next.js, Zustand, React Hook Form, Zod
